@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Puzzle Post - Offline</title>
+    <style>
+        /* Inline critical CSS for offline page */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', Georgia, serif;
+            background-color: #FDFBF7;
+            color: #0A0A0A;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .offline-container {
+            max-width: 600px;
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border: 2px solid #0A0A0A;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #0A0A0A;
+        }
+
+        .offline-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.6;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 16px;
+            color: #0A0A0A;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 16px;
+            color: #333333;
+        }
+
+        .retry-btn {
+            background-color: #0A0A0A;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 10px;
+            transition: background-color 0.2s ease;
+        }
+
+        .retry-btn:hover {
+            background-color: #333333;
+        }
+
+        .offline-features {
+            margin-top: 30px;
+            text-align: left;
+            background-color: #F5F5F5;
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .offline-features h3 {
+            margin-bottom: 15px;
+            color: #0A0A0A;
+        }
+
+        .offline-features ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .offline-features li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .offline-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #22543d;
+            font-weight: bold;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ff4444;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .connection-status {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #ffeeee;
+            border: 1px solid #ffcccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .offline-container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .offline-icon {
+                font-size: 48px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="logo">Daily Puzzle Post</div>
+        <div class="offline-icon">📰</div>
+        
+        <h1>You're Currently Offline</h1>
+        
+        <p>
+            <span class="status-indicator"></span>
+            No internet connection detected. Please check your network settings and try again.
+        </p>
+
+        <button class="retry-btn" onclick="window.location.reload()">
+            🔄 Try Again
+        </button>
+
+        <button class="retry-btn" onclick="goHome()">
+            🏠 Go Home
+        </button>
+
+        <div class="offline-features">
+            <h3>What you can still do:</h3>
+            <ul>
+                <li>Continue playing your current game</li>
+                <li>View your game statistics</li>
+                <li>Access previously loaded puzzles</li>
+                <li>Read cached strategy tips</li>
+                <li>Adjust your preferences</li>
+            </ul>
+        </div>
+
+        <div class="connection-status" id="connectionStatus">
+            <strong>Connection Status:</strong> Checking...
+        </div>
+    </div>
+
+    <script>
+        // Check connection status
+        function updateConnectionStatus() {
+            const statusElement = document.getElementById('connectionStatus');
+            
+            if (navigator.onLine) {
+                statusElement.innerHTML = '<strong>Connection Status:</strong> ✅ Back online! <button class="retry-btn" onclick="window.location.reload()">Reload Page</button>';
+                statusElement.style.backgroundColor = '#eeffee';
+                statusElement.style.borderColor = '#ccffcc';
+            } else {
+                statusElement.innerHTML = '<strong>Connection Status:</strong> ❌ Still offline. Waiting for connection...';
+                statusElement.style.backgroundColor = '#ffeeee';
+                statusElement.style.borderColor = '#ffcccc';
+            }
+        }
+
+        // Listen for connection changes
+        window.addEventListener('online', updateConnectionStatus);
+        window.addEventListener('offline', updateConnectionStatus);
+
+        // Initial status check
+        updateConnectionStatus();
+
+        // Periodic connection check
+        setInterval(updateConnectionStatus, 5000);
+
+        // Navigation functions
+        function goHome() {
+            window.location.href = '/';
+        }
+
+        // Auto-reload when back online
+        window.addEventListener('online', function() {
+            setTimeout(() => {
+                if (confirm('Connection restored! Would you like to reload the page?')) {
+                    window.location.reload();
+                }
+            }, 1000);
+        });
+
+        // Service worker messaging
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener('message', function(event) {
+                if (event.data.type === 'CACHE_UPDATED') {
+                    const statusElement = document.getElementById('connectionStatus');
+                    statusElement.innerHTML = '<strong>Update Available:</strong> 🔄 New content is available. <button class="retry-btn" onclick="window.location.reload()">Update Now</button>';
+                    statusElement.style.backgroundColor = '#eeeeff';
+                    statusElement.style.borderColor = '#ccccff';
+                }
+            });
+        }
+
+        // Track offline usage
+        if (window.gtag) {
+            gtag('event', 'offline_page_view', {
+                event_category: 'offline',
+                event_label: 'offline_fallback'
+            });
+        }
+
+        // Store offline analytics for later sync
+        const offlineEvent = {
+            type: 'offline_page_view',
+            timestamp: Date.now(),
+            url: window.location.href,
+            userAgent: navigator.userAgent
+        };
+
+        try {
+            const offlineEvents = JSON.parse(localStorage.getItem('dpp_offline_events') || '[]');
+            offlineEvents.push(offlineEvent);
+            localStorage.setItem('dpp_offline_events', JSON.stringify(offlineEvents.slice(-50))); // Keep last 50 events
+        } catch (error) {
+            console.log('Could not store offline event');
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,449 @@
+/* Touch and Mobile Optimizations for Daily Puzzle Post */
+
+/* Remove 300ms click delay and improve touch responsiveness */
+* {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Optimize scrolling performance */
+.scroll-container {
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+  will-change: scroll-position;
+}
+
+/* Hide scrollbars on mobile while maintaining functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Touch-friendly button sizing */
+.touch-button {
+  min-height: 48px;
+  min-width: 48px;
+  padding: 12px 16px;
+  border: 2px solid #0A0A0A;
+  background-color: #FDFBF7;
+  color: #0A0A0A;
+  font-family: 'Times New Roman', Georgia, serif;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.touch-button:hover {
+  background-color: #F5F5F5;
+}
+
+.touch-button:active {
+  transform: scale(0.95);
+  background-color: #E5E5E5;
+}
+
+.touch-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Large touch targets for game elements */
+.game-button {
+  min-height: 56px;
+  min-width: 56px;
+  font-size: 18px;
+  font-weight: bold;
+  border: 3px solid #0A0A0A;
+  background-color: white;
+  color: #0A0A0A;
+  transition: all 0.2s ease;
+}
+
+.game-button:hover {
+  background-color: #F0F0F0;
+  border-color: #333333;
+}
+
+.game-button:active {
+  background-color: #E0E0E0;
+  transform: scale(0.95);
+}
+
+/* Crossword cell optimizations */
+.crossword-cell {
+  min-height: 40px;
+  min-width: 40px;
+  border: 2px solid #0A0A0A;
+  background-color: white;
+  text-align: center;
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.crossword-cell:focus {
+  outline: 3px solid #0066CC;
+  outline-offset: 2px;
+  background-color: #E6F3FF;
+}
+
+.crossword-cell.selected {
+  background-color: #FFE6B3;
+  border-color: #FF9900;
+}
+
+.crossword-cell.highlighted {
+  background-color: #F0F8FF;
+}
+
+/* Sudoku cell optimizations */
+.sudoku-cell {
+  min-height: 44px;
+  min-width: 44px;
+  border: 1px solid #666666;
+  background-color: white;
+  text-align: center;
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.sudoku-cell:focus {
+  outline: 3px solid #0066CC;
+  outline-offset: 1px;
+  background-color: #E6F3FF;
+}
+
+.sudoku-cell.selected {
+  background-color: #FFE6B3;
+  border-color: #FF9900;
+  border-width: 2px;
+}
+
+.sudoku-cell.same-number {
+  background-color: #F0F8FF;
+}
+
+.sudoku-cell.error {
+  background-color: #FFE6E6;
+  color: #CC0000;
+}
+
+/* Hangman letter button optimizations */
+.letter-button {
+  min-height: 48px;
+  min-width: 48px;
+  margin: 2px;
+  border: 2px solid #0A0A0A;
+  background-color: white;
+  color: #0A0A0A;
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  border-radius: 4px;
+}
+
+.letter-button:hover {
+  background-color: #F5F5F5;
+  transform: translateY(-1px);
+}
+
+.letter-button:active {
+  transform: scale(0.95);
+  background-color: #E5E5E5;
+}
+
+.letter-button.used {
+  background-color: #CCCCCC;
+  color: #666666;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.letter-button.correct {
+  background-color: #D4EDDA;
+  color: #155724;
+  border-color: #28A745;
+}
+
+.letter-button.incorrect {
+  background-color: #F8D7DA;
+  color: #721C24;
+  border-color: #DC3545;
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  /* Increase touch targets on mobile */
+  .touch-button {
+    min-height: 52px;
+    min-width: 52px;
+    padding: 14px 18px;
+    font-size: 16px;
+  }
+  
+  .game-button {
+    min-height: 60px;
+    min-width: 60px;
+    font-size: 20px;
+  }
+  
+  .crossword-cell {
+    min-height: 44px;
+    min-width: 44px;
+    font-size: 18px;
+  }
+  
+  .sudoku-cell {
+    min-height: 48px;
+    min-width: 48px;
+    font-size: 20px;
+  }
+  
+  .letter-button {
+    min-height: 52px;
+    min-width: 52px;
+    font-size: 18px;
+    margin: 3px;
+  }
+  
+  /* Optimize tab navigation for mobile */
+  .tab-button {
+    min-height: 56px;
+    padding: 16px 20px;
+    font-size: 16px;
+    white-space: nowrap;
+  }
+  
+  /* Improve form inputs on mobile */
+  .mobile-input {
+    min-height: 52px;
+    padding: 16px;
+    font-size: 18px;
+    border: 2px solid #0A0A0A;
+    border-radius: 4px;
+  }
+  
+  .mobile-input:focus {
+    outline: 3px solid #0066CC;
+    outline-offset: 2px;
+  }
+}
+
+/* Landscape mobile optimizations */
+@media (max-width: 768px) and (orientation: landscape) {
+  .game-container {
+    padding: 10px;
+  }
+  
+  .crossword-cell {
+    min-height: 36px;
+    min-width: 36px;
+    font-size: 14px;
+  }
+  
+  .sudoku-cell {
+    min-height: 40px;
+    min-width: 40px;
+    font-size: 16px;
+  }
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .crossword-cell,
+  .sudoku-cell,
+  .letter-button,
+  .game-button {
+    border-width: 1px;
+  }
+  
+  .crossword-cell.selected,
+  .sudoku-cell.selected {
+    border-width: 2px;
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .touch-button:active,
+  .game-button:active,
+  .letter-button:active {
+    transform: none;
+  }
+}
+
+/* Dark mode support for mobile devices */
+@media (prefers-color-scheme: dark) {
+  .touch-button,
+  .game-button,
+  .crossword-cell,
+  .sudoku-cell,
+  .letter-button {
+    background-color: #2A2A2A;
+    color: #FFFFFF;
+    border-color: #FFFFFF;
+  }
+  
+  .touch-button:hover,
+  .game-button:hover {
+    background-color: #3A3A3A;
+  }
+  
+  .touch-button:active,
+  .game-button:active {
+    background-color: #4A4A4A;
+  }
+  
+  .crossword-cell:focus,
+  .sudoku-cell:focus {
+    background-color: #1A3A5A;
+    outline-color: #66AAFF;
+  }
+  
+  .crossword-cell.selected,
+  .sudoku-cell.selected {
+    background-color: #5A4A1A;
+    border-color: #FFAA00;
+  }
+}
+
+/* Performance optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-scroll {
+  will-change: scroll-position;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Prevent text selection on game elements */
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Improve focus visibility for accessibility */
+.focus-visible {
+  outline: 3px solid #0066CC;
+  outline-offset: 2px;
+}
+
+/* Smooth scrolling for better UX */
+.smooth-scroll {
+  scroll-behavior: smooth;
+  -webkit-scroll-behavior: smooth;
+}
+
+/* Fix viewport height issues on mobile browsers */
+.full-height {
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+/* Optimize for 60fps animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Loading states for better perceived performance */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Optimize for touch scrolling */
+.touch-scroll {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Prevent zoom on input focus (iOS Safari) */
+.no-zoom {
+  font-size: 16px;
+  transform: scale(1);
+}
+
+/* Improve button press feedback */
+.press-feedback:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
+}
+
+/* Optimize for one-handed mobile use */
+@media (max-width: 480px) {
+  .bottom-action {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+  }
+  
+  .thumb-zone {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    pointer-events: none;
+  }
+  
+  .thumb-zone .touch-button {
+    pointer-events: auto;
+  }
+}
+
