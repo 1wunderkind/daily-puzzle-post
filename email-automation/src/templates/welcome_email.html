@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Daily Puzzle Post</title>
+    <style>
+        /* Email-safe CSS styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Georgia, 'Times New Roman', serif;
+            background-color: #fdf6e3;
+            color: #0a0a0a;
+            line-height: 1.6;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fdfbf7;
+            border: 2px solid #0a0a0a;
+        }
+        
+        .header {
+            background-color: #fdfbf7;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #0a0a0a;
+        }
+        
+        .masthead {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 2px;
+            color: #0a0a0a;
+        }
+        
+        .date-line {
+            font-size: 14px;
+            color: #333333;
+            margin-top: 5px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .headline {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 0 20px 0;
+            text-align: center;
+            color: #0a0a0a;
+        }
+        
+        .body-text {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #333333;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: #1b4332;
+            color: #fdfbf7 !important;
+            padding: 12px 24px;
+            text-decoration: none;
+            border: 2px solid #0a0a0a;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .cta-button:hover {
+            background-color: #0a0a0a;
+        }
+        
+        .game-stats {
+            background-color: #f5f5f5;
+            border: 1px solid #333333;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .stats-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #0a0a0a;
+        }
+        
+        .footer {
+            background-color: #e5e5e5;
+            padding: 20px;
+            text-align: center;
+            border-top: 2px solid #0a0a0a;
+            font-size: 12px;
+            color: #333333;
+        }
+        
+        .unsubscribe {
+            color: #666666;
+            text-decoration: underline;
+        }
+        
+        /* Mobile responsive */
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                width: 100% !important;
+                margin: 0 !important;
+            }
+            
+            .masthead {
+                font-size: 28px;
+            }
+            
+            .headline {
+                font-size: 20px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="masthead">DAILY PUZZLE POST</h1>
+            <div class="date-line">{{current_date}}</div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <h2 class="headline">Welcome to the Daily Puzzle Post!</h2>
+            
+            <p class="body-text">
+                Dear {{name|default('Puzzle Enthusiast')}},
+            </p>
+            
+            <p class="body-text">
+                Welcome to the Daily Puzzle Post, where classic word games meet modern convenience! 
+                We're thrilled to have you join our community of puzzle lovers who appreciate 
+                the timeless appeal of newspaper-style word games.
+            </p>
+            
+            <p class="body-text">
+                Your account has been successfully created, and you're now ready to:
+            </p>
+            
+            <ul class="body-text">
+                <li><strong>Play Hangman</strong> with over 150 carefully curated words across 4 categories</li>
+                <li><strong>Track Your Progress</strong> with our built-in scoring and streak system</li>
+                <li><strong>Enjoy Daily Challenges</strong> featuring special words and themes</li>
+                <li><strong>Access Hints</strong> when you need a little help solving puzzles</li>
+            </ul>
+            
+            <div style="text-align: center;">
+                <a href="{{website_url}}" class="cta-button">Start Playing Now</a>
+            </div>
+            
+            <div class="game-stats">
+                <div class="stats-title">🎯 Your Game Stats</div>
+                <p>Games Played: {{games_played|default(0)}}</p>
+                <p>Account Type: {{account_type|default('Free')}}</p>
+                <p>Joined: {{signup_date}}</p>
+            </div>
+            
+            <p class="body-text">
+                <strong>Pro Tip:</strong> Try different categories to discover new words and expand 
+                your vocabulary. Our Animals, Food, Places, and Objects categories each offer 
+                unique challenges!
+            </p>
+            
+            <p class="body-text">
+                If you have any questions or need assistance, simply reply to this email. 
+                We're here to help make your puzzle-solving experience exceptional.
+            </p>
+            
+            <p class="body-text">
+                Happy puzzling!<br>
+                <strong>The Daily Puzzle Post Team</strong>
+            </p>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>
+                <strong>Daily Puzzle Post</strong><br>
+                Classic Word Games • Modern Convenience
+            </p>
+            
+            <p>
+                You received this email because you signed up for Daily Puzzle Post.<br>
+                <a href="{{unsubscribe_url}}" class="unsubscribe">Unsubscribe</a> | 
+                <a href="{{website_url}}" class="unsubscribe">Visit Website</a>
+            </p>
+            
+            <p style="margin-top: 15px; font-size: 10px;">
+                © {{current_year}} Daily Puzzle Post. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+

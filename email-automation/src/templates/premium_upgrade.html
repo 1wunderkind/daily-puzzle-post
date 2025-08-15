@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade to Premium - Daily Puzzle Post</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Georgia, 'Times New Roman', serif;
+            background-color: #fdf6e3;
+            color: #0a0a0a;
+            line-height: 1.6;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fdfbf7;
+            border: 2px solid #0a0a0a;
+        }
+        
+        .header {
+            background-color: #fdfbf7;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #0a0a0a;
+        }
+        
+        .masthead {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 2px;
+            color: #0a0a0a;
+        }
+        
+        .date-line {
+            font-size: 14px;
+            color: #333333;
+            margin-top: 5px;
+        }
+        
+        .premium-banner {
+            background: linear-gradient(135deg, #1b4332 0%, #2d5a3d 100%);
+            color: #fdfbf7;
+            padding: 30px 20px;
+            text-align: center;
+            margin: 0;
+        }
+        
+        .premium-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .premium-subtitle {
+            font-size: 18px;
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .body-text {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #333333;
+        }
+        
+        .benefits-section {
+            background-color: #f9f9f9;
+            border: 2px solid #1b4332;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .benefits-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1b4332;
+            margin: 0 0 15px 0;
+            text-align: center;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #fdfbf7;
+            border-left: 4px solid #1b4332;
+        }
+        
+        .benefit-icon {
+            font-size: 20px;
+            margin-right: 12px;
+            color: #1b4332;
+            flex-shrink: 0;
+        }
+        
+        .benefit-text {
+            flex: 1;
+        }
+        
+        .benefit-title {
+            font-weight: bold;
+            color: #0a0a0a;
+            margin-bottom: 5px;
+        }
+        
+        .benefit-description {
+            font-size: 14px;
+            color: #333333;
+            margin: 0;
+        }
+        
+        .pricing-section {
+            background-color: #1b4332;
+            color: #fdfbf7;
+            padding: 25px;
+            text-align: center;
+            margin: 25px 0;
+            border: 2px solid #0a0a0a;
+        }
+        
+        .price-display {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .price-period {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+        
+        .price-note {
+            font-size: 12px;
+            margin-top: 10px;
+            opacity: 0.7;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: #800020;
+            color: #fdfbf7 !important;
+            padding: 18px 40px;
+            text-decoration: none;
+            border: 2px solid #0a0a0a;
+            font-weight: bold;
+            text-align: center;
+            margin: 25px 0;
+            font-size: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .cta-button:hover {
+            background-color: #0a0a0a;
+        }
+        
+        .testimonial {
+            background-color: #fff8dc;
+            border-left: 4px solid #1b4332;
+            padding: 20px;
+            margin: 25px 0;
+            font-style: italic;
+        }
+        
+        .testimonial-text {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #333333;
+        }
+        
+        .testimonial-author {
+            font-weight: bold;
+            color: #1b4332;
+            text-align: right;
+        }
+        
+        .stats-comparison {
+            display: table;
+            width: 100%;
+            margin: 20px 0;
+            border: 1px solid #333333;
+        }
+        
+        .comparison-header {
+            display: table-row;
+            background-color: #1b4332;
+            color: #fdfbf7;
+        }
+        
+        .comparison-cell {
+            display: table-cell;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #333333;
+            font-weight: bold;
+        }
+        
+        .comparison-row {
+            display: table-row;
+        }
+        
+        .comparison-row:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .footer {
+            background-color: #e5e5e5;
+            padding: 20px;
+            text-align: center;
+            border-top: 2px solid #0a0a0a;
+            font-size: 12px;
+            color: #333333;
+        }
+        
+        .guarantee-badge {
+            background-color: #800020;
+            color: #fdfbf7;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                width: 100% !important;
+                margin: 0 !important;
+            }
+            
+            .masthead {
+                font-size: 28px;
+            }
+            
+            .premium-title {
+                font-size: 26px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .benefit-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .benefit-icon {
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+            
+            .price-display {
+                font-size: 36px;
+            }
+            
+            .stats-comparison {
+                display: block;
+            }
+            
+            .comparison-header,
+            .comparison-row {
+                display: block;
+            }
+            
+            .comparison-cell {
+                display: block;
+                border-bottom: 1px solid #333333;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="masthead">DAILY PUZZLE POST</h1>
+            <div class="date-line">{{current_date}}</div>
+        </div>
+        
+        <!-- Premium Banner -->
+        <div class="premium-banner">
+            <h2 class="premium-title">⭐ Go Premium</h2>
+            <p class="premium-subtitle">Unlock the Full Puzzle Experience</p>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <p class="body-text">
+                Dear {{name|default('Puzzle Enthusiast')}},
+            </p>
+            
+            <p class="body-text">
+                You've been enjoying Daily Puzzle Post, and we've noticed your dedication to 
+                solving puzzles! {{#if games_played}}With {{games_played}} games under your belt{{/if}}, 
+                you're clearly passionate about word games.
+            </p>
+            
+            <p class="body-text">
+                Ready to take your puzzle experience to the next level? Premium membership 
+                unlocks exclusive features designed for serious puzzle enthusiasts like yourself.
+            </p>
+            
+            <!-- Benefits Section -->
+            <div class="benefits-section">
+                <h3 class="benefits-title">🎯 Premium Benefits</h3>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">🚫</div>
+                    <div class="benefit-text">
+                        <div class="benefit-title">Ad-Free Experience</div>
+                        <p class="benefit-description">Focus purely on puzzles without any distractions</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">🏆</div>
+                    <div class="benefit-text">
+                        <div class="benefit-title">Exclusive Daily Challenges</div>
+                        <p class="benefit-description">Access premium word categories and themed challenges</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">📊</div>
+                    <div class="benefit-text">
+                        <div class="benefit-title">Advanced Analytics</div>
+                        <p class="benefit-description">Detailed performance tracking and improvement insights</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">💡</div>
+                    <div class="benefit-text">
+                        <div class="benefit-title">Unlimited Hints</div>
+                        <p class="benefit-description">Never get stuck - use as many hints as you need</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">🎨</div>
+                    <div class="benefit-text">
+                        <div class="benefit-title">Custom Themes</div>
+                        <p class="benefit-description">Personalize your puzzle experience with exclusive themes</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">⚡</div>
+                    <div class="benefit-text">
+                        <div class="benefit-title">Priority Support</div>
+                        <p class="benefit-description">Get help faster with dedicated premium support</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pricing Section -->
+            <div class="pricing-section">
+                <h3 style="margin-top: 0;">Special Launch Price</h3>
+                <div class="price-display">$4.99</div>
+                <div class="price-period">One-time payment • Lifetime access</div>
+                <div class="guarantee-badge">30-Day Money-Back Guarantee</div>
+                <p class="price-note">Regular price $9.99 • Save 50% today only</p>
+            </div>
+            
+            <div style="text-align: center;">
+                <a href="{{upgrade_url}}" class="cta-button">Upgrade to Premium</a>
+            </div>
+            
+            <!-- Comparison Table -->
+            <div class="stats-comparison">
+                <div class="comparison-header">
+                    <div class="comparison-cell">Feature</div>
+                    <div class="comparison-cell">Free</div>
+                    <div class="comparison-cell">Premium</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Daily Games</div>
+                    <div class="comparison-cell">✓</div>
+                    <div class="comparison-cell">✓</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Basic Categories</div>
+                    <div class="comparison-cell">✓</div>
+                    <div class="comparison-cell">✓</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Advertisements</div>
+                    <div class="comparison-cell">Yes</div>
+                    <div class="comparison-cell">None</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Hints per Game</div>
+                    <div class="comparison-cell">1</div>
+                    <div class="comparison-cell">Unlimited</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Premium Challenges</div>
+                    <div class="comparison-cell">✗</div>
+                    <div class="comparison-cell">✓</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Advanced Stats</div>
+                    <div class="comparison-cell">✗</div>
+                    <div class="comparison-cell">✓</div>
+                </div>
+            </div>
+            
+            <!-- Testimonial -->
+            <div class="testimonial">
+                <p class="testimonial-text">
+                    "Going premium was the best decision! The ad-free experience and unlimited 
+                    hints make puzzle-solving so much more enjoyable. The exclusive challenges 
+                    keep me coming back every day!"
+                </p>
+                <p class="testimonial-author">— Sarah M., Premium Member</p>
+            </div>
+            
+            <p class="body-text">
+                <strong>Limited Time Offer:</strong> This special launch price is only available 
+                for the next {{offer_days|default(7)}} days. After that, premium membership 
+                returns to the regular price of $9.99.
+            </p>
+            
+            <p class="body-text">
+                Join over {{premium_members|default('1,000')}} puzzle enthusiasts who have already 
+                upgraded to premium and are enjoying the ultimate word game experience.
+            </p>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="{{upgrade_url}}" class="cta-button">Claim Your 50% Discount</a>
+            </div>
+            
+            <p class="body-text">
+                Questions about premium? Simply reply to this email and our team will be 
+                happy to help you decide if premium is right for you.
+            </p>
+            
+            <p class="body-text">
+                Keep puzzling!<br>
+                <strong>The Daily Puzzle Post Team</strong>
+            </p>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>
+                <strong>Daily Puzzle Post Premium</strong><br>
+                Elevate Your Puzzle Experience
+            </p>
+            
+            <p>
+                <a href="{{website_url}}" style="color: #333333;">Visit Website</a> | 
+                <a href="{{faq_url}}" style="color: #333333;">Premium FAQ</a> | 
+                <a href="{{unsubscribe_url}}" style="color: #666666;">Unsubscribe</a>
+            </p>
+            
+            <p style="margin-top: 15px; font-size: 10px;">
+                © {{current_year}} Daily Puzzle Post. All rights reserved.<br>
+                30-day money-back guarantee. Cancel anytime.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+

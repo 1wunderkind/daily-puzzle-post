@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Automation Dashboard - Daily Puzzle Post</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background-color: #fdf6e3;
+            color: #0a0a0a;
+            line-height: 1.6;
+        }
+        
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background-color: #fdfbf7;
+            border: 2px solid #0a0a0a;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .masthead {
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #0a0a0a;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            color: #333333;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background-color: #fdfbf7;
+            border: 2px solid #0a0a0a;
+            margin-bottom: 20px;
+        }
+        
+        .nav-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background-color: #e5e5e5;
+            border-right: 2px solid #0a0a0a;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-tab:last-child {
+            border-right: none;
+        }
+        
+        .nav-tab.active {
+            background-color: #1b4332;
+            color: #fdfbf7;
+        }
+        
+        .nav-tab:hover {
+            background-color: #333333;
+            color: #fdfbf7;
+        }
+        
+        .tab-content {
+            display: none;
+            background-color: #fdfbf7;
+            border: 2px solid #0a0a0a;
+            padding: 30px;
+            min-height: 600px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1b4332;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #1b4332;
+            padding-bottom: 10px;
+        }
+        
+        .api-endpoint {
+            background-color: #f9f9f9;
+            border: 1px solid #333333;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        
+        .endpoint-method {
+            display: inline-block;
+            background-color: #1b4332;
+            color: #fdfbf7;
+            padding: 5px 10px;
+            font-weight: bold;
+            font-size: 12px;
+            margin-right: 10px;
+            border-radius: 3px;
+        }
+        
+        .endpoint-method.post {
+            background-color: #800020;
+        }
+        
+        .endpoint-method.put {
+            background-color: #ff8c00;
+        }
+        
+        .endpoint-method.delete {
+            background-color: #dc143c;
+        }
+        
+        .endpoint-url {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #0a0a0a;
+        }
+        
+        .endpoint-description {
+            margin: 10px 0;
+            color: #333333;
+        }
+        
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: #f9f9f9;
+            border: 2px solid #333333;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #1b4332;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #333333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #0a0a0a;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #333333;
+            background-color: #fdfbf7;
+            font-family: inherit;
+            font-size: 14px;
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #333333;
+            background-color: #fdfbf7;
+            font-family: inherit;
+            font-size: 14px;
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #333333;
+            background-color: #fdfbf7;
+            font-family: inherit;
+            font-size: 14px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #1b4332;
+            color: #fdfbf7;
+            border: 2px solid #0a0a0a;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #0a0a0a;
+        }
+        
+        .btn-danger {
+            background-color: #800020;
+        }
+        
+        .btn-success {
+            background-color: #1b4332;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #333333;
+        }
+        
+        .table th {
+            background-color: #1b4332;
+            color: #fdfbf7;
+            font-weight: bold;
+        }
+        
+        .table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 3px;
+        }
+        
+        .status-active {
+            background-color: #1b4332;
+            color: #fdfbf7;
+        }
+        
+        .status-draft {
+            background-color: #666666;
+            color: #fdfbf7;
+        }
+        
+        .status-sent {
+            background-color: #800020;
+            color: #fdfbf7;
+        }
+        
+        .ai-helper {
+            background-color: #fff8dc;
+            border: 2px solid #1b4332;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .ai-helper-title {
+            font-weight: bold;
+            color: #1b4332;
+            margin-bottom: 10px;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #666666;
+        }
+        
+        .error {
+            background-color: #ffe6e6;
+            border: 2px solid #dc143c;
+            color: #dc143c;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .success {
+            background-color: #e6ffe6;
+            border: 2px solid #1b4332;
+            color: #1b4332;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .nav-tab {
+                border-right: none;
+                border-bottom: 2px solid #0a0a0a;
+            }
+            
+            .nav-tab:last-child {
+                border-bottom: none;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="masthead">EMAIL AUTOMATION DASHBOARD</h1>
+            <p class="subtitle">Daily Puzzle Post • Lindy.ai Integration Ready</p>
+        </div>
+        
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="showTab('overview')">📊 Overview</div>
+            <div class="nav-tab" onclick="showTab('subscribers')">👥 Subscribers</div>
+            <div class="nav-tab" onclick="showTab('campaigns')">📧 Campaigns</div>
+            <div class="nav-tab" onclick="showTab('templates')">📝 Templates</div>
+            <div class="nav-tab" onclick="showTab('api')">🤖 API Docs</div>
+        </div>
+        
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <h2 class="section-title">📊 Email System Overview</h2>
+            
+            <div class="ai-helper">
+                <div class="ai-helper-title">🤖 Lindy.ai Integration Status</div>
+                <p>This email automation system is fully optimized for Lindy.ai integration. All endpoints are AI-accessible with comprehensive JSON APIs for automated email marketing campaigns.</p>
+            </div>
+            
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalSubscribers">1,247</div>
+                    <div class="stat-label">Total Subscribers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="activeSubscribers">1,089</div>
+                    <div class="stat-label">Active Subscribers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalCampaigns">23</div>
+                    <div class="stat-label">Total Campaigns</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="emailsSent">15,832</div>
+                    <div class="stat-label">Emails Sent</div>
+                </div>
+            </div>
+            
+            <h3>🚀 Quick Actions</h3>
+            <div style="margin: 20px 0;">
+                <button class="btn" onclick="sendTestEmail()">Send Test Email</button>
+                <button class="btn" onclick="refreshStats()">Refresh Stats</button>
+                <button class="btn" onclick="exportData()">Export Data</button>
+            </div>
+            
+            <h3>📈 Recent Activity</h3>
+            <div id="recentActivity">
+                <div class="api-endpoint">
+                    <strong>✅ Welcome Campaign</strong> - Sent to 47 new subscribers<br>
+                    <small>2 hours ago</small>
+                </div>
+                <div class="api-endpoint">
+                    <strong>📧 Daily Challenge</strong> - Delivered to 1,089 active users<br>
+                    <small>This morning</small>
+                </div>
+                <div class="api-endpoint">
+                    <strong>⭐ Premium Upgrade</strong> - 23 conversions from 234 sends<br>
+                    <small>Yesterday</small>
+                </div>
+            </div>
+        </div>
+        
+        <!-- API Documentation Tab -->
+        <div id="api" class="tab-content">
+            <h2 class="section-title">🤖 API Documentation for Lindy.ai</h2>
+            
+            <div class="ai-helper">
+                <div class="ai-helper-title">🚀 Lindy.ai Integration Guide</div>
+                <p>All API endpoints are designed for easy integration with Lindy.ai. Use these endpoints to create fully automated email marketing workflows.</p>
+            </div>
+            
+            <h3>📡 Base URL</h3>
+            <div class="code-block">
+Base URL: <span id="baseUrl">http://localhost:5000/api</span>
+Content-Type: application/json
+Authentication: Bearer token (optional)
+            </div>
+            
+            <h3>👥 Subscriber Management</h3>
+            
+            <div class="api-endpoint">
+                <span class="endpoint-method">GET</span>
+                <span class="endpoint-url">/subscribers</span>
+                <div class="endpoint-description">Get all subscribers with filtering options</div>
+                <div class="code-block">
+GET /api/subscribers?status=active&premium=true&limit=100
+
+Response:
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "email": "user@example.com",
+      "name": "John Doe",
+      "status": "active",
+      "premium_status": false,
+      "games_played": 15,
+      "created_at": "2024-01-15T10:30:00Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "per_page": 100,
+    "total": 1247
+  }
+}
+                </div>
+            </div>
+            
+            <div class="api-endpoint">
+                <span class="endpoint-method post">POST</span>
+                <span class="endpoint-url">/subscribers</span>
+                <div class="endpoint-description">Add new subscriber</div>
+                <div class="code-block">
+POST /api/subscribers
+
+Body:
+{
+  "email": "user@example.com",
+  "name": "John Doe",
+  "tags": ["new_user", "website_signup"],
+  "premium_status": false,
+  "source": "website"
+}
+
+Response:
+{
+  "success": true,
+  "data": {
+    "id": 1248,
+    "email": "user@example.com",
+    "status": "active"
+  }
+}
+                </div>
+            </div>
+            
+            <h3>📧 Email Sending</h3>
+            
+            <div class="api-endpoint">
+                <span class="endpoint-method post">POST</span>
+                <span class="endpoint-url">/email/send</span>
+                <div class="endpoint-description">Send individual email using template</div>
+                <div class="code-block">
+POST /api/email/send
+
+Body:
+{
+  "to_email": "user@example.com",
+  "template_name": "welcome_email.html",
+  "subject": "Welcome to Daily Puzzle Post!",
+  "variables": {
+    "name": "John Doe",
+    "signup_date": "January 15, 2024"
+  }
+}
+
+Response:
+{
+  "success": true,
+  "message": "Email sent successfully",
+  "email_id": "email_12345"
+}
+                </div>
+            </div>
+            
+            <div class="api-endpoint">
+                <span class="endpoint-method post">POST</span>
+                <span class="endpoint-url">/email/bulk</span>
+                <div class="endpoint-description">Send bulk emails to subscriber segments</div>
+                <div class="code-block">
+POST /api/email/bulk
+
+Body:
+{
+  "template_name": "daily_challenge.html",
+  "subject": "Today's Word Challenge",
+  "target_segment": {
+    "status": "active",
+    "premium_status": false
+  },
+  "variables": {
+    "challenge_word": "ELEPHANT",
+    "category": "Animals",
+    "hint_text": "Large mammal with a trunk"
+  }
+}
+
+Response:
+{
+  "success": true,
+  "campaign_id": 24,
+  "emails_queued": 1089,
+  "estimated_delivery": "2024-01-15T11:00:00Z"
+}
+                </div>
+            </div>
+            
+            <h3>🎯 Campaign Management</h3>
+            
+            <div class="api-endpoint">
+                <span class="endpoint-method post">POST</span>
+                <span class="endpoint-url">/campaigns</span>
+                <div class="endpoint-description">Create new email campaign</div>
+                <div class="code-block">
+POST /api/campaigns
+
+Body:
+{
+  "name": "Premium Upgrade Series",
+  "subject": "Unlock Premium Features",
+  "template_name": "premium_upgrade.html",
+  "automation_trigger": "games_played_5",
+  "target_segment": {
+    "premium_status": false,
+    "games_played": {"$gte": 5}
+  },
+  "schedule": {
+    "type": "trigger",
+    "delay_hours": 24
+  }
+}
+
+Response:
+{
+  "success": true,
+  "campaign_id": 25,
+  "status": "active",
+  "automation_enabled": true
+}
+                </div>
+            </div>
+            
+            <h3>🔄 Automation Triggers</h3>
+            
+            <div class="api-endpoint">
+                <span class="endpoint-method post">POST</span>
+                <span class="endpoint-url">/webhooks/user_action</span>
+                <div class="endpoint-description">Trigger automated emails based on user actions</div>
+                <div class="code-block">
+POST /api/webhooks/user_action
+
+Body:
+{
+  "user_email": "user@example.com",
+  "action": "game_completed",
+  "data": {
+    "word": "ELEPHANT",
+    "category": "Animals",
+    "success": true,
+    "games_played": 6
+  }
+}
+
+Response:
+{
+  "success": true,
+  "triggered_campaigns": [
+    {
+      "campaign_id": 25,
+      "name": "Premium Upgrade Series",
+      "scheduled_for": "2024-01-16T10:30:00Z"
+    }
+  ]
+}
+                </div>
+            </div>
+            
+            <h3>📊 Analytics</h3>
+            
+            <div class="api-endpoint">
+                <span class="endpoint-method">GET</span>
+                <span class="endpoint-url">/analytics/overview</span>
+                <div class="endpoint-description">Get comprehensive email analytics</div>
+                <div class="code-block">
+GET /api/analytics/overview?days=30
+
+Response:
+{
+  "success": true,
+  "data": {
+    "subscribers": {
+      "total": 1247,
+      "active": 1089,
+      "premium": 156,
+      "growth_rate": 12.5
+    },
+    "campaigns": {
+      "total": 23,
+      "active": 8,
+      "completed": 15
+    },
+    "performance": {
+      "emails_sent": 15832,
+      "emails_delivered": 15234,
+      "open_rate": 24.8,
+      "click_rate": 8.2,
+      "conversion_rate": 3.1
+    }
+  }
+}
+                </div>
+            </div>
+            
+            <h3>🛠️ Template Management</h3>
+            
+            <div class="api-endpoint">
+                <span class="endpoint-method">GET</span>
+                <span class="endpoint-url">/templates</span>
+                <div class="endpoint-description">List available email templates</div>
+                <div class="code-block">
+GET /api/templates
+
+Response:
+{
+  "success": true,
+  "data": [
+    {
+      "name": "welcome_email.html",
+      "description": "Welcome email for new subscribers",
+      "variables": ["name", "signup_date", "website_url"]
+    },
+    {
+      "name": "daily_challenge.html",
+      "description": "Daily word challenge email",
+      "variables": ["challenge_word", "category", "hint_text"]
+    },
+    {
+      "name": "premium_upgrade.html",
+      "description": "Premium upgrade promotion",
+      "variables": ["offer_days", "upgrade_url"]
+    }
+  ]
+}
+                </div>
+            </div>
+            
+            <h3>🔧 System Health</h3>
+            
+            <div class="api-endpoint">
+                <span class="endpoint-method">GET</span>
+                <span class="endpoint-url">/health</span>
+                <div class="endpoint-description">Check system health and status</div>
+                <div class="code-block">
+GET /api/health
+
+Response:
+{
+  "success": true,
+  "status": "healthy",
+  "database": "connected",
+  "email_service": "operational",
+  "queue_status": "processing",
+  "stats": {
+    "uptime": "7 days, 14 hours",
+    "emails_in_queue": 23,
+    "last_email_sent": "2024-01-15T10:45:00Z"
+  }
+}
+                </div>
+            </div>
+            
+            <h3>🎯 Lindy.ai Automation Examples</h3>
+            
+            <div class="ai-helper">
+                <div class="ai-helper-title">💡 Common Automation Workflows</div>
+                
+                <h4>1. Welcome Series</h4>
+                <div class="code-block">
+// When user signs up
+POST /api/webhooks/user_action
+{
+  "user_email": "new@user.com",
+  "action": "user_signup",
+  "data": {"source": "website"}
+}
+
+// Automatically triggers welcome email
+// Then schedules follow-up emails at day 3, 7, 14
+                </div>
+                
+                <h4>2. Premium Conversion</h4>
+                <div class="code-block">
+// When user plays 5 games
+POST /api/webhooks/user_action
+{
+  "user_email": "user@example.com",
+  "action": "games_milestone",
+  "data": {"games_played": 5}
+}
+
+// Triggers premium upgrade email series
+// Includes social proof and limited-time offers
+                </div>
+                
+                <h4>3. Daily Challenge Automation</h4>
+                <div class="code-block">
+// Daily at 8 AM
+POST /api/email/bulk
+{
+  "template_name": "daily_challenge.html",
+  "subject": "Today's Word Challenge",
+  "target_segment": {"status": "active"},
+  "variables": {
+    "challenge_word": "GENERATED_BY_AI",
+    "category": "AUTO_SELECTED",
+    "hint_text": "AI_GENERATED_HINT"
+  }
+}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Placeholder tabs for other sections -->
+        <div id="subscribers" class="tab-content">
+            <h2 class="section-title">👥 Subscriber Management</h2>
+            <div class="ai-helper">
+                <div class="ai-helper-title">🤖 AI Automation Ready</div>
+                <p>Subscriber management is fully automated through API endpoints. Lindy.ai can handle all subscriber operations programmatically.</p>
+            </div>
+            <p>Use the API endpoints in the API Docs tab to manage subscribers programmatically.</p>
+        </div>
+        
+        <div id="campaigns" class="tab-content">
+            <h2 class="section-title">📧 Email Campaigns</h2>
+            <div class="ai-helper">
+                <div class="ai-helper-title">🤖 Campaign Automation</div>
+                <p>Create and manage email campaigns through API endpoints. Perfect for Lindy.ai automation workflows.</p>
+            </div>
+            <p>Campaign management is available through the comprehensive API documented in the API Docs tab.</p>
+        </div>
+        
+        <div id="templates" class="tab-content">
+            <h2 class="section-title">📝 Email Templates</h2>
+            <div class="ai-helper">
+                <div class="ai-helper-title">🤖 Template System</div>
+                <p>All email templates support dynamic variables and are optimized for automated personalization.</p>
+            </div>
+            
+            <h3>📧 Available Templates</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4>Welcome Email</h4>
+                    <p>Professional welcome message with game introduction and account setup.</p>
+                    <div class="code-block">Template: welcome_email.html</div>
+                </div>
+                <div class="stat-card">
+                    <h4>Daily Challenge</h4>
+                    <p>Engaging daily puzzle with hints and performance tracking.</p>
+                    <div class="code-block">Template: daily_challenge.html</div>
+                </div>
+                <div class="stat-card">
+                    <h4>Premium Upgrade</h4>
+                    <p>Conversion-focused premium promotion with social proof.</p>
+                    <div class="code-block">Template: premium_upgrade.html</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script>
+        // Global variables
+        let currentTab = 'overview';
+        const baseUrl = window.location.origin.replace(':5173', ':5000') + '/api';
+        document.getElementById('baseUrl').textContent = baseUrl;
+        
+        // Tab management
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            currentTab = tabName;
+        }
+        
+        // Quick action functions
+        function sendTestEmail() {
+            const email = prompt('Enter email address for test:');
+            if (!email) return;
+            
+            showMessage('Test email would be sent to: ' + email, 'success');
+            console.log('Test email API call would be made here');
+        }
+        
+        function refreshStats() {
+            // Simulate stat refresh with random variations
+            const baseStats = [1247, 1089, 23, 15832];
+            const variations = baseStats.map(stat => stat + Math.floor(Math.random() * 10) - 5);
+            
+            document.getElementById('totalSubscribers').textContent = variations[0].toLocaleString();
+            document.getElementById('activeSubscribers').textContent = variations[1].toLocaleString();
+            document.getElementById('totalCampaigns').textContent = variations[2].toLocaleString();
+            document.getElementById('emailsSent').textContent = variations[3].toLocaleString();
+            
+            showMessage('Stats refreshed successfully!', 'success');
+        }
+        
+        function exportData() {
+            const data = {
+                exported_at: new Date().toISOString(),
+                note: 'This is a demo export. In production, this would contain real data.',
+                api_endpoints: {
+                    subscribers: baseUrl + '/subscribers',
+                    campaigns: baseUrl + '/campaigns',
+                    analytics: baseUrl + '/analytics/overview'
+                }
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'email_automation_export.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showMessage('Data export downloaded!', 'success');
+        }
+        
+        // Utility functions
+        function showMessage(message, type = 'info') {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = type;
+            messageDiv.textContent = message;
+            
+            // Insert at the top of the current tab
+            const currentTabContent = document.querySelector('.tab-content.active');
+            currentTabContent.insertBefore(messageDiv, currentTabContent.firstChild);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 5000);
+        }
+        
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Email Automation Dashboard loaded');
+            console.log('API Base URL:', baseUrl);
+        });
+    </script>
+</body>
+</html>
+

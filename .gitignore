@@ -108,3 +108,5 @@ paypal-config.json
 *.backup
 *.bak
 
+email-automation/venv/
+email-automation/src/database/

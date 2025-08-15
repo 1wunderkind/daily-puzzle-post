@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Challenge - {{challenge_date}}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Georgia, 'Times New Roman', serif;
+            background-color: #fdf6e3;
+            color: #0a0a0a;
+            line-height: 1.6;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fdfbf7;
+            border: 2px solid #0a0a0a;
+        }
+        
+        .header {
+            background-color: #fdfbf7;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #0a0a0a;
+        }
+        
+        .masthead {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 2px;
+            color: #0a0a0a;
+        }
+        
+        .date-line {
+            font-size: 14px;
+            color: #333333;
+            margin-top: 5px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .challenge-banner {
+            background-color: #1b4332;
+            color: #fdfbf7;
+            padding: 20px;
+            text-align: center;
+            margin: 0 -30px 30px -30px;
+            border-bottom: 2px solid #0a0a0a;
+        }
+        
+        .challenge-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .challenge-subtitle {
+            font-size: 16px;
+            margin: 5px 0 0 0;
+            opacity: 0.9;
+        }
+        
+        .word-preview {
+            background-color: #f5f5f5;
+            border: 2px solid #333333;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .word-display {
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            margin: 10px 0;
+            color: #0a0a0a;
+        }
+        
+        .category-badge {
+            display: inline-block;
+            background-color: #1b4332;
+            color: #fdfbf7;
+            padding: 5px 12px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: 1px solid #0a0a0a;
+        }
+        
+        .hint-box {
+            background-color: #fff8dc;
+            border: 1px dashed #333333;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: #1b4332;
+            color: #fdfbf7 !important;
+            padding: 15px 30px;
+            text-decoration: none;
+            border: 2px solid #0a0a0a;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        
+        .stats-section {
+            background-color: #f9f9f9;
+            border: 1px solid #333333;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .stats-grid {
+            display: table;
+            width: 100%;
+        }
+        
+        .stat-item {
+            display: table-cell;
+            text-align: center;
+            padding: 10px;
+            border-right: 1px solid #333333;
+        }
+        
+        .stat-item:last-child {
+            border-right: none;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1b4332;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #333333;
+            text-transform: uppercase;
+        }
+        
+        .footer {
+            background-color: #e5e5e5;
+            padding: 20px;
+            text-align: center;
+            border-top: 2px solid #0a0a0a;
+            font-size: 12px;
+            color: #333333;
+        }
+        
+        .body-text {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #333333;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                width: 100% !important;
+                margin: 0 !important;
+            }
+            
+            .masthead {
+                font-size: 28px;
+            }
+            
+            .challenge-title {
+                font-size: 24px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .challenge-banner {
+                margin: 0 -20px 20px -20px;
+            }
+            
+            .stats-grid {
+                display: block;
+            }
+            
+            .stat-item {
+                display: block;
+                border-right: none;
+                border-bottom: 1px solid #333333;
+                padding: 15px;
+            }
+            
+            .stat-item:last-child {
+                border-bottom: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="masthead">DAILY PUZZLE POST</h1>
+            <div class="date-line">{{challenge_date}}</div>
+        </div>
+        
+        <!-- Challenge Banner -->
+        <div class="challenge-banner">
+            <h2 class="challenge-title">🎯 Daily Challenge</h2>
+            <p class="challenge-subtitle">Today's Special Word Awaits!</p>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <p class="body-text">
+                Good {{time_of_day|default('morning')}}, {{name|default('Puzzle Master')}}!
+            </p>
+            
+            <p class="body-text">
+                Ready for today's challenge? We've selected a special word that will test your 
+                puzzle-solving skills. Can you guess it before running out of chances?
+            </p>
+            
+            <!-- Word Preview -->
+            <div class="word-preview">
+                <div class="category-badge">{{category|upper}}</div>
+                <div class="word-display">{{word_blanks}}</div>
+                <p style="margin: 10px 0 0 0; font-size: 14px; color: #666;">
+                    {{word_length}} letters • Difficulty: {{difficulty|default('Medium')}}
+                </p>
+            </div>
+            
+            <!-- Hint Box -->
+            <div class="hint-box">
+                <strong>💡 Today's Hint:</strong> {{hint_text}}
+            </div>
+            
+            <div style="text-align: center;">
+                <a href="{{play_url}}" class="cta-button">Play Today's Challenge</a>
+            </div>
+            
+            <!-- Your Stats -->
+            <div class="stats-section">
+                <h3 style="margin-top: 0; text-align: center;">📊 Your Progress</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">{{games_played|default(0)}}</div>
+                        <div class="stat-label">Games Played</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{win_streak|default(0)}}</div>
+                        <div class="stat-label">Win Streak</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{success_rate|default(0)}}%</div>
+                        <div class="stat-label">Success Rate</div>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="body-text">
+                <strong>Challenge Rules:</strong>
+            </p>
+            <ul class="body-text">
+                <li>You have 6 wrong guesses before the game ends</li>
+                <li>Use the hint wisely - it can save you when you're stuck</li>
+                <li>Complete today's challenge to maintain your streak</li>
+                <li>Share your success with friends using the share button</li>
+            </ul>
+            
+            {{#if premium_status}}
+            <p class="body-text" style="background-color: #fff8dc; padding: 10px; border-left: 4px solid #1b4332;">
+                <strong>⭐ Premium Bonus:</strong> As a premium member, you get access to 
+                exclusive challenge categories and detailed performance analytics!
+            </p>
+            {{/if}}
+            
+            <p class="body-text">
+                Don't forget to check back tomorrow for another exciting challenge. 
+                Each day brings a new word and a new opportunity to test your skills!
+            </p>
+            
+            <p class="body-text">
+                Good luck, and happy puzzling!<br>
+                <strong>The Daily Puzzle Post Team</strong>
+            </p>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>
+                <strong>Daily Puzzle Post</strong><br>
+                Your Daily Dose of Word Puzzle Fun
+            </p>
+            
+            <p>
+                <a href="{{website_url}}" style="color: #333333;">Play More Games</a> | 
+                <a href="{{profile_url}}" style="color: #333333;">View Profile</a> | 
+                <a href="{{unsubscribe_url}}" style="color: #666666;">Unsubscribe</a>
+            </p>
+            
+            <p style="margin-top: 15px; font-size: 10px;">
+                © {{current_year}} Daily Puzzle Post. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+
