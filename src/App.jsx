@@ -13,6 +13,7 @@ import GameVariations from './GameVariations';
 import SocialIntegration from './SocialIntegration';
 import DailyCrossword from './DailyCrossword';
 import DailySudoku from './DailySudoku';
+import DailyWordSearch from './DailyWordSearch';
 import { hybridHangmanLoader, hangmanLindyHelpers } from './hangmanAPI';
 import { trackEvent } from './analytics';
 import { HeaderAd, SidebarAd, TextAd } from './AdPlacement';
@@ -538,6 +539,12 @@ function App() {
             📊 Daily Sudoku
           </button>
           <button 
+            className={`tab-button ${currentView === 'wordsearch' ? 'active' : ''}`}
+            onClick={() => handleViewChange('wordsearch')}
+          >
+            🔍 Word Search
+          </button>
+          <button 
             className={`tab-button ${currentView === 'variations' ? 'active' : ''}`}
             onClick={() => handleViewChange('variations')}
           >
@@ -551,10 +558,6 @@ function App() {
           </button>
           <button className="tab-button coming-soon">
             🔤 Word Scramble
-            <span className="coming-soon-badge">Coming Soon</span>
-          </button>
-          <button className="tab-button coming-soon">
-            🔍 Word Search
             <span className="coming-soon-badge">Coming Soon</span>
           </button>
         </div>
@@ -825,6 +828,14 @@ function App() {
           />
         )}
 
+        {/* Daily Word Search View */}
+        {currentView === 'wordsearch' && (
+          <DailyWordSearch 
+            isPremium={isPremium}
+            onPremiumClick={handlePremiumClick}
+          />
+        )}
+
         {/* Game Variations View */}
         {currentView === 'variations' && (
           <GameVariations 
@@ -858,8 +869,8 @@ function App() {
                 <li><a href="#hangman">Hangman</a></li>
                 <li><a href="#crossword">Daily Crossword</a></li>
                 <li><a href="#sudoku">Daily Sudoku</a></li>
+                <li><a href="#wordsearch">Daily Word Search</a></li>
                 <li className="coming-soon">Word Scramble (Coming Soon)</li>
-                <li className="coming-soon">Word Search (Coming Soon)</li>
               </ul>
             </div>
             <div className="footer-section">

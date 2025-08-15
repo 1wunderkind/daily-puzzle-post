@@ -13,6 +13,7 @@ from src.routes.puzzle_api import puzzle_bp
 from src.routes.hangman_api import hangman_bp
 from src.routes.premium_api import premium_api
 from src.routes.sudoku_api import sudoku_api
+from src.routes.wordsearch_api import wordsearch_api
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 app.config['SECRET_KEY'] = 'asdf#FGSgvasgf$5$WGT'
@@ -26,6 +27,7 @@ app.register_blueprint(puzzle_bp)
 app.register_blueprint(hangman_bp)
 app.register_blueprint(premium_api)
 app.register_blueprint(sudoku_api)
+app.register_blueprint(wordsearch_api)
 
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(os.path.dirname(__file__), 'database', 'app.db')}"

@@ -1,0 +1,520 @@
+/* Daily Word Search - Newspaper Style CSS */
+
+.wordsearch-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #FDFBF7; /* Off-white newsprint */
+  font-family: 'Georgia', 'Times New Roman', serif;
+  color: #0A0A0A; /* Rich black */
+  border: 2px solid #0A0A0A;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.wordsearch-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #0A0A0A;
+}
+
+.puzzle-info h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: #0A0A0A;
+}
+
+.puzzle-meta {
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+  color: #333333;
+}
+
+.puzzle-meta span {
+  font-weight: 600;
+}
+
+.puzzle-date {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+  text-align: right;
+}
+
+/* Loading and Error States */
+.wordsearch-loading,
+.wordsearch-error {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #E5E5E5;
+  border-top: 4px solid #0A0A0A;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.retry-button {
+  background: #0A0A0A;
+  color: #FDFBF7;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.retry-button:hover {
+  background: #333333;
+}
+
+/* Completion Message */
+.completion-message {
+  background: #1B4332; /* Deep forest green */
+  color: #FDFBF7;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 20px;
+  border: 2px solid #0A0A0A;
+}
+
+.completion-message h3 {
+  margin: 0 0 10px 0;
+  font-size: 24px;
+}
+
+.completion-message p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+/* Main Game Area */
+.wordsearch-game {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+/* Word Search Grid */
+.wordsearch-grid-container {
+  display: flex;
+  justify-content: center;
+}
+
+.wordsearch-grid {
+  display: grid;
+  grid-template-rows: repeat(15, 1fr);
+  gap: 1px;
+  background: #0A0A0A;
+  border: 3px solid #0A0A0A;
+  border-radius: 4px;
+  padding: 2px;
+  user-select: none;
+  max-width: 450px;
+  aspect-ratio: 1;
+}
+
+.grid-row {
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  gap: 1px;
+}
+
+.wordsearch-cell {
+  background: #FDFBF7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  aspect-ratio: 1;
+  min-height: 28px;
+  border: 1px solid transparent;
+}
+
+.wordsearch-cell:hover {
+  background: #E5E5E5;
+}
+
+.wordsearch-cell.selected {
+  background: #5A5A5A !important;
+  color: #FDFBF7;
+}
+
+.wordsearch-cell.found {
+  background: #1B4332 !important;
+  color: #FDFBF7;
+  position: relative;
+}
+
+.wordsearch-cell.found::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: #FDFBF7;
+  transform: translateY(-50%);
+}
+
+.wordsearch-cell.revealed {
+  background: #800020 !important;
+  color: #FDFBF7;
+  animation: pulse 1s ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Word List */
+.wordsearch-wordlist {
+  background: #FDFBF7;
+  border: 2px solid #0A0A0A;
+  border-radius: 8px;
+  padding: 20px;
+  height: fit-content;
+}
+
+.wordsearch-wordlist h3 {
+  margin: 0 0 15px 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0A0A0A;
+  border-bottom: 1px solid #5A5A5A;
+  padding-bottom: 8px;
+}
+
+.word-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.word-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #FDFBF7;
+  border: 1px solid #E5E5E5;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.word-item.found {
+  background: #1B4332;
+  color: #FDFBF7;
+  text-decoration: line-through;
+  border-color: #1B4332;
+}
+
+.word-item.revealed {
+  background: #800020;
+  color: #FDFBF7;
+  border-color: #800020;
+}
+
+.checkmark {
+  color: #FDFBF7;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.hint-mark {
+  font-size: 16px;
+}
+
+/* Game Controls */
+.wordsearch-controls {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.control-button {
+  background: #FDFBF7;
+  color: #0A0A0A;
+  border: 2px solid #0A0A0A;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.control-button:hover:not(:disabled) {
+  background: #0A0A0A;
+  color: #FDFBF7;
+}
+
+.control-button:disabled {
+  background: #CCCCCC;
+  color: #5A5A5A;
+  border-color: #CCCCCC;
+  cursor: not-allowed;
+}
+
+.hint-button:hover:not(:disabled) {
+  background: #800020;
+  border-color: #800020;
+}
+
+.solution-button:hover:not(:disabled) {
+  background: #1B4332;
+  border-color: #1B4332;
+}
+
+.print-button:hover:not(:disabled) {
+  background: #333333;
+  border-color: #333333;
+}
+
+.refresh-button:hover:not(:disabled) {
+  background: #5A5A5A;
+  border-color: #5A5A5A;
+}
+
+/* Instructions */
+.wordsearch-instructions {
+  background: #FDFBF7;
+  border: 2px solid #0A0A0A;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.wordsearch-instructions h4 {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0A0A0A;
+}
+
+.wordsearch-instructions ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.wordsearch-instructions li {
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #333333;
+  line-height: 1.4;
+}
+
+/* Puzzle Statistics */
+.wordsearch-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  background: #FDFBF7;
+  border: 2px solid #0A0A0A;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #E5E5E5;
+}
+
+.stat-item:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  font-weight: 600;
+  color: #333333;
+  font-size: 14px;
+}
+
+.stat-value {
+  font-weight: 700;
+  color: #0A0A0A;
+  font-size: 14px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .wordsearch-container {
+    padding: 15px;
+    margin: 10px;
+  }
+  
+  .wordsearch-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .puzzle-meta {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .puzzle-date {
+    text-align: left;
+  }
+  
+  .wordsearch-game {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .wordsearch-grid {
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .wordsearch-cell {
+    font-size: 14px;
+    min-height: 24px;
+  }
+  
+  .wordsearch-controls {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .control-button {
+    padding: 10px 15px;
+    font-size: 14px;
+    min-width: auto;
+  }
+  
+  .wordsearch-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .wordsearch-cell {
+    font-size: 12px;
+    min-height: 20px;
+  }
+  
+  .puzzle-info h2 {
+    font-size: 24px;
+  }
+  
+  .control-button {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .wordsearch-container {
+    background: white;
+    border: 2px solid black;
+    box-shadow: none;
+    max-width: none;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  .wordsearch-controls,
+  .completion-message {
+    display: none;
+  }
+  
+  .wordsearch-game {
+    grid-template-columns: 1fr 250px;
+    gap: 20px;
+  }
+  
+  .wordsearch-grid {
+    max-width: 400px;
+  }
+  
+  .wordsearch-cell {
+    background: white !important;
+    color: black !important;
+    border: 1px solid black;
+  }
+  
+  .wordsearch-cell.found::after {
+    background: black;
+  }
+  
+  .word-item.found {
+    background: white;
+    color: black;
+    text-decoration: line-through;
+  }
+  
+  .word-item.revealed {
+    background: white;
+    color: black;
+    font-weight: 700;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .wordsearch-cell,
+  .control-button,
+  .word-item {
+    transition: none;
+  }
+  
+  .loading-spinner {
+    animation: none;
+  }
+  
+  .wordsearch-cell.revealed {
+    animation: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .wordsearch-container {
+    border-width: 3px;
+  }
+  
+  .wordsearch-cell {
+    border: 2px solid #0A0A0A;
+  }
+  
+  .control-button {
+    border-width: 3px;
+  }
+}
+
