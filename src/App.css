@@ -744,6 +744,1008 @@ body::before {
   animation: fadeInUp 0.2s ease-out;
 }
 
+/* Smart Prompts */
+.smart-prompt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.smart-prompt-modal {
+  background-color: var(--pure-white);
+  border: 3px double var(--border-color);
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideIn 0.3s ease;
+}
+
+.smart-prompt-header {
+  background-color: var(--primary-text);
+  color: var(--pure-white);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.smart-prompt-header h3 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 20px;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.smart-prompt-close {
+  background: none;
+  border: none;
+  color: var(--pure-white);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+}
+
+.smart-prompt-body {
+  padding: 25px;
+}
+
+.smart-prompt-body p {
+  margin-bottom: 15px;
+  font-size: 16px;
+  line-height: 1.5;
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+.testimonial-mini {
+  background-color: var(--hover-state);
+  padding: 15px;
+  margin: 20px 0;
+  border-left: 4px solid var(--correct-answer);
+  font-style: italic;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.smart-prompt-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.premium-upgrade-btn {
+  background-color: var(--correct-answer);
+  color: var(--pure-white);
+  border: 2px solid var(--correct-answer);
+  padding: 15px 25px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.premium-upgrade-btn:hover {
+  background-color: var(--pure-white);
+  color: var(--correct-answer);
+}
+
+.maybe-later-btn {
+  background-color: var(--pure-white);
+  color: var(--secondary-text);
+  border: 2px solid var(--secondary-text);
+  padding: 12px 25px;
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.maybe-later-btn:hover {
+  background-color: var(--secondary-text);
+  color: var(--pure-white);
+}
+
+.social-proof-mini {
+  text-align: center;
+  font-size: 14px;
+  color: var(--secondary-text);
+  margin-top: 15px;
+  font-family: Arial, sans-serif;
+}
+
+/* Between Games Prompt */
+.between-games-prompt {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  animation: slideInRight 0.3s ease;
+}
+
+.between-games-content {
+  background-color: var(--pure-white);
+  border: 2px solid var(--border-color);
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  max-width: 350px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.prompt-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.prompt-text strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.prompt-text p {
+  font-size: 12px;
+  color: var(--secondary-text);
+  margin: 0;
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+.quick-premium-btn {
+  background-color: var(--correct-answer);
+  color: var(--pure-white);
+  border: none;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: Arial, sans-serif;
+}
+
+.dismiss-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--secondary-text);
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Daily Challenge Banner */
+.daily-challenge-banner {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  border: 3px double var(--border-color);
+  margin: 20px 0;
+  padding: 20px;
+  color: var(--primary-text);
+}
+
+.challenge-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.challenge-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.challenge-text strong {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 5px;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.challenge-text p {
+  font-size: 14px;
+  margin: 0;
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+.challenge-word-preview {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.challenge-letter {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--border-color);
+  background-color: var(--pure-white);
+  text-align: center;
+  line-height: 26px;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+}
+
+/* Email Capture Modal */
+.email-capture-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.email-capture-modal {
+  background-color: var(--pure-white);
+  border: 3px double var(--border-color);
+  max-width: 450px;
+  width: 90%;
+  animation: slideIn 0.3s ease;
+}
+
+.email-capture-header {
+  background-color: #17a2b8;
+  color: var(--pure-white);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.email-capture-header h3 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 18px;
+  margin: 0;
+}
+
+.email-capture-close {
+  background: none;
+  border: none;
+  color: var(--pure-white);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.email-capture-body {
+  padding: 25px;
+}
+
+.email-capture-body p {
+  margin-bottom: 15px;
+  font-size: 14px;
+  line-height: 1.5;
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+.email-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.email-input {
+  padding: 12px;
+  border: 2px solid var(--accent-lines);
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: 14px;
+}
+
+.email-input:focus {
+  outline: none;
+  border-color: #17a2b8;
+}
+
+.email-submit-btn {
+  background-color: #17a2b8;
+  color: var(--pure-white);
+  border: none;
+  padding: 12px 20px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.email-disclaimer {
+  font-size: 12px;
+  color: var(--secondary-text);
+  text-align: center;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Email Success */
+.email-success-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.email-success-modal {
+  background-color: var(--pure-white);
+  border: 3px double #28a745;
+  padding: 30px;
+  text-align: center;
+  max-width: 350px;
+  width: 90%;
+}
+
+.success-content .success-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.success-content h3 {
+  font-family: Georgia, 'Times New Roman', serif;
+  color: #28a745;
+  margin-bottom: 10px;
+}
+
+/* PWA Prompt */
+.pwa-prompt {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 999;
+  animation: slideInLeft 0.3s ease;
+}
+
+.pwa-content {
+  background-color: var(--pure-white);
+  border: 2px solid #17a2b8;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  max-width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.pwa-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.pwa-text strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.pwa-text p {
+  font-size: 12px;
+  color: var(--secondary-text);
+  margin: 0;
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+.pwa-install-btn {
+  background-color: #17a2b8;
+  color: var(--pure-white);
+  border: none;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-family: Arial, sans-serif;
+}
+
+.pwa-dismiss-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--secondary-text);
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Social Proof */
+.social-proof-container {
+  margin: 20px 0;
+}
+
+.games-counter {
+  background-color: var(--pure-white);
+  border: 2px solid var(--accent-lines);
+  padding: 15px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.counter-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.counter-icon {
+  font-size: 24px;
+}
+
+.counter-text strong {
+  display: block;
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--primary-text);
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.counter-text span {
+  font-size: 12px;
+  color: var(--secondary-text);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: Arial, sans-serif;
+}
+
+.activity-feed {
+  background-color: var(--pure-white);
+  border: 2px solid var(--accent-lines);
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.activity-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: var(--primary-text);
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.activity-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--hover-state);
+  font-size: 12px;
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-text {
+  flex: 1;
+}
+
+.activity-time {
+  color: var(--secondary-text);
+  font-size: 11px;
+}
+
+.share-success {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.share-btn {
+  background-color: #28a745;
+  color: var(--pure-white);
+  border: none;
+  padding: 12px 24px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.testimonial-ticker {
+  background-color: var(--hover-state);
+  padding: 10px;
+  text-align: center;
+  border: 1px solid var(--accent-lines);
+  margin-top: 15px;
+}
+
+.testimonial-content {
+  font-size: 12px;
+  color: var(--secondary-text);
+  font-style: italic;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+/* Share Modal */
+.share-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.share-modal {
+  background-color: var(--pure-white);
+  border: 3px double var(--border-color);
+  max-width: 400px;
+  width: 90%;
+}
+
+.share-modal-header {
+  background-color: #28a745;
+  color: var(--pure-white);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.share-modal-header h3 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 18px;
+  margin: 0;
+}
+
+.share-modal-close {
+  background: none;
+  border: none;
+  color: var(--pure-white);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.share-modal-body {
+  padding: 25px;
+}
+
+.share-modal-body p {
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+.share-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.share-button {
+  padding: 12px;
+  border: 2px solid var(--accent-lines);
+  background-color: var(--pure-white);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  font-family: Arial, sans-serif;
+}
+
+.share-button:hover {
+  background-color: var(--hover-state);
+}
+
+.share-button.twitter {
+  border-color: #1da1f2;
+  color: #1da1f2;
+}
+
+.share-button.facebook {
+  border-color: #4267b2;
+  color: #4267b2;
+}
+
+.share-button.linkedin {
+  border-color: #0077b5;
+  color: #0077b5;
+}
+
+.share-button.copy {
+  border-color: var(--secondary-text);
+  color: var(--secondary-text);
+}
+
+/* Progress Badges */
+.progress-badges-container {
+  margin: 20px 0;
+}
+
+.badges-section {
+  background-color: var(--pure-white);
+  border: 2px solid var(--accent-lines);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.badges-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: var(--primary-text);
+}
+
+.badges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  border: 2px solid var(--accent-lines);
+  text-align: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.badge-item.earned {
+  border-color: #FFD700;
+  background-color: rgba(255, 215, 0, 0.1);
+}
+
+.badge-item.locked {
+  opacity: 0.5;
+}
+
+.badge-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.badge-name {
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: Arial, sans-serif;
+}
+
+.badge-checkmark {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: #28a745;
+  font-size: 16px;
+}
+
+.badges-summary {
+  text-align: center;
+  font-size: 12px;
+  color: var(--secondary-text);
+  font-family: Arial, sans-serif;
+}
+
+.next-badge-progress {
+  background-color: var(--pure-white);
+  border: 2px solid var(--accent-lines);
+  padding: 15px;
+}
+
+.progress-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.progress-icon {
+  font-size: 24px;
+}
+
+.progress-text strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.progress-text p {
+  font-size: 12px;
+  color: var(--secondary-text);
+  margin: 0;
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--hover-state);
+  border: 1px solid var(--accent-lines);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #FFD700;
+  transition: width 0.3s ease;
+}
+
+/* Badge Modal */
+.badge-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.badge-modal {
+  background-color: var(--pure-white);
+  border: 3px double #FFD700;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  animation: bounceIn 0.5s ease;
+}
+
+.badge-modal-content {
+  padding: 30px;
+}
+
+.badge-celebration {
+  margin-bottom: 25px;
+}
+
+.celebration-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.badge-celebration h3 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 24px;
+  color: #FFD700;
+  margin: 0;
+}
+
+.earned-badge-display {
+  margin-bottom: 25px;
+}
+
+.earned-badge-icon {
+  font-size: 64px;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.earned-badge-display h4 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: var(--primary-text);
+}
+
+.earned-badge-display p {
+  font-size: 14px;
+  color: var(--secondary-text);
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+.badge-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.continue-btn {
+  background-color: #FFD700;
+  color: var(--primary-text);
+  border: 2px solid #FFD700;
+  padding: 12px 20px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.share-badge-btn {
+  background-color: var(--pure-white);
+  color: var(--secondary-text);
+  border: 2px solid var(--secondary-text);
+  padding: 10px 20px;
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: 12px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* A/B Testing */
+.ab-testing-container {
+  display: flex;
+  align-items: center;
+}
+
+.premium-button.variant-a, .premium-button.variant-b {
+  background-color: var(--correct-answer);
+  color: var(--pure-white);
+  border: 2px solid var(--correct-answer);
+  padding: 12px 24px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.premium-button.variant-b {
+  background-color: #FFD700;
+  color: var(--primary-text);
+  border-color: #FFD700;
+}
+
+.premium-button.variant-a:hover, .premium-button.variant-b:hover {
+  background-color: var(--pure-white);
+}
+
+.premium-button.variant-a:hover {
+  color: var(--correct-answer);
+}
+
+.premium-button.variant-b:hover {
+  color: #FFD700;
+  border-color: #FFD700;
+}
+
+.ab-debug {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background-color: #fd7e14;
+  color: var(--pure-white);
+  padding: 5px 10px;
+  font-size: 10px;
+  z-index: 9999;
+  font-family: Arial, sans-serif;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.05); }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Mobile Responsive for Monetization Features */
+@media (max-width: 768px) {
+  .challenge-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .challenge-word-preview {
+    margin-left: 0;
+    margin-top: 15px;
+  }
+  
+  .between-games-prompt {
+    bottom: 10px;
+    right: 10px;
+    left: 10px;
+  }
+  
+  .between-games-content {
+    max-width: none;
+  }
+  
+  .pwa-prompt {
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+  }
+  
+  .pwa-content {
+    max-width: none;
+  }
+  
+  .badges-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .share-buttons {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .smart-prompt-modal,
+  .email-capture-modal,
+  .share-modal,
+  .badge-modal {
+    width: 95%;
+  }
+  
+  .badges-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .challenge-letter {
+    width: 25px;
+    height: 25px;
+    line-height: 21px;
+  }
+}
+
 /* Print Styles for Authentic Newspaper Feel */
 @media print {
   body {
@@ -764,6 +1766,15 @@ body::before {
     background-color: white;
     color: black;
     border-top: 3px double black;
+  }
+  
+  .smart-prompt-overlay,
+  .email-capture-overlay,
+  .share-modal-overlay,
+  .badge-modal-overlay,
+  .between-games-prompt,
+  .pwa-prompt {
+    display: none !important;
   }
 }
 

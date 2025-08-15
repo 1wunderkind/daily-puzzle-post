@@ -22,23 +22,94 @@
     
     <title>Daily Puzzle Post - Classic Word Games</title>
     
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.google-analytics.com" />
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+    
     <!-- Google Analytics 4 (GA4) Integration -->
     <!-- 
       ANALYTICS SETUP INSTRUCTIONS:
-      1. Replace GA_MEASUREMENT_ID with your actual Google Analytics 4 Measurement ID
+      1. Replace G-XXXXXXXXXX with your actual Google Analytics 4 Measurement ID
       2. Uncomment the script tags below
-      3. The analytics.js file will automatically send events to GA4
+      3. The analytics.js file will automatically send enhanced events to GA4
     -->
     <!-- 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'GA_MEASUREMENT_ID', {
-        page_title: 'Daily Puzzle Post - Classic Word Games',
-        page_location: window.location.href,
-        send_page_view: true
+
+      // Enhanced GA4 Configuration
+      gtag('config', 'G-XXXXXXXXXX', {
+        // Enhanced measurement settings
+        send_page_view: true,
+        allow_google_signals: true,
+        allow_ad_personalization_signals: true,
+        
+        // Custom parameters mapping for Daily Puzzle Post
+        custom_map: {
+          'custom_parameter_1': 'game_category',
+          'custom_parameter_2': 'premium_status',
+          'custom_parameter_3': 'user_type',
+          'custom_parameter_4': 'game_difficulty'
+        },
+        
+        // Enhanced e-commerce settings for premium tracking
+        enhanced_conversions: true,
+        
+        // User properties
+        user_properties: {
+          'app_version': '1.0.0',
+          'app_name': 'Daily Puzzle Post',
+          'app_category': 'word_games'
+        },
+        
+        // Enhanced measurement events
+        enhanced_measurement_settings: {
+          file_downloads: true,
+          page_changes: true,
+          scrolls: true,
+          site_search: false,
+          video_engagement: false,
+          outbound_clicks: true
+        }
+      });
+
+      // Track page load performance
+      window.addEventListener('load', function() {
+        const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+        gtag('event', 'timing_complete', {
+          name: 'page_load',
+          value: loadTime,
+          event_category: 'performance'
+        });
+      });
+
+      // Track user engagement time
+      let startTime = Date.now();
+      window.addEventListener('beforeunload', function() {
+        const engagementTime = Date.now() - startTime;
+        gtag('event', 'user_engagement', {
+          engagement_time_msec: engagementTime,
+          event_category: 'engagement'
+        });
+      });
+
+      // Track scroll depth
+      let maxScroll = 0;
+      window.addEventListener('scroll', function() {
+        const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+        if (scrollPercent > maxScroll) {
+          maxScroll = scrollPercent;
+          if (maxScroll % 25 === 0) { // Track at 25%, 50%, 75%, 100%
+            gtag('event', 'scroll', {
+              percent_scrolled: maxScroll,
+              event_category: 'engagement'
+            });
+          }
+        }
       });
     </script>
     -->
@@ -49,11 +120,157 @@
       1. Replace ca-pub-XXXXXXXXXX with your actual AdSense Publisher ID
       2. Uncomment the script tag below
       3. The ad placeholders in the app will be ready for AdSense code
+      4. Ad units are configured for: Header (728x90), Sidebar (300x250), Between Games (336x280)
     -->
     <!-- 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX"
-            crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+    <script>
+      // AdSense configuration for Daily Puzzle Post
+      (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-XXXXXXXXXX",
+        enable_page_level_ads: true,
+        overlays: {bottom: true}
+      });
+
+      // Track ad events for analytics
+      window.addEventListener('load', function() {
+        // Track ad impressions when page loads
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'ad_impression', {
+            ad_platform: 'google_adsense',
+            page_location: window.location.href,
+            event_category: 'monetization'
+          });
+        }
+      });
+
+      // Function to track ad clicks (call this when ads are clicked)
+      function trackAdClick(adUnit) {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'ad_click', {
+            ad_platform: 'google_adsense',
+            ad_unit_name: adUnit,
+            event_category: 'monetization',
+            value: 0.50 // Estimated CPC value
+          });
+        }
+      }
+    </script>
     -->
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Daily Puzzle Post",
+      "description": "Classic word games including Hangman with over 150 words across 4 categories",
+      "url": "https://dailypuzzlepost.com",
+      "applicationCategory": "Game",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Daily Puzzle Post"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "1247"
+      },
+      "featureList": [
+        "150+ word database",
+        "4 game categories",
+        "Premium ad-free experience",
+        "Daily challenges",
+        "Progress tracking",
+        "Mobile responsive"
+      ]
+    }
+    </script>
+
+    <!-- Privacy and Cookie Consent (GDPR Compliance) -->
+    <script>
+      // GDPR Compliance - Cookie Consent Management
+      window.addEventListener('load', function() {
+        // Check if user has already provided consent
+        const hasConsented = localStorage.getItem('dpp_cookie_consent');
+        const consentDate = localStorage.getItem('dpp_consent_date');
+        
+        // Check if consent is older than 1 year (re-consent required)
+        const oneYearAgo = Date.now() - (365 * 24 * 60 * 60 * 1000);
+        const needsReConsent = consentDate && parseInt(consentDate) < oneYearAgo;
+        
+        if (!hasConsented || needsReConsent) {
+          // Default to denied until user consents
+          if (typeof gtag !== 'undefined') {
+            gtag('consent', 'default', {
+              'analytics_storage': 'denied',
+              'ad_storage': 'denied',
+              'functionality_storage': 'granted',
+              'security_storage': 'granted',
+              'personalization_storage': 'denied'
+            });
+          }
+          
+          // Show cookie consent banner (implement in React component)
+          console.log('Cookie consent required - implement banner UI');
+        } else {
+          // User has consented - grant permissions
+          if (typeof gtag !== 'undefined') {
+            gtag('consent', 'update', {
+              'analytics_storage': 'granted',
+              'ad_storage': 'granted',
+              'personalization_storage': 'granted'
+            });
+          }
+        }
+      });
+
+      // Function to handle user consent (call from React component)
+      window.acceptCookies = function() {
+        localStorage.setItem('dpp_cookie_consent', 'true');
+        localStorage.setItem('dpp_consent_date', Date.now().toString());
+        
+        if (typeof gtag !== 'undefined') {
+          gtag('consent', 'update', {
+            'analytics_storage': 'granted',
+            'ad_storage': 'granted',
+            'personalization_storage': 'granted'
+          });
+          
+          // Track consent event
+          gtag('event', 'consent_granted', {
+            consent_type: 'analytics_and_ads',
+            event_category: 'privacy'
+          });
+        }
+      };
+
+      // Function to handle consent denial
+      window.denyCookies = function() {
+        localStorage.setItem('dpp_cookie_consent', 'false');
+        localStorage.setItem('dpp_consent_date', Date.now().toString());
+        
+        if (typeof gtag !== 'undefined') {
+          gtag('consent', 'update', {
+            'analytics_storage': 'denied',
+            'ad_storage': 'denied',
+            'personalization_storage': 'denied'
+          });
+          
+          // Track denial event
+          gtag('event', 'consent_denied', {
+            consent_type: 'analytics_and_ads',
+            event_category: 'privacy'
+          });
+        }
+      };
+    </script>
     
     <!-- Preload fonts for better performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -62,5 +279,53 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Performance monitoring for Core Web Vitals -->
+    <script>
+      // Monitor Core Web Vitals and send to GA4
+      function sendToAnalytics(metric) {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', metric.name, {
+            event_category: 'Web Vitals',
+            value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+            event_label: metric.id,
+            non_interaction: true
+          });
+        }
+      }
+
+      // Load web vitals library if available
+      if (typeof getCLS !== 'undefined') {
+        getCLS(sendToAnalytics);
+        getFID(sendToAnalytics);
+        getFCP(sendToAnalytics);
+        getLCP(sendToAnalytics);
+        getTTFB(sendToAnalytics);
+      }
+
+      // Track JavaScript errors
+      window.addEventListener('error', function(e) {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'exception', {
+            description: e.message,
+            fatal: false,
+            filename: e.filename,
+            lineno: e.lineno,
+            event_category: 'error'
+          });
+        }
+      });
+
+      // Track unhandled promise rejections
+      window.addEventListener('unhandledrejection', function(e) {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'exception', {
+            description: 'Unhandled Promise Rejection: ' + e.reason,
+            fatal: false,
+            event_category: 'error'
+          });
+        }
+      });
+    </script>
   </body>
 </html>

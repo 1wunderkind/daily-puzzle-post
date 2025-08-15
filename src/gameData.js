@@ -1,7 +1,7 @@
 // Enhanced word database for Hangman game
 // 150+ common English words (4-8 letters) organized by categories
 
-export const WORD_CATEGORIES = {
+export const gameData = {
   ANIMALS: {
     name: 'Animals',
     color: '#22543d', // Forest green

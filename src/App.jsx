@@ -1,700 +1,664 @@
-import { useState, useEffect } from 'react'
-import PremiumModal from './PremiumModal.jsx'
-import analytics from './analytics.js'
-import { 
-  getRandomWord, 
-  getRandomWordFromCategory, 
-  getAllCategories, 
-  getCategoryInfo,
-  HANGMAN_STAGES 
-} from './gameData.js'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import './App.css';
+import { gameData } from './gameData';
+import PremiumModal from './PremiumModal';
+import SmartPrompts from './SmartPrompts';
+import RetentionFeatures, { trackDailyVisit } from './RetentionFeatures';
+import ABTesting, { useABTestingConversion } from './ABTesting';
+import SocialProof from './SocialProof';
+import ProgressBadges, { triggerPerfectGame, triggerFastGame } from './ProgressBadges';
+import { trackEvent } from './analytics';
 
-function HangmanGame({ isPremium, onPremiumClick }) {
+function App() {
   // Game state
-  const [currentWord, setCurrentWord] = useState(null)
-  const [guessedLetters, setGuessedLetters] = useState(new Set())
-  const [wrongGuesses, setWrongGuesses] = useState(0)
-  const [gameStatus, setGameStatus] = useState('playing') // 'playing', 'won', 'lost'
+  const [currentWord, setCurrentWord] = useState('');
+  const [currentHint, setCurrentHint] = useState('');
+  const [currentCategory, setCurrentCategory] = useState('');
+  const [guessedLetters, setGuessedLetters] = useState([]);
+  const [wrongGuesses, setWrongGuesses] = useState(0);
+  const [gameStatus, setGameStatus] = useState('playing'); // 'playing', 'won', 'lost'
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [hintUsed, setHintUsed] = useState(false);
+  const [hintRevealed, setHintRevealed] = useState('');
   
-  // Enhanced features
-  const [selectedCategory, setSelectedCategory] = useState('ALL')
-  const [previousCategory, setPreviousCategory] = useState('ALL')
-  const [score, setScore] = useState(() => {
-    const saved = localStorage.getItem('dpp_score')
-    return saved ? parseInt(saved) : 0
-  })
-  const [streak, setStreak] = useState(() => {
-    const saved = localStorage.getItem('dpp_streak')
-    return saved ? parseInt(saved) : 0
-  })
-  const [hintUsed, setHintUsed] = useState(false)
-  const [revealedHintLetter, setRevealedHintLetter] = useState(null)
-  const [letterStates, setLetterStates] = useState({}) // 'correct', 'wrong', 'unused'
-  const [gameStartTime, setGameStartTime] = useState(null)
-  const [showBetweenGamesAd, setShowBetweenGamesAd] = useState(false)
+  // Score tracking
+  const [score, setScore] = useState(0);
+  const [streak, setStreak] = useState(0);
+  const [gamesPlayed, setGamesPlayed] = useState(0);
+  
+  // Premium and monetization
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
+  const [isPremium, setIsPremium] = useState(false);
+  
+  // Game timing for achievements
+  const [gameStartTime, setGameStartTime] = useState(null);
+  const [perfectGame, setPerfectGame] = useState(true);
 
-  // Initialize new game
-  const startNewGame = () => {
-    let newWord;
-    if (selectedCategory === 'ALL') {
-      newWord = getRandomWord()
-    } else {
-      newWord = getRandomWordFromCategory(selectedCategory)
-    }
+  const { trackConversion } = useABTestingConversion();
+
+  // Load saved data on component mount
+  useEffect(() => {
+    const savedScore = localStorage.getItem('dpp_score');
+    const savedStreak = localStorage.getItem('dpp_streak');
+    const savedGamesPlayed = localStorage.getItem('dpp_games_played');
+    const savedPremium = localStorage.getItem('dpp_premium_status');
     
-    if (newWord) {
-      setCurrentWord(newWord)
-      setGuessedLetters(new Set())
-      setWrongGuesses(0)
-      setGameStatus('playing')
-      setHintUsed(false)
-      setRevealedHintLetter(null)
-      setLetterStates({})
-      setGameStartTime(Date.now())
-      setShowBetweenGamesAd(false)
-      
-      // Analytics: Track game start
-      analytics.trackGameStart(selectedCategory, newWord.word)
-    }
-  }
+    if (savedScore) setScore(parseInt(savedScore));
+    if (savedStreak) setStreak(parseInt(savedStreak));
+    if (savedGamesPlayed) setGamesPlayed(parseInt(savedGamesPlayed));
+    if (savedPremium === 'true') setIsPremium(true);
+    
+    // Track daily visit for retention
+    trackDailyVisit();
+    
+    // Start first game
+    startNewGame();
+  }, []);
 
-  // Start game on component mount and category change
+  // Save data when state changes
   useEffect(() => {
-    startNewGame()
-  }, [selectedCategory])
+    localStorage.setItem('dpp_score', score.toString());
+    localStorage.setItem('dpp_streak', streak.toString());
+    localStorage.setItem('dpp_games_played', gamesPlayed.toString());
+  }, [score, streak, gamesPlayed]);
 
-  // Save score and streak to localStorage
-  useEffect(() => {
-    localStorage.setItem('dpp_score', score.toString())
-    localStorage.setItem('dpp_streak', streak.toString())
-  }, [score, streak])
-
-  // Check game status when guesses change
-  useEffect(() => {
-    if (currentWord && gameStatus === 'playing') {
-      const wordLetters = new Set(currentWord.word)
-      const correctGuesses = [...guessedLetters].filter(letter => wordLetters.has(letter))
-      
-      if (correctGuesses.length === wordLetters.size) {
-        setGameStatus('won')
-        setScore(prev => prev + 1)
-        setStreak(prev => prev + 1)
-        
-        // Analytics: Track game completion
-        const timeElapsed = Date.now() - gameStartTime
-        analytics.trackGameComplete('won', timeElapsed, score + 1, streak + 1)
-        
-        // Show between-games ad for non-premium users
-        if (!isPremium) {
-          setTimeout(() => setShowBetweenGamesAd(true), 2000)
-        }
-      } else if (wrongGuesses >= 6) {
-        setGameStatus('lost')
-        setStreak(0)
-        
-        // Analytics: Track game completion
-        const timeElapsed = Date.now() - gameStartTime
-        analytics.trackGameComplete('lost', timeElapsed, score, 0)
-        
-        // Show between-games ad for non-premium users
-        if (!isPremium) {
-          setTimeout(() => setShowBetweenGamesAd(true), 2000)
-        }
+  const getRandomWord = () => {
+    let availableWords = [];
+    
+    if (selectedCategory === 'all') {
+      // Get all words from all categories
+      availableWords = Object.values(gameData).flatMap(category => 
+        category.words.map(wordObj => ({
+          ...wordObj,
+          category: category.name
+        }))
+      );
+    } else {
+      // Get words from specific category
+      const categoryKey = selectedCategory.toUpperCase();
+      const categoryData = gameData[categoryKey];
+      if (categoryData && categoryData.words) {
+        availableWords = categoryData.words.map(wordObj => ({
+          ...wordObj,
+          category: categoryData.name
+        }));
       }
     }
-  }, [currentWord, guessedLetters, wrongGuesses, gameStatus, gameStartTime, score, streak, isPremium])
-
-  // Handle letter guess
-  const guessLetter = (letter) => {
-    if (guessedLetters.has(letter) || gameStatus !== 'playing') return
-
-    const newGuessedLetters = new Set([...guessedLetters, letter])
-    setGuessedLetters(newGuessedLetters)
-
-    if (currentWord.word.includes(letter)) {
-      setLetterStates(prev => ({ ...prev, [letter]: 'correct' }))
-      analytics.trackLetterGuess(letter, true, wrongGuesses)
-    } else {
-      setLetterStates(prev => ({ ...prev, [letter]: 'wrong' }))
-      const newWrongGuesses = wrongGuesses + 1
-      setWrongGuesses(newWrongGuesses)
-      analytics.trackLetterGuess(letter, false, newWrongGuesses)
+    
+    if (availableWords.length === 0) {
+      // Fallback to animals
+      availableWords = gameData.ANIMALS.words.map(wordObj => ({
+        ...wordObj,
+        category: gameData.ANIMALS.name
+      }));
     }
-  }
+    
+    const randomIndex = Math.floor(Math.random() * availableWords.length);
+    return availableWords[randomIndex];
+  };
 
-  // Use hint - reveals one random unguessed letter
-  const useHint = () => {
-    if (hintUsed || gameStatus !== 'playing' || !currentWord) return
+  const startNewGame = () => {
+    const wordData = getRandomWord();
+    setCurrentWord(wordData.word);
+    setCurrentHint(wordData.hint);
+    setCurrentCategory(wordData.category);
+    setGuessedLetters([]);
+    setWrongGuesses(0);
+    setGameStatus('playing');
+    setHintUsed(false);
+    setHintRevealed('');
+    setGameStartTime(Date.now());
+    setPerfectGame(true);
+    
+    // Track game start
+    trackEvent('game_start', {
+      category: wordData.category,
+      word_length: wordData.word.length
+    });
+  };
 
-    const wordLetters = currentWord.word.split('')
-    const unguessedLetters = wordLetters.filter(letter => !guessedLetters.has(letter))
+  const handleLetterGuess = (letter) => {
+    if (guessedLetters.includes(letter) || gameStatus !== 'playing') {
+      return;
+    }
+
+    const newGuessedLetters = [...guessedLetters, letter];
+    setGuessedLetters(newGuessedLetters);
+
+    if (currentWord.includes(letter)) {
+      // Correct guess
+      const wordLetters = currentWord.split('');
+      const allLettersGuessed = wordLetters.every(
+        wordLetter => newGuessedLetters.includes(wordLetter)
+      );
+
+      if (allLettersGuessed) {
+        // Game won
+        setGameStatus('won');
+        const newScore = score + 1;
+        const newStreak = streak + 1;
+        const newGamesPlayed = gamesPlayed + 1;
+        
+        setScore(newScore);
+        setStreak(newStreak);
+        setGamesPlayed(newGamesPlayed);
+        
+        // Check for achievements
+        const gameTime = Date.now() - gameStartTime;
+        if (gameTime < 30000) { // Under 30 seconds
+          triggerFastGame();
+        }
+        if (perfectGame && wrongGuesses === 0) {
+          triggerPerfectGame();
+        }
+        
+        // Track win
+        trackEvent('game_win', {
+          category: currentCategory,
+          word: currentWord,
+          time_taken: gameTime,
+          wrong_guesses: wrongGuesses,
+          hint_used: hintUsed,
+          perfect_game: perfectGame && wrongGuesses === 0
+        });
+      }
+      
+      // Track correct guess
+      trackEvent('letter_guess', {
+        letter: letter,
+        correct: true,
+        word: currentWord
+      });
+    } else {
+      // Wrong guess
+      const newWrongGuesses = wrongGuesses + 1;
+      setWrongGuesses(newWrongGuesses);
+      setPerfectGame(false);
+
+      if (newWrongGuesses >= 6) {
+        // Game lost
+        setGameStatus('lost');
+        setStreak(0); // Reset streak on loss
+        setGamesPlayed(gamesPlayed + 1);
+        
+        // Track loss
+        trackEvent('game_loss', {
+          category: currentCategory,
+          word: currentWord,
+          wrong_guesses: newWrongGuesses,
+          hint_used: hintUsed
+        });
+      }
+      
+      // Track wrong guess
+      trackEvent('letter_guess', {
+        letter: letter,
+        correct: false,
+        word: currentWord
+      });
+    }
+  };
+
+  const handleHint = () => {
+    if (hintUsed || gameStatus !== 'playing') return;
+    
+    // Find an unguessed letter from the word
+    const unguessedLetters = currentWord.split('').filter(
+      letter => !guessedLetters.includes(letter)
+    );
     
     if (unguessedLetters.length > 0) {
-      const randomLetter = unguessedLetters[Math.floor(Math.random() * unguessedLetters.length)]
-      setRevealedHintLetter(randomLetter)
-      setHintUsed(true)
+      const randomLetter = unguessedLetters[Math.floor(Math.random() * unguessedLetters.length)];
+      setHintRevealed(randomLetter);
+      setHintUsed(true);
       
-      // Automatically add the hint letter to guessed letters
-      const newGuessedLetters = new Set([...guessedLetters, randomLetter])
-      setGuessedLetters(newGuessedLetters)
-      setLetterStates(prev => ({ ...prev, [randomLetter]: 'correct' }))
-      
-      // Analytics: Track hint usage
-      analytics.trackHintUsage(randomLetter)
+      // Track hint usage
+      trackEvent('hint_used', {
+        category: currentCategory,
+        word: currentWord,
+        revealed_letter: randomLetter
+      });
     }
-  }
+  };
 
-  // Handle category change
-  const handleCategoryChange = (newCategory) => {
-    setPreviousCategory(selectedCategory)
-    setSelectedCategory(newCategory)
+  const handleCategoryChange = (event) => {
+    const newCategory = event.target.value;
+    setSelectedCategory(newCategory);
     
-    // Analytics: Track category change
-    analytics.trackCategoryChange(newCategory, selectedCategory)
-  }
+    // Track category change
+    trackEvent('category_change', {
+      from_category: selectedCategory,
+      to_category: newCategory
+    });
+    
+    // Start new game with new category
+    setTimeout(() => {
+      startNewGame();
+    }, 100);
+  };
 
-  // Display word with guessed letters
+  const handlePremiumClick = (source = 'header') => {
+    setShowPremiumModal(true);
+    
+    // Track premium button click
+    trackEvent('premium_click', {
+      source: source,
+      games_played: gamesPlayed,
+      current_score: score
+    });
+  };
+
+  const handlePremiumUpgrade = () => {
+    setIsPremium(true);
+    localStorage.setItem('dpp_premium_status', 'true');
+    setShowPremiumModal(false);
+    
+    // Track conversion
+    trackConversion();
+    trackEvent('premium_upgrade', {
+      games_played: gamesPlayed,
+      score: score,
+      streak: streak
+    });
+    
+    // Add premium class to body
+    document.body.classList.add('premium-active');
+  };
+
+  const handleEmailCapture = (email) => {
+    // Track email capture
+    trackEvent('email_capture', {
+      email: email,
+      games_played: gamesPlayed,
+      score: score
+    });
+  };
+
+  const handleShare = (platform) => {
+    // Track sharing
+    trackEvent('share', {
+      platform: platform,
+      word: currentWord,
+      score: score
+    });
+  };
+
+  const handleBadgeEarned = (badge) => {
+    // Track badge earning
+    trackEvent('badge_earned', {
+      badge_id: badge.id,
+      badge_name: badge.name,
+      score: score,
+      games_played: gamesPlayed
+    });
+  };
+
   const displayWord = () => {
-    if (!currentWord) return ''
-    
-    return currentWord.word
+    return currentWord
       .split('')
-      .map(letter => guessedLetters.has(letter) ? letter : '_')
-      .join(' ')
-  }
+      .map(letter => {
+        if (guessedLetters.includes(letter) || (hintRevealed && letter === hintRevealed)) {
+          return letter;
+        }
+        return '_';
+      })
+      .join(' ');
+  };
 
-  // Get button class based on letter state
-  const getLetterButtonClass = (letter) => {
-    const baseClass = 'letter-button'
-    const state = letterStates[letter]
-    
-    if (state === 'correct') return `${baseClass} correct used`
-    if (state === 'wrong') return `${baseClass} wrong used`
-    if (guessedLetters.has(letter)) return `${baseClass} used`
-    return `${baseClass} unused`
-  }
+  const getHangmanDrawing = () => {
+    const drawings = [
+      '', // 0 wrong guesses
+      '  |\n  |\n  |\n  |\n__|', // 1
+      '  +---+\n  |   |\n      |\n      |\n      |\n  ____|', // 2
+      '  +---+\n  |   |\n  O   |\n      |\n      |\n  ____|', // 3
+      '  +---+\n  |   |\n  O   |\n  |   |\n      |\n  ____|', // 4
+      '  +---+\n  |   |\n  O   |\n /|   |\n      |\n  ____|', // 5
+      '  +---+\n  |   |\n  O   |\n /|\\  |\n      |\n  ____|', // 6 (final)
+      '  +---+\n  |   |\n  O   |\n /|\\  |\n /    |\n  ____|', // 7 (game over)
+    ];
+    return drawings[Math.min(wrongGuesses, drawings.length - 1)];
+  };
 
-  // Generate alphabet buttons
-  const renderAlphabet = () => {
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
-    return (
-      <div className="alphabet-grid">
-        {alphabet.map(letter => (
-          <button
-            key={letter}
-            onClick={() => guessLetter(letter)}
-            disabled={guessedLetters.has(letter) || gameStatus !== 'playing'}
-            className={getLetterButtonClass(letter)}
-          >
-            {letter}
-          </button>
-        ))}
-      </div>
-    )
-  }
-
-  // Get encouraging message
   const getStatusMessage = () => {
     if (gameStatus === 'won') {
-      return "PUZZLE SOLVED!"
+      const messages = ['🎉 Great job!', '🌟 Excellent work!', '🏆 Well done!', '✨ Fantastic!'];
+      return messages[Math.floor(Math.random() * messages.length)];
+    } else if (gameStatus === 'lost') {
+      return `💪 Try again! The word was: ${currentWord}`;
+    } else {
+      return `Wrong guesses: ${wrongGuesses}/6`;
     }
-    
-    if (gameStatus === 'lost') {
-      return `PUZZLE FAILED - The word was: ${currentWord?.word}`
-    }
-    
-    return `Wrong guesses: ${wrongGuesses}/6`
-  }
+  };
+
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
   // Get current date for newspaper header
   const getCurrentDate = () => {
-    const today = new Date()
     const options = { 
       weekday: 'long', 
       year: 'numeric', 
       month: 'long', 
       day: 'numeric' 
-    }
-    return today.toLocaleDateString('en-US', options)
-  }
-
-  if (!currentWord) {
-    return <div className="game-container">Loading puzzle...</div>
-  }
+    };
+    return new Date().toLocaleDateString('en-US', options);
+  };
 
   return (
-    <div className="game-container">
-      <div className="corner-decoration top-left">╔</div>
-      <div className="corner-decoration top-right">╗</div>
-      <div className="corner-decoration bottom-left">╚</div>
-      <div className="corner-decoration bottom-right">╝</div>
-
-      {/* Date Header - Enhanced Newspaper Style */}
-      <div className="date-header">
-        {getCurrentDate()}
-      </div>
-
-      {/* Game Header with Enhanced Typography */}
-      <div style={{ textAlign: 'center', marginBottom: '35px' }}>
-        <h2>Hangman Puzzle</h2>
-        <p>
-          Guess the word by selecting letters. You have 6 wrong guesses before the puzzle is failed.
-        </p>
-      </div>
-
-      {/* Enhanced Score and Streak Display */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '25px', marginBottom: '30px', maxWidth: '450px', margin: '0 auto 30px auto' }}>
-        <div className="score-display">
-          <span className="score-number">{score}</span>
-          <span className="score-label">Puzzles Solved</span>
-        </div>
-        <div className="streak-display">
-          <span className="streak-number">{streak}</span>
-          <span className="streak-label">Win Streak</span>
-        </div>
-      </div>
-
-      {/* Enhanced Category Display */}
-      <div className="category-display">
-        Category: {currentWord.categoryName}
-      </div>
-
-      {/* Enhanced Category Selector */}
-      <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-        <select
-          value={selectedCategory}
-          onChange={(e) => handleCategoryChange(e.target.value)}
-          className="category-selector"
-          disabled={gameStatus === 'playing'}
-        >
-          <option value="ALL">All Categories</option>
-          {getAllCategories().map(category => {
-            const categoryInfo = getCategoryInfo(category)
-            return (
-              <option key={category} value={category}>
-                {categoryInfo.name}
-              </option>
-            )
-          })}
-        </select>
-        {gameStatus === 'playing' && (
-          <p style={{ fontSize: '12px', color: 'var(--secondary-text)', marginTop: '10px', fontFamily: 'Arial, sans-serif', letterSpacing: '1px' }}>
-            Finish current puzzle to change category
-          </p>
-        )}
-      </div>
-
-      {/* Enhanced Hangman Display */}
-      <div className="hangman-display">
-        {HANGMAN_STAGES[wrongGuesses] || 'Ready to start...'}
-      </div>
-
-      {/* Enhanced Word Display */}
-      <div className="word-display">
-        {displayWord()}
-      </div>
-
-      {/* Enhanced Game Status */}
-      <div style={{ marginBottom: '30px' }}>
-        {gameStatus === 'playing' && (
-          <div className="status-message status-playing">
-            {getStatusMessage()}
-          </div>
-        )}
-        {gameStatus === 'won' && (
-          <div className="status-message status-win">
-            {getStatusMessage()}
-          </div>
-        )}
-        {gameStatus === 'lost' && (
-          <div className="status-message status-lose">
-            {getStatusMessage()}
-          </div>
-        )}
-      </div>
-
-      {/* Between Games Ad (Non-Premium Only) */}
-      {showBetweenGamesAd && !isPremium && gameStatus !== 'playing' && (
-        <div className={`adsense-container adsense-between-games ${isPremium ? 'hidden' : ''}`}>
-          <div className="ad-label-container">
-            <span className="ad-label">Advertisement</span>
-          </div>
-          <div className="adsense-placeholder">
-            <div>GOOGLE ADSENSE</div>
-            <div>336x280 Rectangle</div>
-            <div style={{ fontSize: '10px', marginTop: '5px' }}>
-              Between Games Ad
-            </div>
-          </div>
-          {/* 
-            ADSENSE INTEGRATION: Replace above placeholder with:
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXX"
-                 data-ad-slot="XXXXXXXXXX"
-                 data-ad-format="rectangle"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-          */}
-        </div>
-      )}
-
-      {/* Enhanced Alphabet */}
-      {gameStatus === 'playing' && (
-        <div style={{ marginBottom: '30px' }}>
-          {renderAlphabet()}
-        </div>
-      )}
-
-      {/* Enhanced Game Controls */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', justifyContent: 'center', alignItems: 'center' }}>
-        <button 
-          onClick={startNewGame}
-          className="game-button"
-        >
-          New Puzzle
-        </button>
-        
-        {gameStatus === 'playing' && (
-          <button 
-            onClick={useHint}
-            disabled={hintUsed}
-            className="hint-button"
-          >
-            {hintUsed ? 'Hint Used' : 'Use Hint (1 per puzzle)'}
-          </button>
-        )}
-
-        {/* Premium Upgrade Prompt (Non-Premium Only) */}
-        {!isPremium && gameStatus !== 'playing' && score > 0 && score % 5 === 0 && (
-          <div className="premium-prompt">
-            <p>🎉 Enjoying Daily Puzzle Post?</p>
-            <button 
-              onClick={() => onPremiumClick('between_games')}
-              className="premium-button"
-            >
-              Go Ad-Free for $4.99!
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Enhanced Hint Display */}
-      {revealedHintLetter && gameStatus === 'playing' && (
-        <div className="hint-display">
-          <strong>Hint revealed letter:</strong> {revealedHintLetter}
-        </div>
-      )}
-
-      {/* Enhanced Word Hint */}
-      {currentWord.hint && gameStatus !== 'playing' && (
-        <div style={{ 
-          marginTop: '25px', 
-          padding: '20px', 
-          backgroundColor: 'var(--pure-white)', 
-          border: '2px solid var(--accent-lines)', 
-          textAlign: 'center',
-          position: 'relative'
-        }}>
-          <div style={{ 
-            position: 'absolute',
-            top: '-10px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            background: 'var(--pure-white)',
-            padding: '0 12px',
-            fontSize: '10px',
-            fontFamily: 'Arial, sans-serif',
-            textTransform: 'uppercase',
-            letterSpacing: '2px',
-            color: 'var(--secondary-text)',
-            fontWeight: 'bold'
-          }}>
-            Definition
-          </div>
-          <p style={{ 
-            fontFamily: 'Georgia, "Times New Roman", serif', 
-            fontSize: '16px', 
-            color: 'var(--secondary-text)', 
-            margin: '0',
-            lineHeight: '1.5'
-          }}>
-            {currentWord.hint}
-          </p>
-        </div>
-      )}
-    </div>
-  )
-}
-
-function App() {
-  const [activeTab, setActiveTab] = useState('hangman')
-  const [isPremiumModalOpen, setIsPremiumModalOpen] = useState(false)
-  const [isPremium, setIsPremium] = useState(() => {
-    return localStorage.getItem('dpp_premium_status') === 'active'
-  })
-
-  // Handle premium upgrade
-  const handlePremiumUpgrade = () => {
-    setIsPremium(true)
-    localStorage.setItem('dpp_premium_status', 'active')
-    localStorage.setItem('dpp_premium_date', new Date().toISOString())
-    
-    // Analytics: Track successful premium upgrade
-    analytics.trackPremiumPurchaseSuccess('demo', 'demo_' + Date.now())
-  }
-
-  // Handle premium button click
-  const handlePremiumClick = (location = 'header') => {
-    analytics.trackPremiumButtonClick(location)
-    analytics.trackPremiumModalOpen(location)
-    setIsPremiumModalOpen(true)
-  }
-
-  // Handle modal close
-  const handleModalClose = () => {
-    analytics.trackPremiumModalClose('close_button')
-    setIsPremiumModalOpen(false)
-  }
-
-  // Track ad impressions when components mount
-  useEffect(() => {
-    if (!isPremium) {
-      // Track header ad impression
-      analytics.trackAdImpression('header_banner', '728x90')
-      
-      // Track sidebar ad impressions
-      analytics.trackAdImpression('sidebar_left', '300x250')
-      analytics.trackAdImpression('sidebar_right', '300x250')
-    }
-  }, [isPremium])
-
-  return (
-    <div className={`min-h-screen ${isPremium ? 'premium-active' : ''}`}>
-      {/* Enhanced Header with Premium Button */}
+    <div className="min-h-screen">
+      {/* Header */}
       <header className="site-header">
-        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 25px' }}>
-          <h1 className="site-logo">Daily Puzzle Post</h1>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div className="header-container">
+          <div className="site-logo">
+            Daily Puzzle Post
+          </div>
+          <div className="premium-section">
             {isPremium ? (
-              <div className="premium-badge">Premium</div>
+              <div className="premium-badge">⭐ PREMIUM</div>
             ) : (
-              <button
-                onClick={() => handlePremiumClick('header')}
-                className="premium-button"
-              >
-                Remove Ads - $4.99
-              </button>
+              <ABTesting onPremiumClick={handlePremiumClick} isPremium={isPremium} />
             )}
           </div>
         </div>
       </header>
 
-      {/* Enhanced Game Tabs */}
-      <div className="game-tabs">
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 25px' }}>
-          <div style={{ display: 'flex' }}>
-            <button
-              onClick={() => setActiveTab('hangman')}
-              className={`tab-button ${activeTab === 'hangman' ? 'active' : ''}`}
-            >
-              Hangman
-            </button>
-            <button className="tab-button coming-soon">
-              Word Search
-              <span style={{ marginLeft: '10px', fontSize: '9px', backgroundColor: 'var(--disabled-state)', color: 'white', padding: '2px 8px', borderRadius: '2px', letterSpacing: '1px' }}>
-                Coming Soon
-              </span>
-            </button>
-            <button className="tab-button coming-soon">
-              Crossword
-              <span style={{ marginLeft: '10px', fontSize: '9px', backgroundColor: 'var(--disabled-state)', color: 'white', padding: '2px 8px', borderRadius: '2px', letterSpacing: '1px' }}>
-                Coming Soon
-              </span>
-            </button>
-            <button className="tab-button coming-soon">
-              Anagram
-              <span style={{ marginLeft: '10px', fontSize: '9px', backgroundColor: 'var(--disabled-state)', color: 'white', padding: '2px 8px', borderRadius: '2px', letterSpacing: '1px' }}>
-                Coming Soon
-              </span>
-            </button>
-          </div>
-        </div>
+      {/* Date Header */}
+      <div className="date-header">
+        {getCurrentDate()}
       </div>
 
-      {/* Header Ad Zone (Non-Premium Only) */}
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 25px' }}>
-        <div className={`adsense-container adsense-header-banner ${isPremium ? 'hidden' : ''}`}>
-          <div className="ad-label-container">
-            <span className="ad-label">Advertisement</span>
-          </div>
-          <div className="adsense-placeholder">
-            <div>GOOGLE ADSENSE</div>
-            <div>728x90 Desktop / 320x50 Mobile</div>
-            <div style={{ fontSize: '10px', marginTop: '5px' }}>
-              Header Leaderboard
-            </div>
-          </div>
-          {/* 
-            ADSENSE INTEGRATION: Replace above placeholder with:
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXX"
-                 data-ad-slot="XXXXXXXXXX"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-          */}
+      {/* Game Tabs */}
+      <nav className="game-tabs">
+        <div className="tabs-container">
+          <button className="tab-button active">
+            🎯 Hangman
+          </button>
+          <button className="tab-button coming-soon">
+            🔤 Word Scramble
+            <span className="coming-soon-badge">Coming Soon</span>
+          </button>
+          <button className="tab-button coming-soon">
+            🔍 Word Search
+            <span className="coming-soon-badge">Coming Soon</span>
+          </button>
         </div>
-      </div>
+      </nav>
 
-      {/* Enhanced Main Content */}
-      <main style={{ flex: '1', padding: '25px 0' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 25px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1fr', gap: '35px' }}>
-            {/* Enhanced Left Sidebar with Ad */}
-            <div className="sidebar-ad-wrapper">
-              <div className={`adsense-container adsense-sidebar-rectangle ${isPremium ? 'hidden' : ''}`}>
-                <div className="ad-label-container">
-                  <span className="ad-label">Advertisement</span>
-                </div>
-                <div className="adsense-placeholder">
-                  <div>GOOGLE ADSENSE</div>
-                  <div>300x250 Rectangle</div>
-                  <div style={{ fontSize: '10px', marginTop: '5px' }}>
-                    Sidebar Left
+      {/* Retention Features */}
+      <RetentionFeatures 
+        isPremium={isPremium} 
+        onEmailCapture={handleEmailCapture}
+      />
+
+      {/* Main Content */}
+      <main className="main-content">
+        <div className="content-container">
+          {/* Left Sidebar - Ads */}
+          <aside className="sidebar-left">
+            {!isPremium && (
+              <>
+                <div className="adsense-container adsense-sidebar-rectangle">
+                  <div className="ad-label-container">
+                    <span className="ad-label">Advertisement</span>
+                  </div>
+                  <div className="adsense-placeholder">
+                    <div>300 x 250</div>
+                    <div>Sidebar Ad</div>
+                    <div style={{ fontSize: '10px', marginTop: '10px' }}>
+                      {/* Replace with actual AdSense code */}
+                      {/* <ins className="adsbygoogle" style={{display:'block'}} data-ad-client="ca-pub-XXXXXXXXX" data-ad-slot="XXXXXXXXX" data-ad-format="auto"></ins> */}
+                    </div>
                   </div>
                 </div>
-                {/* 
-                  ADSENSE INTEGRATION: Replace above placeholder with:
-                  <ins class="adsbygoogle"
-                       style="display:block"
-                       data-ad-client="ca-pub-XXXXXXXXXX"
-                       data-ad-slot="XXXXXXXXXX"
-                       data-ad-format="rectangle"></ins>
-                  <script>
-                       (adsbygoogle = window.adsbygoogle || []).push({});
-                  </script>
-                */}
-              </div>
-            </div>
-
-            {/* Game Content */}
-            <div>
-              {activeTab === 'hangman' && (
-                <HangmanGame 
-                  isPremium={isPremium} 
-                  onPremiumClick={handlePremiumClick}
+                
+                <SocialProof 
+                  currentWord={gameStatus === 'won' ? currentWord : null}
+                  gameStatus={gameStatus}
+                  onShare={handleShare}
                 />
+              </>
+            )}
+          </aside>
+
+          {/* Game Area */}
+          <section className="game-area">
+            {/* Header Ad */}
+            {!isPremium && (
+              <div className="adsense-container adsense-header-banner">
+                <div className="ad-label-container">
+                  <span className="ad-label">Paid Advertisement</span>
+                </div>
+                <div className="adsense-placeholder">
+                  <div>728 x 90 (Desktop) / 320 x 50 (Mobile)</div>
+                  <div>Header Leaderboard</div>
+                  <div style={{ fontSize: '10px', marginTop: '5px' }}>
+                    {/* Replace with actual AdSense code */}
+                    {/* <ins className="adsbygoogle" style={{display:'block'}} data-ad-client="ca-pub-XXXXXXXXX" data-ad-slot="XXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins> */}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="game-container">
+              <h2>Hangman Puzzle</h2>
+              <p>Guess the word one letter at a time. You have 6 wrong guesses!</p>
+
+              {/* Score Display */}
+              <div className="score-container">
+                <div className="score-display">
+                  <span className="score-number">{score}</span>
+                  <span className="score-label">Words Solved</span>
+                </div>
+                <div className="streak-display">
+                  <span className="streak-number">{streak}</span>
+                  <span className="streak-label">Win Streak</span>
+                </div>
+              </div>
+
+              {/* Category Selector */}
+              <div className="category-selector-container">
+                <select 
+                  value={selectedCategory} 
+                  onChange={handleCategoryChange}
+                  className="category-selector"
+                  disabled={gameStatus === 'playing'}
+                >
+                  <option value="all">All Categories</option>
+                  <option value="animals">Animals</option>
+                  <option value="food">Food</option>
+                  <option value="places">Places</option>
+                  <option value="objects">Objects</option>
+                </select>
+              </div>
+
+              {/* Category Display */}
+              <div className="category-display">
+                Category: {currentCategory}
+              </div>
+
+              {/* Hangman Drawing */}
+              <div className="hangman-display">
+                {getHangmanDrawing()}
+              </div>
+
+              {/* Word Display */}
+              <div className="word-display">
+                {displayWord()}
+              </div>
+
+              {/* Status Message */}
+              <div className={`status-message ${gameStatus === 'won' ? 'status-win' : gameStatus === 'lost' ? 'status-lose' : ''}`}>
+                {getStatusMessage()}
+              </div>
+
+              {/* Alphabet Grid */}
+              <div className="alphabet-grid">
+                {alphabet.map(letter => (
+                  <button
+                    key={letter}
+                    className={`letter-button ${
+                      guessedLetters.includes(letter)
+                        ? currentWord.includes(letter)
+                          ? 'correct'
+                          : 'wrong'
+                        : ''
+                    }`}
+                    onClick={() => handleLetterGuess(letter)}
+                    disabled={guessedLetters.includes(letter) || gameStatus !== 'playing'}
+                  >
+                    {letter}
+                  </button>
+                ))}
+              </div>
+
+              {/* Game Controls */}
+              <div className="game-controls">
+                <button className="game-button" onClick={startNewGame}>
+                  New Game
+                </button>
+                <button 
+                  className="hint-button" 
+                  onClick={handleHint}
+                  disabled={hintUsed || gameStatus !== 'playing'}
+                >
+                  {hintUsed ? 'Hint Used' : 'Show Hint'}
+                </button>
+              </div>
+
+              {/* Hint Display */}
+              {hintUsed && (
+                <div className="hint-display">
+                  💡 Hint: {currentHint}
+                  {hintRevealed && (
+                    <div style={{ marginTop: '10px', fontWeight: 'bold' }}>
+                      Revealed letter: {hintRevealed}
+                    </div>
+                  )}
+                </div>
               )}
             </div>
 
-            {/* Enhanced Right Sidebar with Ads */}
-            <div className="sidebar-ad-wrapper">
-              <div className={`adsense-container adsense-sidebar-rectangle ${isPremium ? 'hidden' : ''}`}>
+            {/* Progress Badges */}
+            <ProgressBadges 
+              score={score}
+              streak={streak}
+              gamesPlayed={gamesPlayed}
+              onBadgeEarned={handleBadgeEarned}
+            />
+
+            {/* Between Games Ad */}
+            {!isPremium && gameStatus !== 'playing' && (
+              <div className="adsense-container adsense-between-games">
                 <div className="ad-label-container">
                   <span className="ad-label">Advertisement</span>
                 </div>
                 <div className="adsense-placeholder">
-                  <div>GOOGLE ADSENSE</div>
-                  <div>300x250 Rectangle</div>
-                  <div style={{ fontSize: '10px', marginTop: '5px' }}>
-                    Sidebar Right
+                  <div>336 x 280</div>
+                  <div>Between Games</div>
+                  <div style={{ fontSize: '10px', marginTop: '10px' }}>
+                    {/* Replace with actual AdSense code */}
+                    {/* <ins className="adsbygoogle" style={{display:'block'}} data-ad-client="ca-pub-XXXXXXXXX" data-ad-slot="XXXXXXXXX" data-ad-format="auto"></ins> */}
                   </div>
                 </div>
-                {/* 
-                  ADSENSE INTEGRATION: Replace above placeholder with:
-                  <ins class="adsbygoogle"
-                       style="display:block"
-                       data-ad-client="ca-pub-XXXXXXXXXX"
-                       data-ad-slot="XXXXXXXXXX"
-                       data-ad-format="rectangle"></ins>
-                  <script>
-                       (adsbygoogle = window.adsbygoogle || []).push({});
-                  </script>
-                */}
               </div>
-              
-              {/* Additional Mobile Banner Ad */}
-              <div className={`adsense-container adsense-mobile-banner ${isPremium ? 'hidden' : ''}`}>
+            )}
+          </section>
+
+          {/* Right Sidebar - Ads */}
+          <aside className="sidebar-right">
+            {!isPremium && (
+              <div className="adsense-container adsense-sidebar-rectangle">
                 <div className="ad-label-container">
-                  <span className="ad-label">Advertisement</span>
+                  <span className="ad-label">Sponsored Content</span>
                 </div>
                 <div className="adsense-placeholder">
-                  <div>MOBILE BANNER</div>
-                  <div>320x50</div>
+                  <div>300 x 250</div>
+                  <div>Sidebar Ad</div>
+                  <div style={{ fontSize: '10px', marginTop: '10px' }}>
+                    {/* Replace with actual AdSense code */}
+                    {/* <ins className="adsbygoogle" style={{display:'block'}} data-ad-client="ca-pub-XXXXXXXXX" data-ad-slot="XXXXXXXXX" data-ad-format="auto"></ins> */}
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            )}
+          </aside>
         </div>
       </main>
 
-      {/* Enhanced Footer */}
+      {/* Footer */}
       <footer className="site-footer">
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 25px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '35px', marginBottom: '35px' }}>
-            <div>
-              <h3 style={{ marginBottom: '18px' }}>Daily Puzzle Post</h3>
-              <p style={{ fontSize: '14px', lineHeight: '1.6', letterSpacing: '0.3px' }}>
-                Classic word puzzles for discerning solvers. Challenge your mind with our collection of traditional newspaper-style games.
-              </p>
-              {isPremium && (
-                <div className="premium-badge" style={{ marginTop: '15px' }}>
-                  Premium Member
-                </div>
-              )}
+        <div className="footer-container">
+          <div className="footer-content">
+            <div className="footer-section">
+              <h3>Daily Puzzle Post</h3>
+              <p>Your trusted source for daily brain training and word puzzles. Challenge yourself with our growing collection of games designed for puzzle enthusiasts of all ages.</p>
             </div>
-            <div>
-              <h4 style={{ marginBottom: '18px' }}>Puzzles</h4>
-              <ul style={{ listStyle: 'none', padding: '0' }}>
-                <li style={{ marginBottom: '10px' }}><a href="#">Hangman</a></li>
-                <li style={{ marginBottom: '10px', color: 'var(--disabled-state)' }}>Word Search (Coming Soon)</li>
-                <li style={{ marginBottom: '10px', color: 'var(--disabled-state)' }}>Crossword (Coming Soon)</li>
-                <li style={{ marginBottom: '10px', color: 'var(--disabled-state)' }}>Anagram (Coming Soon)</li>
+            <div className="footer-section">
+              <h4>Games</h4>
+              <ul>
+                <li><a href="#hangman">Hangman</a></li>
+                <li className="coming-soon">Word Scramble (Coming Soon)</li>
+                <li className="coming-soon">Word Search (Coming Soon)</li>
+                <li className="coming-soon">Crossword (Coming Soon)</li>
               </ul>
             </div>
-            <div>
-              <h4 style={{ marginBottom: '18px' }}>Information</h4>
-              <ul style={{ listStyle: 'none', padding: '0' }}>
-                <li style={{ marginBottom: '10px' }}><a href="#">Privacy Policy</a></li>
-                <li style={{ marginBottom: '10px' }}><a href="#">Terms of Service</a></li>
-                <li style={{ marginBottom: '10px' }}><a href="#">Contact Us</a></li>
-                {!isPremium && (
-                  <li style={{ marginBottom: '10px' }}>
-                    <button 
-                      onClick={() => handlePremiumClick('footer')}
-                      style={{ background: 'none', border: 'none', color: 'var(--pure-white)', textDecoration: 'underline', cursor: 'pointer', padding: '0', fontSize: '14px' }}
-                    >
-                      Remove Ads
-                    </button>
-                  </li>
-                )}
+            <div className="footer-section">
+              <h4>Account</h4>
+              <ul>
+                <li>
+                  <button 
+                    className="footer-premium-link"
+                    onClick={() => handlePremiumClick('footer')}
+                  >
+                    {isPremium ? 'Premium Account' : 'Upgrade to Premium'}
+                  </button>
+                </li>
+                <li><a href="#privacy">Privacy Policy</a></li>
+                <li><a href="#terms">Terms of Service</a></li>
+                <li><a href="#contact">Contact Us</a></li>
               </ul>
             </div>
           </div>
-          <div style={{ borderTop: '2px solid var(--accent-lines)', paddingTop: '25px', textAlign: 'center' }}>
-            <p style={{ fontSize: '12px', letterSpacing: '1px' }}>
-              &copy; 2024 Daily Puzzle Post. All rights reserved.
-              {isPremium && <span style={{ marginLeft: '15px', color: 'var(--correct-answer)' }}>✓ Premium Member</span>}
-            </p>
+          <div className="footer-bottom">
+            <p>&copy; 2024 Daily Puzzle Post. All rights reserved. | Designed for puzzle enthusiasts worldwide.</p>
           </div>
         </div>
       </footer>
 
-      {/* Premium Modal */}
-      <PremiumModal
-        isOpen={isPremiumModalOpen}
-        onClose={handleModalClose}
-        onUpgrade={handlePremiumUpgrade}
+      {/* Footer Leaderboard Ad */}
+      {!isPremium && (
+        <div className="adsense-container adsense-footer-leaderboard">
+          <div className="ad-label-container">
+            <span className="ad-label">Classified Advertisements</span>
+          </div>
+          <div className="adsense-placeholder">
+            <div>728 x 90</div>
+            <div>Footer Leaderboard</div>
+            <div style={{ fontSize: '10px', marginTop: '5px' }}>
+              {/* Replace with actual AdSense code */}
+              {/* <ins className="adsbygoogle" style={{display:'block'}} data-ad-client="ca-pub-XXXXXXXXX" data-ad-slot="XXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins> */}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modals and Prompts */}
+      {showPremiumModal && (
+        <PremiumModal 
+          onClose={() => setShowPremiumModal(false)}
+          onUpgrade={handlePremiumUpgrade}
+        />
+      )}
+
+      <SmartPrompts 
+        gamesPlayed={gamesPlayed}
+        onPremiumClick={handlePremiumClick}
+        isPremium={isPremium}
+        gameStatus={gameStatus}
+        showBetweenGames={gameStatus !== 'playing'}
       />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
 
