@@ -1,0 +1,1733 @@
+/* Enhanced 1990s Newspaper Puzzle Section Design - Maximum Authenticity */
+@import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Times+New+Roman:wght@400;700&display=swap');
+
+/* CSS Variables for Enhanced Newspaper Color Palette */
+:root {
+  --newspaper-bg: #FDFBF7; /* Off-white/Newsprint - NOT pure white */
+  --pure-white: #FFFFFF; /* For game areas only */
+  --primary-text: #0A0A0A; /* Rich Black - NOT pure black */
+  --secondary-text: #333333; /* Charcoal Gray */
+  --accent-lines: #5A5A5A; /* Newspaper Gray */
+  --correct-answer: #1B4332; /* Deep Forest Green */
+  --wrong-answer: #800020; /* Burgundy Red */
+  --hover-state: #E5E5E5; /* Light Gray */
+  --disabled-state: #CCCCCC; /* Light Gray */
+  --border-color: #0A0A0A; /* Rich Black for borders */
+  --light-border: #CCCCCC; /* Light borders */
+}
+
+/* Global Styles with Newspaper Authenticity */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Times New Roman', Georgia, serif;
+  background-color: var(--newspaper-bg);
+  color: var(--primary-text);
+  line-height: 1.6;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+}
+
+/* Subtle Crosshatch Pattern Background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(45deg, transparent 48%, rgba(10, 10, 10, 0.03) 49%, rgba(10, 10, 10, 0.03) 51%, transparent 52%),
+    linear-gradient(-45deg, transparent 48%, rgba(10, 10, 10, 0.03) 49%, rgba(10, 10, 10, 0.03) 51%, transparent 52%);
+  background-size: 20px 20px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Main Container */
+.min-h-screen {
+  min-height: 100vh;
+  background-color: var(--newspaper-bg);
+}
+
+/* Enhanced Header Styles - Newspaper Masthead */
+.site-header {
+  background-color: var(--newspaper-bg);
+  border-bottom: 4px double var(--border-color);
+  padding: 25px 0 15px;
+  margin-bottom: 0;
+  position: relative;
+}
+
+.site-header::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--accent-lines);
+}
+
+.site-logo {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--primary-text);
+  text-align: center;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 0;
+  position: relative;
+}
+
+.site-logo::after {
+  content: 'Your Trusted Source for Daily Brain Training | Since 2024';
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: var(--secondary-text);
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+
+/* Enhanced Date Header */
+.date-header {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  color: var(--secondary-text);
+  margin-bottom: 25px;
+  padding: 8px 0;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background-color: var(--pure-white);
+}
+
+/* Enhanced Game Tabs - Newspaper Section Headers */
+.game-tabs {
+  background-color: var(--newspaper-bg);
+  border-bottom: 3px double var(--border-color);
+  padding: 0;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.game-tabs::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--accent-lines);
+}
+
+.tab-button {
+  font-family: Georgia, 'Times New Roman', serif;
+  background-color: var(--newspaper-bg);
+  color: var(--primary-text);
+  border: none;
+  border-right: 2px solid var(--accent-lines);
+  padding: 15px 28px;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+  position: relative;
+}
+
+.tab-button:hover {
+  background-color: var(--hover-state);
+}
+
+.tab-button.active {
+  background-color: var(--border-color);
+  color: var(--pure-white);
+  border-bottom: 3px solid var(--border-color);
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--border-color);
+}
+
+.tab-button.coming-soon {
+  color: var(--disabled-state);
+  cursor: not-allowed;
+}
+
+.tab-button:last-child {
+  border-right: none;
+}
+
+/* Enhanced Game Container with Double Borders */
+.game-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 35px;
+  background-color: var(--pure-white);
+  border: 3px double var(--border-color);
+  position: relative;
+  box-shadow: inset 0 0 0 8px var(--pure-white),
+              inset 0 0 0 9px var(--light-border);
+}
+
+.game-container::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border: 1px solid var(--accent-lines);
+  pointer-events: none;
+}
+
+/* Enhanced Game Title with Newspaper Styling */
+.game-container h2 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--primary-text);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 25px;
+  border-bottom: 3px double var(--border-color);
+  padding-bottom: 20px;
+  position: relative;
+}
+
+.game-container h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 1px;
+  background-color: var(--accent-lines);
+}
+
+/* Enhanced Game Description */
+.game-container p {
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: 16px;
+  color: var(--secondary-text);
+  text-align: center;
+  margin-bottom: 30px;
+  line-height: 1.6;
+  letter-spacing: 0.3px;
+}
+
+/* Enhanced Score Display - Newspaper Box Style */
+.score-display, .streak-display {
+  background-color: var(--pure-white);
+  border: 2px solid var(--border-color);
+  position: relative;
+  padding: 18px;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.score-display::before, .streak-display::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  border: 1px solid var(--light-border);
+  pointer-events: none;
+}
+
+.score-number, .streak-number {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--primary-text);
+  display: block;
+  margin-bottom: 8px;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.score-label, .streak-label {
+  font-size: 11px;
+  color: var(--secondary-text);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 400;
+  font-family: Arial, sans-serif;
+}
+
+/* Enhanced Category Display with Decorative Border */
+.category-display {
+  background-color: var(--pure-white);
+  border: 3px double var(--border-color);
+  padding: 15px 25px;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary-text);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.category-display::before {
+  content: '◆';
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent-lines);
+  font-size: 12px;
+}
+
+.category-display::after {
+  content: '◆';
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent-lines);
+  font-size: 12px;
+}
+
+/* Enhanced Category Selector */
+.category-selector {
+  font-family: 'Times New Roman', Georgia, serif;
+  background-color: var(--pure-white);
+  border: 2px solid var(--border-color);
+  padding: 12px 18px;
+  font-size: 16px;
+  color: var(--primary-text);
+  cursor: pointer;
+  min-width: 220px;
+  letter-spacing: 0.5px;
+}
+
+.category-selector:focus {
+  outline: none;
+  border-color: var(--primary-text);
+  box-shadow: inset 0 0 0 1px var(--primary-text);
+}
+
+.category-selector:disabled {
+  color: var(--disabled-state);
+  cursor: not-allowed;
+  background-color: var(--hover-state);
+}
+
+/* Enhanced Hangman Display with Newspaper Box */
+.hangman-display {
+  font-family: 'Courier New', monospace;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary-text);
+  text-align: center;
+  background-color: var(--pure-white);
+  border: 3px double var(--border-color);
+  padding: 25px;
+  margin: 25px 0;
+  white-space: pre-wrap;
+  line-height: 1.1;
+  position: relative;
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hangman-display::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: 1px solid var(--light-border);
+  pointer-events: none;
+}
+
+/* Enhanced Word Display with Newspaper Styling */
+.word-display {
+  font-family: 'Courier New', monospace;
+  font-size: 52px;
+  font-weight: 700;
+  color: var(--primary-text);
+  text-align: center;
+  letter-spacing: 12px;
+  margin: 35px 0;
+  padding: 25px;
+  background-color: var(--pure-white);
+  border: 3px double var(--border-color);
+  position: relative;
+}
+
+.word-display::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background-color: var(--border-color);
+}
+
+/* Enhanced Status Messages with Newspaper Styling */
+.status-message {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  padding: 18px 25px;
+  margin: 25px 0;
+  border: 2px solid var(--border-color);
+  position: relative;
+  letter-spacing: 1px;
+}
+
+.status-win {
+  background-color: var(--correct-answer);
+  color: var(--pure-white);
+  border-color: var(--correct-answer);
+}
+
+.status-win::before {
+  content: '★ ';
+}
+
+.status-win::after {
+  content: ' ★';
+}
+
+.status-lose {
+  background-color: var(--wrong-answer);
+  color: var(--pure-white);
+  border-color: var(--wrong-answer);
+}
+
+.status-playing {
+  background-color: var(--pure-white);
+  color: var(--secondary-text);
+  border: 2px solid var(--light-border);
+}
+
+/* Enhanced Alphabet Grid - Newspaper Typewriter Style */
+.alphabet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));
+  gap: 6px;
+  max-width: 650px;
+  margin: 35px auto;
+  padding: 25px;
+  background-color: var(--pure-white);
+  border: 3px double var(--border-color);
+  position: relative;
+}
+
+.alphabet-grid::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: 1px solid var(--light-border);
+  pointer-events: none;
+}
+
+/* Enhanced Letter Buttons - Authentic Typewriter Keys */
+.letter-button {
+  font-family: 'Courier New', monospace;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary-text);
+  background-color: var(--pure-white);
+  border: 2px solid var(--border-color);
+  width: 65px;
+  height: 65px;
+  cursor: pointer;
+  transition: none;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.letter-button::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border: 1px solid var(--light-border);
+  pointer-events: none;
+}
+
+.letter-button:hover:not(:disabled) {
+  background-color: var(--hover-state);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(10, 10, 10, 0.15);
+}
+
+.letter-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(10, 10, 10, 0.1);
+}
+
+.letter-button.correct {
+  background-color: var(--correct-answer);
+  color: var(--pure-white);
+  border-color: var(--correct-answer);
+}
+
+.letter-button.correct::before {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.letter-button.wrong {
+  background-color: var(--wrong-answer);
+  color: var(--pure-white);
+  border-color: var(--wrong-answer);
+  text-decoration: line-through;
+}
+
+.letter-button.wrong::before {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.letter-button.used {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.letter-button:disabled {
+  background-color: var(--disabled-state);
+  color: var(--secondary-text);
+  cursor: not-allowed;
+  border-color: var(--disabled-state);
+}
+
+/* Enhanced Game Buttons with Newspaper Styling */
+.game-button, .hint-button {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--pure-white);
+  background-color: var(--primary-text);
+  border: 2px solid var(--border-color);
+  padding: 15px 30px;
+  cursor: pointer;
+  transition: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0 12px;
+  position: relative;
+}
+
+.game-button::before, .hint-button::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+}
+
+.game-button:hover, .hint-button:hover:not(:disabled) {
+  background-color: var(--secondary-text);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(10, 10, 10, 0.2);
+}
+
+.hint-button:disabled {
+  background-color: var(--disabled-state);
+  color: var(--secondary-text);
+  cursor: not-allowed;
+  border-color: var(--disabled-state);
+}
+
+.hint-button:disabled::before {
+  border-color: rgba(51, 51, 51, 0.3);
+}
+
+/* Enhanced Hint Display with Decorative Border */
+.hint-display {
+  background-color: var(--pure-white);
+  border: 2px solid var(--correct-answer);
+  padding: 18px 25px;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 16px;
+  color: var(--correct-answer);
+  margin: 25px 0;
+  position: relative;
+}
+
+.hint-display::before {
+  content: '💡';
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+}
+
+/* Enhanced Footer - Newspaper Style */
+.site-footer {
+  background-color: var(--primary-text);
+  color: var(--pure-white);
+  border-top: 4px double var(--border-color);
+  padding: 45px 0 25px;
+  margin-top: 50px;
+  position: relative;
+}
+
+.site-footer::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--accent-lines);
+}
+
+.site-footer h3, .site-footer h4 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+
+.site-footer p, .site-footer li, .site-footer a {
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: 14px;
+  color: var(--pure-white);
+  text-decoration: none;
+  line-height: 1.5;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design with Newspaper Proportions */
+@media (max-width: 768px) {
+  .site-logo {
+    font-size: 28px;
+    letter-spacing: 2px;
+  }
+  
+  .site-logo::after {
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+  
+  .game-container {
+    padding: 25px;
+    margin: 15px;
+  }
+  
+  .game-container h2 {
+    font-size: 24px;
+    letter-spacing: 2px;
+  }
+  
+  .word-display {
+    font-size: 36px;
+    letter-spacing: 6px;
+  }
+  
+  .alphabet-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    padding: 20px;
+  }
+  
+  .letter-button {
+    width: 55px;
+    height: 55px;
+    font-size: 20px;
+  }
+  
+  .tab-button {
+    padding: 12px 20px;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-logo {
+    font-size: 22px;
+    letter-spacing: 1px;
+  }
+  
+  .game-container h2 {
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+  
+  .word-display {
+    font-size: 28px;
+    letter-spacing: 4px;
+  }
+  
+  .letter-button {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+  }
+  
+  .score-number, .streak-number {
+    font-size: 28px;
+  }
+}
+
+/* Subtle Animations - Newspaper Style Only */
+@keyframes correctPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+@keyframes wrongShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.letter-button.correct {
+  animation: correctPulse 0.3s ease-in-out;
+}
+
+.letter-button.wrong {
+  animation: wrongShake 0.3s ease-in-out;
+}
+
+.category-display {
+  animation: fadeInUp 0.2s ease-out;
+}
+
+/* Print Styles for Authentic Newspaper Feel */
+@media print {
+  body {
+    background-color: white;
+    color: black;
+  }
+  
+  body::before {
+    display: none;
+  }
+  
+  .game-container {
+    border: 3px double black;
+    box-shadow: none;
+  }
+  
+  .site-footer {
+    background-color: white;
+    color: black;
+    border-top: 3px double black;
+  }
+}
+
+
+
+/* ========================================
+   AUTHENTIC NEWSPAPER ADVERTISEMENT STYLING
+   ======================================== */
+
+/* Ad Container Design - Traditional Newspaper Ads */
+.ad-container {
+  border: 3px solid var(--border-color);
+  background: var(--pure-white);
+  padding: 20px;
+  margin: 35px 0;
+  position: relative;
+  box-shadow: inset 0 0 0 5px var(--pure-white),
+              inset 0 0 0 6px var(--light-border);
+}
+
+/* Corner Label - Like Traditional Newspaper Ads */
+.ad-label {
+  position: absolute;
+  top: -12px;
+  left: 25px;
+  background: var(--newspaper-bg);
+  padding: 0 12px;
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: bold;
+  color: var(--secondary-text);
+  border: 1px solid var(--light-border);
+}
+
+/* Header Ad with Newspaper Styling */
+.header-ad-wrapper {
+  text-align: center;
+  margin: 25px 0;
+  padding: 25px;
+  border-top: 4px double var(--border-color);
+  border-bottom: 4px double var(--border-color);
+  background: var(--pure-white);
+  position: relative;
+}
+
+.header-ad-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--accent-lines);
+}
+
+.header-ad-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--accent-lines);
+}
+
+/* Sidebar Ad with Column Styling */
+.sidebar-ad-wrapper {
+  border-left: 3px solid var(--accent-lines);
+  padding-left: 25px;
+  margin-left: 25px;
+  position: relative;
+}
+
+.sidebar-ad-wrapper::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: var(--light-border);
+}
+
+/* Ad Section Headers */
+.ad-section-header {
+  font-family: Arial, sans-serif;
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-align: center;
+  margin-bottom: 15px;
+  color: var(--accent-lines);
+  font-weight: bold;
+  position: relative;
+}
+
+.ad-section-header::before,
+.ad-section-header::after {
+  content: '—';
+  margin: 0 15px;
+  color: var(--light-border);
+}
+
+/* Enhanced Ad Zones - Newspaper Style */
+.ad-zone, .ad-zone-large {
+  background-color: var(--pure-white);
+  border: 3px double var(--border-color);
+  padding: 25px;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--secondary-text);
+  margin-bottom: 25px;
+  position: relative;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ad-zone::before, .ad-zone-large::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  border: 1px solid var(--light-border);
+  pointer-events: none;
+}
+
+.ad-zone p, .ad-zone-large p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ad-zone p:first-child, .ad-zone-large p:first-child {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--primary-text);
+}
+
+/* Classified-Style Ad Container */
+.classified-ad {
+  border: 2px solid var(--border-color);
+  background: #F8F8F8;
+  padding: 15px;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 20px 0;
+  position: relative;
+}
+
+.classified-ad::before {
+  content: 'CLASSIFIED';
+  position: absolute;
+  top: -8px;
+  left: 15px;
+  background: #F8F8F8;
+  padding: 0 8px;
+  font-size: 8px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: var(--secondary-text);
+}
+
+/* Display Ad Frames with Decorative Corners */
+.display-ad-frame {
+  border: 3px double var(--border-color);
+  box-shadow: inset 0 0 0 12px var(--pure-white),
+              inset 0 0 0 13px var(--light-border);
+  padding: 25px;
+  position: relative;
+}
+
+.display-ad-frame::before {
+  content: '┌─────────────────────────────┐';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  font-family: monospace;
+  font-size: 8px;
+  color: var(--accent-lines);
+  text-align: center;
+  background: var(--pure-white);
+}
+
+.display-ad-frame::after {
+  content: '└─────────────────────────────┘';
+  position: absolute;
+  bottom: -1px;
+  left: -1px;
+  right: -1px;
+  font-family: monospace;
+  font-size: 8px;
+  color: var(--accent-lines);
+  text-align: center;
+  background: var(--pure-white);
+}
+
+/* Ad Space Placeholders */
+.ad-space {
+  background: #F5F5F5;
+  border: 2px dashed var(--light-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-lines);
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.ad-space::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  border: 1px dotted var(--light-border);
+}
+
+/* Newspaper-Style Advertisement Integration */
+.adsbygoogle {
+  filter: grayscale(15%) !important;
+  border: 3px double var(--border-color) !important;
+  background: var(--pure-white) !important;
+}
+
+/* Decorative Corner Elements */
+.corner-decoration {
+  position: absolute;
+  font-family: serif;
+  font-size: 16px;
+  color: var(--accent-lines);
+}
+
+.corner-decoration.top-left {
+  top: 5px;
+  left: 5px;
+}
+
+.corner-decoration.top-right {
+  top: 5px;
+  right: 5px;
+}
+
+.corner-decoration.bottom-left {
+  bottom: 5px;
+  left: 5px;
+}
+
+.corner-decoration.bottom-right {
+  bottom: 5px;
+  right: 5px;
+}
+
+/* Enhanced Footer Ad Zone */
+.footer-ad-zone {
+  background-color: var(--pure-white);
+  border: 2px solid var(--border-color);
+  padding: 20px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  color: var(--secondary-text);
+  margin: 30px 0;
+  position: relative;
+}
+
+.footer-ad-zone::before {
+  content: 'CLASSIFIED ADVERTISEMENTS';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--newspaper-bg);
+  padding: 0 15px;
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  color: var(--secondary-text);
+}
+
+/* Responsive Ad Styling */
+@media (max-width: 768px) {
+  .ad-container {
+    padding: 15px;
+    margin: 25px 0;
+  }
+  
+  .header-ad-wrapper {
+    padding: 20px;
+    margin: 20px 0;
+  }
+  
+  .sidebar-ad-wrapper {
+    border-left: none;
+    border-top: 2px solid var(--accent-lines);
+    padding-left: 0;
+    padding-top: 20px;
+    margin-left: 0;
+    margin-top: 20px;
+  }
+  
+  .ad-zone, .ad-zone-large {
+    padding: 20px;
+    min-height: 100px;
+  }
+  
+  .ad-section-header {
+    font-size: 7px;
+    letter-spacing: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ad-container {
+    padding: 12px;
+    margin: 20px 0;
+  }
+  
+  .ad-zone, .ad-zone-large {
+    padding: 15px;
+    min-height: 80px;
+  }
+  
+  .ad-zone p, .ad-zone-large p {
+    font-size: 12px;
+  }
+  
+  .ad-zone p:first-child, .ad-zone-large p:first-child {
+    font-size: 14px;
+  }
+}
+
+
+/* ========================================
+   PREMIUM MODAL STYLING - NEWSPAPER THEME
+   ======================================== */
+
+/* Modal Overlay */
+.premium-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(10, 10, 10, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+/* Modal Container */
+.premium-modal {
+  background-color: var(--pure-white);
+  border: 3px double var(--border-color);
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: inset 0 0 0 8px var(--pure-white),
+              inset 0 0 0 9px var(--light-border),
+              0 10px 30px rgba(10, 10, 10, 0.3);
+}
+
+.premium-modal::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border: 1px solid var(--accent-lines);
+  pointer-events: none;
+}
+
+/* Modal Header */
+.premium-modal-header {
+  background-color: var(--border-color);
+  color: var(--pure-white);
+  padding: 20px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.premium-modal-header h2 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.modal-close-button {
+  background: none;
+  border: 2px solid var(--pure-white);
+  color: var(--pure-white);
+  font-size: 24px;
+  font-weight: bold;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+}
+
+.modal-close-button:hover {
+  background-color: var(--pure-white);
+  color: var(--border-color);
+}
+
+/* Modal Content */
+.premium-modal-content {
+  padding: 30px 25px;
+}
+
+/* Price Display */
+.premium-price {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 2px solid var(--correct-answer);
+  background-color: rgba(27, 67, 50, 0.05);
+}
+
+.price-amount {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--correct-answer);
+  display: block;
+  line-height: 1;
+}
+
+.price-period {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: var(--secondary-text);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+/* Benefits Section */
+.premium-benefits {
+  margin-bottom: 25px;
+}
+
+.premium-benefits h3 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary-text);
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid var(--light-border);
+  padding-bottom: 8px;
+}
+
+.premium-benefits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.premium-benefits li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  padding: 12px;
+  border: 1px solid var(--light-border);
+  background-color: rgba(253, 251, 247, 0.5);
+}
+
+.benefit-icon {
+  font-size: 20px;
+  margin-right: 12px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.premium-benefits li strong {
+  color: var(--primary-text);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+}
+
+.premium-benefits li {
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--secondary-text);
+}
+
+/* Testimonial */
+.premium-testimonial {
+  background-color: var(--hover-state);
+  border-left: 4px solid var(--correct-answer);
+  padding: 20px;
+  margin: 25px 0;
+  font-style: italic;
+}
+
+.premium-testimonial p {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 16px;
+  color: var(--primary-text);
+  margin: 0 0 10px 0;
+  line-height: 1.5;
+}
+
+.premium-testimonial span {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  color: var(--secondary-text);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Payment Buttons */
+.payment-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 25px 0;
+}
+
+.payment-button {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 15px 25px;
+  border: 2px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.payment-button::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  border: 1px solid var(--light-border);
+  pointer-events: none;
+}
+
+.stripe-button {
+  background-color: var(--primary-text);
+  color: var(--pure-white);
+  border-color: var(--primary-text);
+}
+
+.stripe-button:hover:not(:disabled) {
+  background-color: var(--secondary-text);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(10, 10, 10, 0.2);
+}
+
+.paypal-button {
+  background-color: #0070ba;
+  color: var(--pure-white);
+  border-color: #0070ba;
+}
+
+.paypal-button:hover:not(:disabled) {
+  background-color: #005ea6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 112, 186, 0.3);
+}
+
+.payment-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.payment-logo {
+  font-size: 20px;
+}
+
+/* Premium Guarantee */
+.premium-guarantee {
+  text-align: center;
+  border-top: 2px solid var(--light-border);
+  padding-top: 20px;
+  margin-top: 25px;
+}
+
+.premium-guarantee p {
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  color: var(--secondary-text);
+  margin: 5px 0;
+  font-weight: 500;
+}
+
+/* Premium Button in Header */
+.premium-button {
+  font-family: Georgia, 'Times New Roman', serif;
+  background-color: var(--correct-answer);
+  color: var(--pure-white);
+  border: 2px solid var(--correct-answer);
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.premium-button::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+}
+
+.premium-button:hover {
+  background-color: #0f5132;
+  border-color: #0f5132;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(27, 67, 50, 0.3);
+}
+
+.premium-button.premium-active {
+  background-color: var(--accent-lines);
+  border-color: var(--accent-lines);
+  cursor: default;
+}
+
+.premium-button.premium-active:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Premium Badge */
+.premium-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--correct-answer);
+  color: var(--pure-white);
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-left: 10px;
+}
+
+.premium-badge::before {
+  content: '⭐';
+  margin-right: 4px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .premium-modal {
+    margin: 10px;
+    max-height: 95vh;
+  }
+  
+  .premium-modal-header {
+    padding: 15px 20px;
+  }
+  
+  .premium-modal-header h2 {
+    font-size: 20px;
+  }
+  
+  .premium-modal-content {
+    padding: 25px 20px;
+  }
+  
+  .price-amount {
+    font-size: 40px;
+  }
+  
+  .payment-buttons {
+    gap: 12px;
+  }
+  
+  .payment-button {
+    font-size: 16px;
+    padding: 12px 20px;
+  }
+  
+  .premium-button {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .premium-modal-header h2 {
+    font-size: 18px;
+  }
+  
+  .price-amount {
+    font-size: 36px;
+  }
+  
+  .premium-benefits li {
+    font-size: 14px;
+  }
+  
+  .payment-button {
+    font-size: 15px;
+    padding: 10px 15px;
+  }
+}
+
+
+/* ========================================
+   GOOGLE ADSENSE INTEGRATION STYLING
+   ======================================== */
+
+/* AdSense Placeholder Containers */
+.adsense-container {
+  background-color: var(--pure-white);
+  border: 2px solid var(--light-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 20px 0;
+}
+
+.adsense-container.hidden {
+  display: none !important;
+}
+
+.adsense-placeholder {
+  background-color: #f0f0f0;
+  border: 2px dashed var(--accent-lines);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary-text);
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.adsense-placeholder::before {
+  content: 'Advertisement';
+  position: absolute;
+  top: -10px;
+  left: 15px;
+  background: #f0f0f0;
+  padding: 0 8px;
+  font-size: 9px;
+  color: var(--accent-lines);
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+/* Header Banner Ad - 728x90 Desktop, 320x50 Mobile */
+.adsense-header-banner {
+  width: 100%;
+  max-width: 728px;
+  height: 90px;
+  margin: 25px auto;
+}
+
+.adsense-header-banner .adsense-placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .adsense-header-banner {
+    max-width: 320px;
+    height: 50px;
+  }
+}
+
+/* Between Games Ad - 336x280 Rectangle */
+.adsense-between-games {
+  width: 336px;
+  height: 280px;
+  margin: 30px auto;
+}
+
+.adsense-between-games .adsense-placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 400px) {
+  .adsense-between-games {
+    width: 300px;
+    height: 250px;
+  }
+}
+
+/* Sidebar Rectangle Ad - 300x250 */
+.adsense-sidebar-rectangle {
+  width: 300px;
+  height: 250px;
+  margin: 20px 0;
+}
+
+.adsense-sidebar-rectangle .adsense-placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+/* Mobile Banner - 320x50 */
+.adsense-mobile-banner {
+  width: 320px;
+  height: 50px;
+  margin: 15px auto;
+  display: none;
+}
+
+.adsense-mobile-banner .adsense-placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .adsense-mobile-banner {
+    display: flex;
+  }
+}
+
+/* Ad Labels */
+.ad-label-container {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.ad-label {
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+  color: var(--accent-lines);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: bold;
+  background-color: var(--newspaper-bg);
+  padding: 2px 8px;
+  border: 1px solid var(--light-border);
+}
+
+/* Premium State - Hide Ads */
+.premium-active .adsense-container {
+  display: none !important;
+}
+
+.premium-active .ad-label-container {
+  display: none !important;
+}
+
+/* AdSense Integration Ready Classes */
+/* 
+  GOOGLE ADSENSE INTEGRATION INSTRUCTIONS:
+  
+  1. Replace .adsense-placeholder divs with actual AdSense code
+  2. Use these ad unit sizes:
+     - Header: 728x90 (desktop) / 320x50 (mobile)
+     - Between games: 336x280
+     - Sidebar: 300x250
+  
+  3. Example AdSense code structure:
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-XXXXXXXXXX"
+          data-ad-slot="XXXXXXXXXX"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+     </script>
+  
+  4. Add this script to index.html head:
+     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX"
+             crossorigin="anonymous"></script>
+*/
+
+.adsbygoogle {
+  background-color: var(--pure-white) !important;
+  border: 2px solid var(--light-border) !important;
+}
+
+/* Ad Impression Tracking */
+.adsense-container[data-ad-loaded="true"] {
+  border-color: var(--correct-answer);
+}
+
+.adsense-container[data-ad-error="true"] {
+  border-color: var(--wrong-answer);
+  background-color: rgba(128, 0, 32, 0.05);
+}
+
+/* Responsive AdSense Containers */
+@media (max-width: 768px) {
+  .adsense-sidebar-rectangle {
+    width: 100%;
+    max-width: 300px;
+    margin: 20px auto;
+  }
+  
+  .adsense-between-games {
+    width: 100%;
+    max-width: 336px;
+  }
+}
+
+@media (max-width: 480px) {
+  .adsense-header-banner {
+    margin: 15px auto;
+  }
+  
+  .adsense-between-games {
+    max-width: 300px;
+    height: 250px;
+  }
+  
+  .adsense-placeholder {
+    font-size: 11px;
+  }
+}
+
