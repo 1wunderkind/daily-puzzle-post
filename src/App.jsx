@@ -7,6 +7,10 @@ import RetentionFeatures, { trackDailyVisit } from './RetentionFeatures';
 import ABTesting, { useABTestingConversion } from './ABTesting';
 import SocialProof from './SocialProof';
 import ProgressBadges, { triggerPerfectGame, triggerFastGame } from './ProgressBadges';
+import WordOfTheDay from './WordOfTheDay';
+import BlogSection from './BlogSection';
+import GameVariations from './GameVariations';
+import SocialIntegration from './SocialIntegration';
 import { trackEvent } from './analytics';
 
 function App() {
@@ -33,6 +37,11 @@ function App() {
   // Game timing for achievements
   const [gameStartTime, setGameStartTime] = useState(null);
   const [perfectGame, setPerfectGame] = useState(true);
+
+  // New features state
+  const [currentView, setCurrentView] = useState('game'); // 'game', 'blog', 'variations'
+  const [wordOfTheDay, setWordOfTheDay] = useState(null);
+  const [isWordOfDayGame, setIsWordOfDayGame] = useState(false);
 
   const { trackConversion } = useABTestingConversion();
 
@@ -293,6 +302,46 @@ function App() {
     });
   };
 
+  // New feature handlers
+  const handleWordOfDaySelect = (word, hint, category, isWordOfDay = false) => {
+    setCurrentWord(word);
+    setCurrentHint(hint);
+    setCurrentCategory(category);
+    setGuessedLetters([]);
+    setWrongGuesses(0);
+    setGameStatus('playing');
+    setHintUsed(false);
+    setHintRevealed('');
+    setGameStartTime(Date.now());
+    setPerfectGame(true);
+    setIsWordOfDayGame(isWordOfDay);
+    setCurrentView('game');
+    
+    trackEvent('word_of_day_selected', {
+      word: word,
+      category: category,
+      is_word_of_day: isWordOfDay
+    });
+  };
+
+  const handleViewChange = (view) => {
+    setCurrentView(view);
+    trackEvent('view_change', {
+      from_view: currentView,
+      to_view: view
+    });
+  };
+
+  const handleGameSelect = (gameType) => {
+    if (gameType === 'hangman') {
+      setCurrentView('game');
+      startNewGame();
+    }
+    trackEvent('game_select', {
+      game_type: gameType
+    });
+  };
+
   const displayWord = () => {
     return currentWord
       .split('')
@@ -369,8 +418,23 @@ function App() {
       {/* Game Tabs */}
       <nav className="game-tabs">
         <div className="tabs-container">
-          <button className="tab-button active">
+          <button 
+            className={`tab-button ${currentView === 'game' ? 'active' : ''}`}
+            onClick={() => handleViewChange('game')}
+          >
             🎯 Hangman
+          </button>
+          <button 
+            className={`tab-button ${currentView === 'variations' ? 'active' : ''}`}
+            onClick={() => handleViewChange('variations')}
+          >
+            🎮 All Games
+          </button>
+          <button 
+            className={`tab-button ${currentView === 'blog' ? 'active' : ''}`}
+            onClick={() => handleViewChange('blog')}
+          >
+            📰 Strategy Tips
           </button>
           <button className="tab-button coming-soon">
             🔤 Word Scramble
@@ -389,38 +453,48 @@ function App() {
         onEmailCapture={handleEmailCapture}
       />
 
+      {/* Word of the Day */}
+      {currentView === 'game' && (
+        <WordOfTheDay 
+          onWordSelect={handleWordOfDaySelect}
+          currentWord={currentWord}
+          gameStatus={gameStatus}
+        />
+      )}
+
       {/* Main Content */}
       <main className="main-content">
-        <div className="content-container">
-          {/* Left Sidebar - Ads */}
-          <aside className="sidebar-left">
-            {!isPremium && (
-              <>
-                <div className="adsense-container adsense-sidebar-rectangle">
-                  <div className="ad-label-container">
-                    <span className="ad-label">Advertisement</span>
-                  </div>
-                  <div className="adsense-placeholder">
-                    <div>300 x 250</div>
-                    <div>Sidebar Ad</div>
-                    <div style={{ fontSize: '10px', marginTop: '10px' }}>
-                      {/* Replace with actual AdSense code */}
-                      {/* <ins className="adsbygoogle" style={{display:'block'}} data-ad-client="ca-pub-XXXXXXXXX" data-ad-slot="XXXXXXXXX" data-ad-format="auto"></ins> */}
+        {currentView === 'game' && (
+          <div className="content-container">
+            {/* Left Sidebar - Ads */}
+            <aside className="sidebar-left">
+              {!isPremium && (
+                <>
+                  <div className="adsense-container adsense-sidebar-rectangle">
+                    <div className="ad-label-container">
+                      <span className="ad-label">Advertisement</span>
+                    </div>
+                    <div className="adsense-placeholder">
+                      <div>300 x 250</div>
+                      <div>Sidebar Ad</div>
+                      <div style={{ fontSize: '10px', marginTop: '10px' }}>
+                        {/* Replace with actual AdSense code */}
+                        {/* <ins className="adsbygoogle" style={{display:'block'}} data-ad-client="ca-pub-XXXXXXXXX" data-ad-slot="XXXXXXXXX" data-ad-format="auto"></ins> */}
+                      </div>
                     </div>
                   </div>
-                </div>
-                
-                <SocialProof 
-                  currentWord={gameStatus === 'won' ? currentWord : null}
-                  gameStatus={gameStatus}
-                  onShare={handleShare}
-                />
-              </>
-            )}
-          </aside>
+                  
+                  <SocialProof 
+                    currentWord={gameStatus === 'won' ? currentWord : null}
+                    gameStatus={gameStatus}
+                    onShare={handleShare}
+                  />
+                </>
+              )}
+            </aside>
 
-          {/* Game Area */}
-          <section className="game-area">
+            {/* Game Area */}
+            <section className="game-area">
             {/* Header Ad */}
             {!isPremium && (
               <div className="adsense-container adsense-header-banner">
@@ -582,6 +656,30 @@ function App() {
             )}
           </aside>
         </div>
+        )}
+
+        {/* Blog View */}
+        {currentView === 'blog' && (
+          <BlogSection />
+        )}
+
+        {/* Game Variations View */}
+        {currentView === 'variations' && (
+          <GameVariations 
+            currentGame="hangman"
+            onGameSelect={handleGameSelect}
+          />
+        )}
+
+        {/* Social Integration - Always visible */}
+        <SocialIntegration 
+          currentScore={score}
+          currentStreak={streak}
+          gamesPlayed={gamesPlayed}
+          currentWord={currentWord}
+          gameStatus={gameStatus}
+          wordOfTheDay={wordOfTheDay}
+        />
       </main>
 
       {/* Footer */}
