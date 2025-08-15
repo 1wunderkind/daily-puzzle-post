@@ -3,574 +3,400 @@ from datetime import datetime, timedelta
 import json
 import os
 import uuid
-import re
-from werkzeug.utils import secure_filename
+import asyncio
+from ..services.lindy_moderation import lindy_moderator
 
-# Create blueprint
 community_bp = Blueprint('community', __name__)
 
-# Configuration
-COMMUNITY_DATA_DIR = '/home/ubuntu/daily-puzzle-post-github/community'
-MODERATION_QUEUE_DIR = os.path.join(COMMUNITY_DATA_DIR, 'moderation_queue')
-APPROVED_PUZZLES_DIR = os.path.join(COMMUNITY_DATA_DIR, 'approved')
-REJECTED_PUZZLES_DIR = os.path.join(COMMUNITY_DATA_DIR, 'rejected')
-FEATURED_PUZZLES_DIR = os.path.join(COMMUNITY_DATA_DIR, 'featured')
+# Community storage paths
+COMMUNITY_DIR = '/home/ubuntu/daily-puzzle-post-github/community'
+SUBMISSIONS_DIR = os.path.join(COMMUNITY_DIR, 'submissions')
+APPROVED_DIR = os.path.join(COMMUNITY_DIR, 'approved')
+REJECTED_DIR = os.path.join(COMMUNITY_DIR, 'rejected')
+REVIEW_QUEUE_DIR = os.path.join(COMMUNITY_DIR, 'review_queue')
 
 # Ensure directories exist
-for directory in [COMMUNITY_DATA_DIR, MODERATION_QUEUE_DIR, APPROVED_PUZZLES_DIR, REJECTED_PUZZLES_DIR, FEATURED_PUZZLES_DIR]:
+for directory in [COMMUNITY_DIR, SUBMISSIONS_DIR, APPROVED_DIR, REJECTED_DIR, REVIEW_QUEUE_DIR]:
     os.makedirs(directory, exist_ok=True)
-
-# Inappropriate content filter (basic)
-INAPPROPRIATE_WORDS = [
-    'damn', 'hell', 'hate', 'kill', 'death', 'murder', 'violence',
-    'racist', 'sexist', 'offensive', 'inappropriate', 'vulgar'
-]
 
 @community_bp.route('/health', methods=['GET'])
 def health_check():
     """Health check endpoint for community system"""
     return jsonify({
         'status': 'healthy',
-        'service': 'community_content',
+        'service': 'community_api',
         'timestamp': datetime.now().isoformat(),
-        'moderation_queue_size': len(os.listdir(MODERATION_QUEUE_DIR)),
-        'approved_puzzles': len(os.listdir(APPROVED_PUZZLES_DIR))
+        'moderation_enabled': True,
+        'lindy_integration': True
     })
 
-@community_bp.route('/submit-puzzle', methods=['POST'])
+@community_bp.route('/submit', methods=['POST'])
 def submit_puzzle():
-    """Submit a user-created puzzle for moderation"""
+    """
+    Submit a user-created puzzle for community review
+    Automatically processes through Lindy.ai moderation pipeline
+    """
     try:
         data = request.get_json()
         
         # Validate required fields
-        required_fields = ['title', 'grid', 'clues', 'author']
-        for field in required_fields:
-            if field not in data:
-                return jsonify({'error': f'Missing required field: {field}'}), 400
+        required_fields = ['title', 'author', 'puzzle_type', 'grid', 'clues']
+        missing_fields = [field for field in required_fields if not data.get(field)]
         
-        # Generate unique puzzle ID
-        puzzle_id = str(uuid.uuid4())
+        if missing_fields:
+            return jsonify({
+                'success': False,
+                'error': f'Missing required fields: {", ".join(missing_fields)}'
+            }), 400
         
-        # Create puzzle submission
-        submission = {
-            'id': puzzle_id,
+        # Generate unique submission ID
+        submission_id = str(uuid.uuid4())
+        submission_time = datetime.now().isoformat()
+        
+        # Prepare submission data
+        submission_data = {
+            'id': submission_id,
+            'submission_time': submission_time,
             'title': data['title'],
             'author': data['author'],
+            'email': data.get('email', ''),
+            'puzzle_type': data['puzzle_type'],
+            'difficulty': data.get('difficulty', 'medium'),
+            'theme': data.get('theme', 'none'),
             'grid': data['grid'],
             'clues': data['clues'],
-            'difficulty': data.get('difficulty', 'medium'),
-            'theme': data.get('theme', ''),
-            'description': data.get('description', ''),
-            'submitted_at': datetime.now().isoformat(),
-            'status': 'pending_moderation',
-            'moderation_notes': [],
-            'submission_ip': request.remote_addr,
-            'user_agent': request.headers.get('User-Agent', ''),
-            'metadata': {
-                'word_count': count_words_in_puzzle(data['grid'], data['clues']),
-                'grid_size': f"{len(data['grid'])}x{len(data['grid'][0])}",
-                'has_theme': bool(data.get('theme', '')),
-                'clue_count': count_clues(data['clues'])
+            'metadata': data.get('metadata', {}),
+            'constructor_notes': data.get('constructor_notes', ''),
+            'status': 'submitted',
+            'moderation_result': None,
+            'votes': {'thumbs_up': 0, 'total_votes': 0},
+            'featured': False
+        }
+        
+        # Save original submission
+        submission_file = os.path.join(SUBMISSIONS_DIR, f'{submission_id}.json')
+        with open(submission_file, 'w') as f:
+            json.dump(submission_data, f, indent=2)
+        
+        # Process through Lindy.ai moderation
+        try:
+            # Run moderation asynchronously
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            moderation_result = loop.run_until_complete(
+                lindy_moderator.moderate_puzzle(submission_data, data['puzzle_type'])
+            )
+            loop.close()
+            
+            # Update submission with moderation result
+            submission_data['moderation_result'] = moderation_result
+            submission_data['status'] = moderation_result['approval_status']
+            submission_data['moderation_time'] = moderation_result['moderation_time']
+            
+            # Move to appropriate directory based on moderation result
+            if moderation_result['approval_status'] == 'approved':
+                # Auto-approve high quality puzzles
+                approved_file = os.path.join(APPROVED_DIR, f'{submission_id}.json')
+                with open(approved_file, 'w') as f:
+                    json.dump(submission_data, f, indent=2)
+                
+                # Send approval email (simulated)
+                send_approval_email(submission_data)
+                
+            elif moderation_result['approval_status'] == 'human_review':
+                # Queue for human review
+                review_file = os.path.join(REVIEW_QUEUE_DIR, f'{submission_id}.json')
+                with open(review_file, 'w') as f:
+                    json.dump(submission_data, f, indent=2)
+                
+                # Send review notification email (simulated)
+                send_review_notification_email(submission_data)
+                
+            else:  # rejected
+                # Auto-reject low quality puzzles
+                rejected_file = os.path.join(REJECTED_DIR, f'{submission_id}.json')
+                with open(rejected_file, 'w') as f:
+                    json.dump(submission_data, f, indent=2)
+                
+                # Send rejection email with feedback (simulated)
+                send_rejection_email(submission_data)
+            
+            # Update original submission file
+            with open(submission_file, 'w') as f:
+                json.dump(submission_data, f, indent=2)
+            
+            return jsonify({
+                'success': True,
+                'submission_id': submission_id,
+                'status': submission_data['status'],
+                'quality_score': moderation_result['quality_score'],
+                'feedback': moderation_result['feedback'],
+                'suggested_edits': moderation_result['suggested_edits'],
+                'estimated_review_time': get_estimated_review_time(moderation_result['approval_status']),
+                'message': get_status_message(moderation_result['approval_status'])
+            })
+            
+        except Exception as moderation_error:
+            # Fallback to human review if moderation fails
+            submission_data['status'] = 'human_review'
+            submission_data['moderation_error'] = str(moderation_error)
+            
+            review_file = os.path.join(REVIEW_QUEUE_DIR, f'{submission_id}.json')
+            with open(review_file, 'w') as f:
+                json.dump(submission_data, f, indent=2)
+            
+            with open(submission_file, 'w') as f:
+                json.dump(submission_data, f, indent=2)
+            
+            return jsonify({
+                'success': True,
+                'submission_id': submission_id,
+                'status': 'human_review',
+                'message': 'Puzzle submitted for human review due to technical issue.',
+                'estimated_review_time': '2-3 business days'
+            })
+    
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': f'Submission failed: {str(e)}'
+        }), 500
+
+@community_bp.route('/sunday-puzzle', methods=['GET'])
+def get_sunday_readers_puzzle():
+    """Get the current Sunday Reader's Puzzle (best of the week)"""
+    try:
+        # Get current week's date range
+        today = datetime.now()
+        week_start = today - timedelta(days=today.weekday())
+        week_end = week_start + timedelta(days=6)
+        
+        # Find the best puzzle from this week
+        best_puzzle = None
+        best_score = 0
+        
+        if os.path.exists(APPROVED_DIR):
+            for filename in os.listdir(APPROVED_DIR):
+                if filename.endswith('.json'):
+                    with open(os.path.join(APPROVED_DIR, filename), 'r') as f:
+                        puzzle_data = json.load(f)
+                        
+                        # Check if puzzle was submitted this week
+                        submission_date = datetime.fromisoformat(puzzle_data['submission_time'].replace('Z', '+00:00'))
+                        if week_start <= submission_date <= week_end:
+                            
+                            # Calculate composite score (quality + votes)
+                            quality_score = puzzle_data.get('moderation_result', {}).get('quality_score', 0)
+                            vote_score = puzzle_data.get('votes', {}).get('thumbs_up', 0)
+                            composite_score = quality_score + (vote_score * 0.5)  # Weight votes less than quality
+                            
+                            if composite_score > best_score:
+                                best_score = composite_score
+                                best_puzzle = puzzle_data
+        
+        if best_puzzle:
+            return jsonify({
+                'success': True,
+                'sunday_puzzle': {
+                    'id': best_puzzle['id'],
+                    'title': best_puzzle['title'],
+                    'author': best_puzzle['author'],
+                    'puzzle_type': best_puzzle['puzzle_type'],
+                    'difficulty': best_puzzle['difficulty'],
+                    'theme': best_puzzle['theme'],
+                    'grid': best_puzzle['grid'],
+                    'clues': best_puzzle['clues'],
+                    'quality_score': best_puzzle.get('moderation_result', {}).get('quality_score', 0),
+                    'votes': best_puzzle.get('votes', {'thumbs_up': 0, 'total_votes': 0}),
+                    'composite_score': best_score,
+                    'week_start': week_start.isoformat(),
+                    'week_end': week_end.isoformat()
+                }
+            })
+        else:
+            return jsonify({
+                'success': True,
+                'sunday_puzzle': None,
+                'message': 'No qualifying puzzles for this week'
+            })
+    
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': f'Failed to get Sunday puzzle: {str(e)}'
+        }), 500
+
+@community_bp.route('/weekly-digest', methods=['GET'])
+def get_weekly_digest():
+    """Generate weekly digest of community activity"""
+    try:
+        # Get current week's date range
+        today = datetime.now()
+        week_start = today - timedelta(days=today.weekday())
+        week_end = week_start + timedelta(days=6)
+        
+        digest_data = {
+            'week_start': week_start.isoformat(),
+            'week_end': week_end.isoformat(),
+            'new_submissions': 0,
+            'approved_puzzles': [],
+            'featured_puzzle': None,
+            'top_voted_puzzles': [],
+            'community_stats': {
+                'total_approved': 0,
+                'total_votes': 0,
+                'active_constructors': set()
             }
         }
         
-        # Basic content validation
-        validation_result = validate_puzzle_content(submission)
-        if not validation_result['is_valid']:
-            return jsonify({
-                'error': 'Puzzle content validation failed',
-                'issues': validation_result['issues']
-            }), 400
+        # Collect weekly data
+        for directory, status in [(SUBMISSIONS_DIR, 'submitted'), (APPROVED_DIR, 'approved'), (REJECTED_DIR, 'rejected')]:
+            if os.path.exists(directory):
+                for filename in os.listdir(directory):
+                    if filename.endswith('.json'):
+                        with open(os.path.join(directory, filename), 'r') as f:
+                            puzzle_data = json.load(f)
+                            
+                            submission_date = datetime.fromisoformat(puzzle_data['submission_time'].replace('Z', '+00:00'))
+                            if week_start <= submission_date <= week_end:
+                                
+                                if status == 'submitted':
+                                    digest_data['new_submissions'] += 1
+                                elif status == 'approved':
+                                    puzzle_summary = {
+                                        'id': puzzle_data['id'],
+                                        'title': puzzle_data['title'],
+                                        'author': puzzle_data['author'],
+                                        'theme': puzzle_data.get('theme', 'none'),
+                                        'quality_score': puzzle_data.get('moderation_result', {}).get('quality_score', 0),
+                                        'votes': puzzle_data.get('votes', {'thumbs_up': 0, 'total_votes': 0})
+                                    }
+                                    digest_data['approved_puzzles'].append(puzzle_summary)
+                                    digest_data['community_stats']['active_constructors'].add(puzzle_data['author'])
+                                    digest_data['community_stats']['total_votes'] += puzzle_data.get('votes', {}).get('thumbs_up', 0)
         
-        # Save to moderation queue
-        queue_file = os.path.join(MODERATION_QUEUE_DIR, f'{puzzle_id}.json')
-        with open(queue_file, 'w') as f:
-            json.dump(submission, f, indent=2)
+        # Convert set to count
+        digest_data['community_stats']['active_constructors'] = len(digest_data['community_stats']['active_constructors'])
+        digest_data['community_stats']['total_approved'] = len(digest_data['approved_puzzles'])
         
-        # Log submission for analytics
-        log_puzzle_submission(submission)
+        # Get top voted puzzles
+        digest_data['top_voted_puzzles'] = sorted(
+            digest_data['approved_puzzles'], 
+            key=lambda x: x['votes']['thumbs_up'], 
+            reverse=True
+        )[:3]
+        
+        # Get featured puzzle (Sunday Reader's Puzzle)
+        sunday_puzzle_response = get_sunday_readers_puzzle()
+        if sunday_puzzle_response[1] == 200:  # Success
+            sunday_data = sunday_puzzle_response[0].get_json()
+            if sunday_data.get('sunday_puzzle'):
+                digest_data['featured_puzzle'] = sunday_data['sunday_puzzle']
         
         return jsonify({
             'success': True,
-            'puzzle_id': puzzle_id,
-            'message': 'Puzzle submitted successfully for moderation',
-            'estimated_review_time': '24-48 hours'
+            'weekly_digest': digest_data
         })
-        
+    
     except Exception as e:
-        return jsonify({'error': f'Submission failed: {str(e)}'}), 500
+        return jsonify({
+            'success': False,
+            'error': f'Failed to generate weekly digest: {str(e)}'
+        }), 500
 
-@community_bp.route('/moderation-queue', methods=['GET'])
-def get_moderation_queue():
-    """Get puzzles in moderation queue (for admin/Lindy.ai)"""
+@community_bp.route('/moderation/stats', methods=['GET'])
+def get_moderation_stats():
+    """Get moderation statistics for admin dashboard"""
     try:
-        queue_files = os.listdir(MODERATION_QUEUE_DIR)
-        puzzles = []
-        
-        for filename in queue_files:
-            if filename.endswith('.json'):
-                file_path = os.path.join(MODERATION_QUEUE_DIR, filename)
-                with open(file_path, 'r') as f:
-                    puzzle = json.load(f)
-                    # Add summary info only
-                    puzzles.append({
-                        'id': puzzle['id'],
-                        'title': puzzle['title'],
-                        'author': puzzle['author'],
-                        'submitted_at': puzzle['submitted_at'],
-                        'word_count': puzzle['metadata']['word_count'],
-                        'difficulty': puzzle['difficulty'],
-                        'theme': puzzle.get('theme', ''),
-                        'status': puzzle['status']
-                    })
-        
-        # Sort by submission date (newest first)
-        puzzles.sort(key=lambda x: x['submitted_at'], reverse=True)
+        days = int(request.args.get('days', 7))
+        stats = lindy_moderator.get_moderation_stats(days)
         
         return jsonify({
             'success': True,
-            'queue_size': len(puzzles),
-            'puzzles': puzzles
+            'stats': stats,
+            'period_days': days
         })
-        
+    
     except Exception as e:
-        return jsonify({'error': f'Failed to get moderation queue: {str(e)}'}), 500
-
-@community_bp.route('/moderate-puzzle/<puzzle_id>', methods=['POST'])
-def moderate_puzzle(puzzle_id):
-    """Moderate a puzzle (approve/reject) - for Lindy.ai automation"""
-    try:
-        data = request.get_json()
-        action = data.get('action')  # 'approve' or 'reject'
-        notes = data.get('notes', '')
-        moderator = data.get('moderator', 'lindy_ai')
-        
-        if action not in ['approve', 'reject']:
-            return jsonify({'error': 'Action must be "approve" or "reject"'}), 400
-        
-        # Load puzzle from moderation queue
-        queue_file = os.path.join(MODERATION_QUEUE_DIR, f'{puzzle_id}.json')
-        if not os.path.exists(queue_file):
-            return jsonify({'error': 'Puzzle not found in moderation queue'}), 404
-        
-        with open(queue_file, 'r') as f:
-            puzzle = json.load(f)
-        
-        # Update puzzle with moderation decision
-        puzzle['status'] = 'approved' if action == 'approve' else 'rejected'
-        puzzle['moderated_at'] = datetime.now().isoformat()
-        puzzle['moderator'] = moderator
-        puzzle['moderation_notes'].append({
-            'action': action,
-            'notes': notes,
-            'timestamp': datetime.now().isoformat(),
-            'moderator': moderator
-        })
-        
-        # Move to appropriate directory
-        if action == 'approve':
-            target_dir = APPROVED_PUZZLES_DIR
-            # Add to community rotation if approved
-            add_to_community_rotation(puzzle)
-        else:
-            target_dir = REJECTED_PUZZLES_DIR
-        
-        target_file = os.path.join(target_dir, f'{puzzle_id}.json')
-        with open(target_file, 'w') as f:
-            json.dump(puzzle, f, indent=2)
-        
-        # Remove from moderation queue
-        os.remove(queue_file)
-        
-        # Log moderation decision
-        log_moderation_decision(puzzle, action, moderator)
-        
         return jsonify({
-            'success': True,
-            'puzzle_id': puzzle_id,
-            'action': action,
-            'message': f'Puzzle {action}d successfully'
-        })
-        
-    except Exception as e:
-        return jsonify({'error': f'Moderation failed: {str(e)}'}), 500
+            'success': False,
+            'error': f'Failed to get moderation stats: {str(e)}'
+        }), 500
 
-@community_bp.route('/approved-puzzles', methods=['GET'])
-def get_approved_puzzles():
-    """Get approved community puzzles"""
-    try:
-        page = int(request.args.get('page', 1))
-        per_page = int(request.args.get('per_page', 10))
-        theme_filter = request.args.get('theme', '')
-        difficulty_filter = request.args.get('difficulty', '')
-        
-        approved_files = os.listdir(APPROVED_PUZZLES_DIR)
-        puzzles = []
-        
-        for filename in approved_files:
-            if filename.endswith('.json'):
-                file_path = os.path.join(APPROVED_PUZZLES_DIR, filename)
-                with open(file_path, 'r') as f:
-                    puzzle = json.load(f)
-                    
-                    # Apply filters
-                    if theme_filter and puzzle.get('theme', '').lower() != theme_filter.lower():
-                        continue
-                    if difficulty_filter and puzzle.get('difficulty', '') != difficulty_filter:
-                        continue
-                    
-                    # Add public info only
-                    puzzles.append({
-                        'id': puzzle['id'],
-                        'title': puzzle['title'],
-                        'author': puzzle['author'],
-                        'difficulty': puzzle['difficulty'],
-                        'theme': puzzle.get('theme', ''),
-                        'description': puzzle.get('description', ''),
-                        'word_count': puzzle['metadata']['word_count'],
-                        'grid_size': puzzle['metadata']['grid_size'],
-                        'approved_at': puzzle.get('moderated_at', ''),
-                        'play_count': puzzle.get('play_count', 0),
-                        'rating': puzzle.get('average_rating', 0)
-                    })
-        
-        # Sort by approval date (newest first)
-        puzzles.sort(key=lambda x: x['approved_at'], reverse=True)
-        
-        # Pagination
-        start_idx = (page - 1) * per_page
-        end_idx = start_idx + per_page
-        paginated_puzzles = puzzles[start_idx:end_idx]
-        
-        return jsonify({
-            'success': True,
-            'puzzles': paginated_puzzles,
-            'pagination': {
-                'page': page,
-                'per_page': per_page,
-                'total': len(puzzles),
-                'pages': (len(puzzles) + per_page - 1) // per_page
-            }
-        })
-        
-    except Exception as e:
-        return jsonify({'error': f'Failed to get approved puzzles: {str(e)}'}), 500
-
-@community_bp.route('/puzzle/<puzzle_id>', methods=['GET'])
-def get_puzzle_details(puzzle_id):
-    """Get full puzzle details for playing"""
-    try:
-        # Check approved puzzles first
-        approved_file = os.path.join(APPROVED_PUZZLES_DIR, f'{puzzle_id}.json')
-        featured_file = os.path.join(FEATURED_PUZZLES_DIR, f'{puzzle_id}.json')
-        
-        puzzle_file = None
-        if os.path.exists(approved_file):
-            puzzle_file = approved_file
-        elif os.path.exists(featured_file):
-            puzzle_file = featured_file
-        
-        if not puzzle_file:
-            return jsonify({'error': 'Puzzle not found'}), 404
-        
-        with open(puzzle_file, 'r') as f:
-            puzzle = json.load(f)
-        
-        # Increment play count
-        puzzle['play_count'] = puzzle.get('play_count', 0) + 1
-        puzzle['last_played'] = datetime.now().isoformat()
-        
-        # Save updated play count
-        with open(puzzle_file, 'w') as f:
-            json.dump(puzzle, f, indent=2)
-        
-        # Return puzzle data for playing
-        return jsonify({
-            'success': True,
-            'puzzle': {
-                'id': puzzle['id'],
-                'title': puzzle['title'],
-                'author': puzzle['author'],
-                'difficulty': puzzle['difficulty'],
-                'theme': puzzle.get('theme', ''),
-                'description': puzzle.get('description', ''),
-                'grid': puzzle['grid'],
-                'clues': puzzle['clues'],
-                'metadata': puzzle['metadata'],
-                'play_count': puzzle['play_count']
-            }
-        })
-        
-    except Exception as e:
-        return jsonify({'error': f'Failed to get puzzle: {str(e)}'}), 500
-
-@community_bp.route('/featured-puzzle', methods=['GET'])
-def get_featured_puzzle():
-    """Get current featured puzzle (Reader's Puzzle of the Week)"""
-    try:
-        # Get current week's featured puzzle
-        week_key = get_week_key()
-        featured_file = os.path.join(FEATURED_PUZZLES_DIR, f'week_{week_key}.json')
-        
-        if os.path.exists(featured_file):
-            with open(featured_file, 'r') as f:
-                featured_data = json.load(f)
-            
-            # Get full puzzle details
-            puzzle_file = os.path.join(APPROVED_PUZZLES_DIR, f"{featured_data['puzzle_id']}.json")
-            if os.path.exists(puzzle_file):
-                with open(puzzle_file, 'r') as f:
-                    puzzle = json.load(f)
-                
-                return jsonify({
-                    'success': True,
-                    'featured_puzzle': {
-                        'id': puzzle['id'],
-                        'title': puzzle['title'],
-                        'author': puzzle['author'],
-                        'difficulty': puzzle['difficulty'],
-                        'theme': puzzle.get('theme', ''),
-                        'description': puzzle.get('description', ''),
-                        'grid': puzzle['grid'],
-                        'clues': puzzle['clues'],
-                        'featured_week': week_key,
-                        'featured_reason': featured_data.get('reason', 'Selected by our editorial team')
-                    }
-                })
-        
-        # No featured puzzle for this week
-        return jsonify({
-            'success': True,
-            'featured_puzzle': None,
-            'message': 'No featured puzzle for this week'
-        })
-        
-    except Exception as e:
-        return jsonify({'error': f'Failed to get featured puzzle: {str(e)}'}), 500
-
-@community_bp.route('/lindy/auto-moderate', methods=['POST'])
-def lindy_auto_moderate():
-    """Lindy.ai automated moderation endpoint"""
-    try:
-        data = request.get_json()
-        batch_size = data.get('batch_size', 5)
-        
-        # Get puzzles from moderation queue
-        queue_files = os.listdir(MODERATION_QUEUE_DIR)[:batch_size]
-        results = []
-        
-        for filename in queue_files:
-            if filename.endswith('.json'):
-                file_path = os.path.join(MODERATION_QUEUE_DIR, filename)
-                with open(file_path, 'r') as f:
-                    puzzle = json.load(f)
-                
-                # Automated moderation logic
-                moderation_result = auto_moderate_puzzle(puzzle)
-                
-                # Apply moderation decision
-                if moderation_result['action'] in ['approve', 'reject']:
-                    moderate_result = moderate_puzzle_internal(
-                        puzzle['id'], 
-                        moderation_result['action'],
-                        moderation_result['notes'],
-                        'lindy_ai_auto'
-                    )
-                    results.append({
-                        'puzzle_id': puzzle['id'],
-                        'title': puzzle['title'],
-                        'action': moderation_result['action'],
-                        'confidence': moderation_result['confidence'],
-                        'notes': moderation_result['notes']
-                    })
-        
-        return jsonify({
-            'success': True,
-            'processed': len(results),
-            'results': results
-        })
-        
-    except Exception as e:
-        return jsonify({'error': f'Auto-moderation failed: {str(e)}'}), 500
-
-# Helper functions
-def count_words_in_puzzle(grid, clues):
-    """Count total words in puzzle"""
-    across_count = len(clues.get('across', {}))
-    down_count = len(clues.get('down', {}))
-    return across_count + down_count
-
-def count_clues(clues):
-    """Count total clues"""
-    return count_words_in_puzzle([], clues)
-
-def validate_puzzle_content(puzzle):
-    """Basic content validation"""
-    issues = []
+# Email automation functions (simulated)
+def send_approval_email(submission_data):
+    """Send approval email to puzzle constructor (simulated)"""
+    print(f"📧 APPROVAL EMAIL: {submission_data['title']} by {submission_data['author']} has been approved!")
     
-    # Check for inappropriate content
-    all_text = json.dumps(puzzle).lower()
-    for word in INAPPROPRIATE_WORDS:
-        if word in all_text:
-            issues.append(f'Contains potentially inappropriate content: {word}')
-    
-    # Check puzzle structure
-    if not puzzle.get('grid') or not puzzle.get('clues'):
-        issues.append('Missing grid or clues')
-    
-    # Check minimum word count
-    word_count = puzzle['metadata']['word_count']
-    if word_count < 5:
-        issues.append('Puzzle must have at least 5 words')
-    
-    # Check title length
-    if len(puzzle.get('title', '')) < 3:
-        issues.append('Title must be at least 3 characters')
-    
-    return {
-        'is_valid': len(issues) == 0,
-        'issues': issues
-    }
-
-def add_to_community_rotation(puzzle):
-    """Add approved puzzle to community rotation"""
-    rotation_file = os.path.join(COMMUNITY_DATA_DIR, 'rotation.json')
-    
-    if os.path.exists(rotation_file):
-        with open(rotation_file, 'r') as f:
-            rotation = json.load(f)
-    else:
-        rotation = {'puzzles': []}
-    
-    # Add puzzle to rotation
-    rotation['puzzles'].append({
-        'id': puzzle['id'],
-        'title': puzzle['title'],
-        'author': puzzle['author'],
-        'difficulty': puzzle['difficulty'],
-        'added_at': datetime.now().isoformat()
-    })
-    
-    with open(rotation_file, 'w') as f:
-        json.dump(rotation, f, indent=2)
-
-def log_puzzle_submission(puzzle):
-    """Log puzzle submission for analytics"""
-    log_entry = {
-        'event': 'puzzle_submitted',
-        'puzzle_id': puzzle['id'],
-        'author': puzzle['author'],
-        'word_count': puzzle['metadata']['word_count'],
-        'difficulty': puzzle['difficulty'],
-        'has_theme': puzzle['metadata']['has_theme'],
-        'timestamp': datetime.now().isoformat()
-    }
-    
-    log_file = os.path.join(COMMUNITY_DATA_DIR, 'submission_log.jsonl')
-    with open(log_file, 'a') as f:
-        f.write(json.dumps(log_entry) + '\n')
-
-def log_moderation_decision(puzzle, action, moderator):
-    """Log moderation decision for analytics"""
-    log_entry = {
-        'event': 'puzzle_moderated',
-        'puzzle_id': puzzle['id'],
-        'action': action,
-        'moderator': moderator,
-        'word_count': puzzle['metadata']['word_count'],
-        'difficulty': puzzle['difficulty'],
-        'timestamp': datetime.now().isoformat()
-    }
-    
-    log_file = os.path.join(COMMUNITY_DATA_DIR, 'moderation_log.jsonl')
-    with open(log_file, 'a') as f:
-        f.write(json.dumps(log_entry) + '\n')
-
-def get_week_key():
-    """Get current week key for featured puzzles"""
-    now = datetime.now()
-    year = now.year
-    week = now.isocalendar()[1]
-    return f'{year}W{week:02d}'
-
-def auto_moderate_puzzle(puzzle):
-    """Automated moderation logic for Lindy.ai"""
-    confidence = 0.8
-    issues = []
-    
-    # Check content appropriateness
-    all_text = json.dumps(puzzle).lower()
-    inappropriate_found = False
-    for word in INAPPROPRIATE_WORDS:
-        if word in all_text:
-            issues.append(f'Contains inappropriate content: {word}')
-            inappropriate_found = True
-    
-    # Check puzzle quality
-    word_count = puzzle['metadata']['word_count']
-    if word_count < 8:
-        issues.append('Too few words for quality puzzle')
-        confidence -= 0.2
-    
-    # Check clue quality (basic)
-    clues = puzzle.get('clues', {})
-    total_clues = len(clues.get('across', {})) + len(clues.get('down', {}))
-    if total_clues < word_count:
-        issues.append('Missing clues for some words')
-        confidence -= 0.3
-    
-    # Make decision
-    if inappropriate_found:
-        action = 'reject'
-        notes = 'Rejected due to inappropriate content'
-    elif confidence < 0.5:
-        action = 'reject'
-        notes = f'Rejected due to quality issues: {"; ".join(issues)}'
-    else:
-        action = 'approve'
-        notes = 'Approved by automated moderation'
-    
-    return {
-        'action': action,
-        'confidence': confidence,
-        'notes': notes,
-        'issues': issues
-    }
-
-def moderate_puzzle_internal(puzzle_id, action, notes, moderator):
-    """Internal moderation function"""
-    queue_file = os.path.join(MODERATION_QUEUE_DIR, f'{puzzle_id}.json')
-    if not os.path.exists(queue_file):
-        return False
-    
-    with open(queue_file, 'r') as f:
-        puzzle = json.load(f)
-    
-    # Update puzzle
-    puzzle['status'] = 'approved' if action == 'approve' else 'rejected'
-    puzzle['moderated_at'] = datetime.now().isoformat()
-    puzzle['moderator'] = moderator
-    puzzle['moderation_notes'].append({
-        'action': action,
-        'notes': notes,
+    email_log = {
+        'type': 'approval',
+        'recipient': submission_data.get('email', 'unknown'),
+        'puzzle_id': submission_data['id'],
+        'puzzle_title': submission_data['title'],
+        'author': submission_data['author'],
         'timestamp': datetime.now().isoformat(),
-        'moderator': moderator
-    })
+        'quality_score': submission_data.get('moderation_result', {}).get('quality_score', 0)
+    }
     
-    # Move to appropriate directory
-    target_dir = APPROVED_PUZZLES_DIR if action == 'approve' else REJECTED_PUZZLES_DIR
-    target_file = os.path.join(target_dir, f'{puzzle_id}.json')
+    log_email(email_log)
+
+def send_rejection_email(submission_data):
+    """Send rejection email with feedback (simulated)"""
+    print(f"📧 REJECTION EMAIL: {submission_data['title']} by {submission_data['author']} needs improvement")
     
-    with open(target_file, 'w') as f:
-        json.dump(puzzle, f, indent=2)
+    email_log = {
+        'type': 'rejection',
+        'recipient': submission_data.get('email', 'unknown'),
+        'puzzle_id': submission_data['id'],
+        'puzzle_title': submission_data['title'],
+        'author': submission_data['author'],
+        'timestamp': datetime.now().isoformat(),
+        'feedback': submission_data.get('moderation_result', {}).get('feedback', ''),
+        'suggested_edits': submission_data.get('moderation_result', {}).get('suggested_edits', [])
+    }
     
-    # Remove from queue
-    os.remove(queue_file)
+    log_email(email_log)
+
+def send_review_notification_email(submission_data):
+    """Send review notification email (simulated)"""
+    print(f"📧 REVIEW EMAIL: {submission_data['title']} by {submission_data['author']} is under review")
     
-    # Add to rotation if approved
-    if action == 'approve':
-        add_to_community_rotation(puzzle)
+    email_log = {
+        'type': 'review_notification',
+        'recipient': submission_data.get('email', 'unknown'),
+        'puzzle_id': submission_data['id'],
+        'puzzle_title': submission_data['title'],
+        'author': submission_data['author'],
+        'timestamp': datetime.now().isoformat(),
+        'estimated_review_time': '2-3 business days'
+    }
     
-    return True
+    log_email(email_log)
+
+def log_email(email_log):
+    """Log email for analytics and automation"""
+    log_dir = '/home/ubuntu/daily-puzzle-post-github/community/email_logs'
+    os.makedirs(log_dir, exist_ok=True)
+    
+    log_file = os.path.join(log_dir, f"emails_{datetime.now().strftime('%Y%m%d')}.jsonl")
+    with open(log_file, 'a') as f:
+        f.write(json.dumps(email_log) + '\n')
+
+def get_estimated_review_time(status):
+    """Get estimated review time based on status"""
+    if status == 'approved':
+        return 'Approved immediately'
+    elif status == 'rejected':
+        return 'Reviewed immediately'
+    else:  # human_review
+        return '2-3 business days'
+
+def get_status_message(status):
+    """Get user-friendly status message"""
+    if status == 'approved':
+        return 'Congratulations! Your puzzle has been approved and will appear in our community section.'
+    elif status == 'rejected':
+        return 'Your puzzle needs some improvements before publication. Please review the feedback and try again.'
+    else:  # human_review
+        return 'Your puzzle is being reviewed by our editorial team. You will receive an email with the decision.'
 
