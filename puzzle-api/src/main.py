@@ -13,8 +13,12 @@ from src.routes.puzzle_api import puzzle_bp
 from src.routes.hangman_api import hangman_bp
 from src.routes.premium_api import premium_api
 from src.routes.sudoku_api import sudoku_api
+from src.routes.wordsearch_api import wordsearch_api
 from src.routes.community_api import community_bp
 from src.routes.paypal_api import paypal_api
+from src.routes.analytics_api import analytics_api
+from src.routes.blog_api import blog_api
+from src.routes.social_api import social_api
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 app.config['SECRET_KEY'] = 'asdf#FGSgvasgf$5$WGT'
@@ -28,8 +32,12 @@ app.register_blueprint(puzzle_bp)
 app.register_blueprint(hangman_bp)
 app.register_blueprint(premium_api)
 app.register_blueprint(sudoku_api)
+app.register_blueprint(wordsearch_api)
 app.register_blueprint(community_bp)
 app.register_blueprint(paypal_api, url_prefix='/api/premium/paypal')
+app.register_blueprint(analytics_api)
+app.register_blueprint(blog_api)
+app.register_blueprint(social_api)
 
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(os.path.dirname(__file__), 'database', 'app.db')}"
