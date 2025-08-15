@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 
 // Simple Stripe integration for premium subscriptions
-const StripeIntegration = ({ onSuccess, onError }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState('');
+const StripeIntegration = ({ 
+  email, 
+  onPaymentSuccess, 
+  onPaymentError, 
+  isLoading, 
+  setIsLoading 
+}) => {
 
   // Stripe configuration
   const STRIPE_PUBLISHABLE_KEY = 'pk_test_XXXXXXXXXX'; // Replace with actual key
@@ -13,7 +17,7 @@ const StripeIntegration = ({ onSuccess, onError }) => {
 
   const handleStripeCheckout = async () => {
     if (!email || !email.includes('@')) {
-      onError('Please enter a valid email address');
+      onPaymentError('Please enter a valid email address');
       return;
     }
 
@@ -68,9 +72,12 @@ const StripeIntegration = ({ onSuccess, onError }) => {
         window.location.href = session.url;
       }
 
+      // Call success callback
+      onPaymentSuccess();
+
     } catch (error) {
       console.error('Stripe checkout error:', error);
-      onError(error.message || 'Payment processing failed. Please try again.');
+      onPaymentError(error.message || 'Payment processing failed. Please try again.');
       
       // Track error
       if (window.gtag) {
@@ -88,25 +95,6 @@ const StripeIntegration = ({ onSuccess, onError }) => {
   return (
     <div className="stripe-integration">
       <div className="premium-form">
-        <div className="form-group">
-          <label htmlFor="email" className="form-label">
-            Email Address
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="your@email.com"
-            className="form-input"
-            required
-            disabled={isLoading}
-          />
-          <small className="form-help">
-            We'll send your premium access link to this email
-          </small>
-        </div>
-
         <button
           onClick={handleStripeCheckout}
           disabled={isLoading || !email}

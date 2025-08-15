@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import StripeIntegration from './StripeIntegration'
+import PayPalIntegration from './PayPalIntegration'
 
 function PremiumModal({ isOpen, onClose, onUpgrade }) {
   const [isProcessing, setIsProcessing] = useState(false)
   const [error, setError] = useState('')
+  const [email, setEmail] = useState('')
+  const [paymentMethod, setPaymentMethod] = useState('stripe') // 'stripe' or 'paypal'
 
   // Handle escape key to close modal
   useEffect(() => {
@@ -33,6 +36,16 @@ function PremiumModal({ isOpen, onClose, onUpgrade }) {
   }
 
   const handleStripeError = (errorMessage) => {
+    setError(errorMessage)
+    setIsProcessing(false)
+  }
+
+  const handlePayPalSuccess = () => {
+    onUpgrade()
+    onClose()
+  }
+
+  const handlePayPalError = (errorMessage) => {
     setError(errorMessage)
     setIsProcessing(false)
   }
@@ -82,15 +95,65 @@ function PremiumModal({ isOpen, onClose, onUpgrade }) {
           )}
 
           <div className="payment-section">
-            <StripeIntegration 
-              onSuccess={handleStripeSuccess}
-              onError={handleStripeError}
-            />
+            <div className="email-input-section">
+              <label htmlFor="premium-email">Email Address (for magic link access):</label>
+              <input
+                id="premium-email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                className="email-input"
+                required
+              />
+            </div>
+
+            <div className="payment-method-selector">
+              <h3>Choose Payment Method:</h3>
+              <div className="payment-method-tabs">
+                <button
+                  className={`payment-tab ${paymentMethod === 'stripe' ? 'active' : ''}`}
+                  onClick={() => setPaymentMethod('stripe')}
+                >
+                  💳 Credit Card
+                </button>
+                <button
+                  className={`payment-tab ${paymentMethod === 'paypal' ? 'active' : ''}`}
+                  onClick={() => setPaymentMethod('paypal')}
+                >
+                  🅿️ PayPal
+                </button>
+              </div>
+            </div>
+
+            {paymentMethod === 'stripe' && (
+              <div className="stripe-payment">
+                <StripeIntegration 
+                  email={email}
+                  onPaymentSuccess={handleStripeSuccess}
+                  onPaymentError={handleStripeError}
+                  isLoading={isProcessing}
+                  setIsLoading={setIsProcessing}
+                />
+              </div>
+            )}
+
+            {paymentMethod === 'paypal' && (
+              <div className="paypal-payment">
+                <PayPalIntegration 
+                  email={email}
+                  onPaymentSuccess={handlePayPalSuccess}
+                  onPaymentError={handlePayPalError}
+                  isLoading={isProcessing}
+                  setIsLoading={setIsProcessing}
+                />
+              </div>
+            )}
           </div>
 
           <div className="premium-guarantee">
             <p>✅ 30-day money-back guarantee</p>
-            <p>🔒 Secure payment processing via Stripe</p>
+            <p>🔒 Secure payment processing via Stripe & PayPal</p>
             <p>📱 Works on all your devices</p>
             <p>📧 Magic link access - no passwords needed</p>
           </div>
