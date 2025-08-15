@@ -11,6 +11,7 @@ from src.models.hangman import HangmanWord, HangmanRotation, HangmanInjection, H
 from src.routes.user import user_bp
 from src.routes.puzzle_api import puzzle_bp
 from src.routes.hangman_api import hangman_bp
+from src.routes.premium_api import premium_api
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 app.config['SECRET_KEY'] = 'asdf#FGSgvasgf$5$WGT'
@@ -22,6 +23,7 @@ CORS(app, origins="*")
 app.register_blueprint(user_bp, url_prefix='/api')
 app.register_blueprint(puzzle_bp, url_prefix='/api/puzzles')
 app.register_blueprint(hangman_bp, url_prefix='/api/hangman')
+app.register_blueprint(premium_api, url_prefix='/api/premium')
 
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(os.path.dirname(__file__), 'database', 'app.db')}"

@@ -14,6 +14,9 @@ import SocialIntegration from './SocialIntegration';
 import DailyCrossword from './DailyCrossword';
 import { hybridHangmanLoader, hangmanLindyHelpers } from './hangmanAPI';
 import { trackEvent } from './analytics';
+import { HeaderAd, SidebarAd, TextAd } from './AdPlacement';
+import ArchiveAccess, { AdController } from './ArchiveAccess';
+import { checkPremiumStatus } from './StripeIntegration';
 
 function App() {
   // Game state
@@ -34,7 +37,7 @@ function App() {
   
   // Premium and monetization
   const [showPremiumModal, setShowPremiumModal] = useState(false);
-  const [isPremium, setIsPremium] = useState(false);
+  const [isPremium, setIsPremium] = useState(checkPremiumStatus());
   
   // Game timing for achievements
   const [gameStartTime, setGameStartTime] = useState(null);
@@ -55,18 +58,27 @@ function App() {
     const savedScore = localStorage.getItem('dpp_score');
     const savedStreak = localStorage.getItem('dpp_streak');
     const savedGamesPlayed = localStorage.getItem('dpp_games_played');
-    const savedPremium = localStorage.getItem('dpp_premium_status');
     
     if (savedScore) setScore(parseInt(savedScore));
     if (savedStreak) setStreak(parseInt(savedStreak));
     if (savedGamesPlayed) setGamesPlayed(parseInt(savedGamesPlayed));
-    if (savedPremium === 'true') setIsPremium(true);
+    
+    // Initialize ad control based on premium status
+    AdController.initializeAdControl();
+    
+    // Listen for premium modal trigger
+    const handleShowPremiumModal = () => setShowPremiumModal(true);
+    window.addEventListener('showPremiumModal', handleShowPremiumModal);
     
     // Track daily visit for retention
     trackDailyVisit();
     
     // Start first game
     startNewGame();
+    
+    return () => {
+      window.removeEventListener('showPremiumModal', handleShowPremiumModal);
+    };
   }, []);
 
   // Save data when state changes
