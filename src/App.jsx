@@ -14,6 +14,7 @@ import SocialIntegration from './SocialIntegration';
 import DailyCrossword from './DailyCrossword';
 import DailySudoku from './DailySudoku';
 import DailyWordSearch from './DailyWordSearch';
+import CrosswordMaker from './CrosswordMaker';
 import { hybridHangmanLoader, hangmanLindyHelpers } from './hangmanAPI';
 import { trackEvent } from './analytics';
 import { HeaderAd, SidebarAd, TextAd } from './AdPlacement';
@@ -545,6 +546,12 @@ function App() {
             🔍 Word Search
           </button>
           <button 
+            className={`tab-button ${currentView === 'maker' ? 'active' : ''}`}
+            onClick={() => handleViewChange('maker')}
+          >
+            🛠️ Puzzle Maker
+          </button>
+          <button 
             className={`tab-button ${currentView === 'variations' ? 'active' : ''}`}
             onClick={() => handleViewChange('variations')}
           >
@@ -831,6 +838,14 @@ function App() {
         {/* Daily Word Search View */}
         {currentView === 'wordsearch' && (
           <DailyWordSearch 
+            isPremium={isPremium}
+            onPremiumClick={handlePremiumClick}
+          />
+        )}
+
+        {/* Crossword Maker View */}
+        {currentView === 'maker' && (
+          <CrosswordMaker 
             isPremium={isPremium}
             onPremiumClick={handlePremiumClick}
           />
