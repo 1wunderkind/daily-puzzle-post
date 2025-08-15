@@ -1,0 +1,27 @@
+{
+  "currentPuzzle": {
+    "puzzleIndex": 1,
+    "filename": "puzzle_01.json",
+    "date": "2025-08-19",
+    "lastUpdated": "2025-08-15T18:00:00Z",
+    "rotationInfo": {
+      "daysSinceLaunch": 0,
+      "cyclePosition": 1,
+      "totalCycles": 1
+    }
+  },
+  "rotationConfig": {
+    "cycleLength": 30,
+    "launchDate": "2025-08-19",
+    "timezone": "America/New_York",
+    "refreshTime": "00:00"
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "lastRotation": "2025-08-15T18:00:00Z",
+    "nextRotation": "2025-08-20T00:00:00Z",
+    "automationReady": true,
+    "lindyCompatible": true
+  }
+}
+

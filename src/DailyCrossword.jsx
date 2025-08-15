@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './DailyCrossword.css';
-import { crosswordPuzzles, getCrosswordByDate, getTodaysCrossword } from './crosswordData';
+import { getTodaysPuzzle, getPuzzleForDate, automationAPI } from './puzzleRotation';
 import { trackEvent } from './analytics';
 
 const DailyCrossword = ({ isPremium = false, onPremiumClick }) => {
@@ -48,20 +48,47 @@ const DailyCrossword = ({ isPremium = false, onPremiumClick }) => {
     }
   }, [userGrid, currentPuzzle]);
 
-  const loadTodaysPuzzle = () => {
-    const puzzle = getTodaysCrossword();
-    if (puzzle) {
-      setCurrentPuzzle(puzzle);
-      initializeGrid(puzzle);
-      loadProgress(puzzle.id);
-      setStartTime(Date.now());
-      
-      trackEvent('crossword_started', {
-        puzzle_id: puzzle.id,
-        difficulty: puzzle.difficulty,
-        theme: puzzle.theme
-      });
+  const loadTodaysPuzzle = async () => {
+    try {
+      const puzzle = await getTodaysPuzzle();
+      if (puzzle) {
+        setCurrentPuzzle(puzzle);
+        initializeGrid(puzzle);
+        loadProgress(puzzle.id);
+        setStartTime(Date.now());
+        
+        trackEvent('crossword_started', {
+          puzzle_id: puzzle.id,
+          difficulty: puzzle.difficulty,
+          theme: puzzle.theme,
+          rotation_info: puzzle.rotation
+        });
+      }
+    } catch (error) {
+      console.error('Failed to load today\'s puzzle:', error);
+      // Fallback to a default puzzle if needed
+      loadFallbackPuzzle();
     }
+  };
+
+  const loadFallbackPuzzle = () => {
+    // Simple fallback puzzle structure
+    const fallbackPuzzle = {
+      id: 'fallback',
+      title: 'Daily Crossword',
+      difficulty: 3,
+      difficultyLabel: 'Medium',
+      theme: 'General Knowledge',
+      size: 15,
+      grid: Array(15).fill(null).map(() => Array(15).fill('.')),
+      solution: Array(15).fill(null).map(() => Array(15).fill('.')),
+      numbers: Array(15).fill(null).map(() => Array(15).fill('.')),
+      clues: { across: {}, down: {} },
+      metadata: { isFallback: true }
+    };
+    
+    setCurrentPuzzle(fallbackPuzzle);
+    initializeGrid(fallbackPuzzle);
   };
 
   const initializeGrid = (puzzle) => {
