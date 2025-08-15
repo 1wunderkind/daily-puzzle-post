@@ -110,3 +110,5 @@ paypal-config.json
 
 email-automation/venv/
 email-automation/src/database/
+seo-automation/venv/
+seo-automation/__pycache__/
