@@ -1,0 +1,478 @@
+/* Daily Sudoku Styles - Newspaper Design */
+
+.daily-sudoku {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Times New Roman', Georgia, serif;
+  background-color: var(--newspaper-bg);
+  border: 2px solid var(--border-color);
+}
+
+.sudoku-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.puzzle-info h2 {
+  color: var(--primary-text);
+  font-size: 24px;
+  margin: 0 0 8px 0;
+  font-weight: bold;
+}
+
+.puzzle-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--secondary-text);
+}
+
+.difficulty {
+  background-color: var(--primary-text);
+  color: var(--pure-white);
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.separator {
+  color: var(--light-border);
+}
+
+.timer {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  color: var(--primary-text);
+}
+
+.rotation-info {
+  text-align: right;
+  font-size: 12px;
+  color: var(--secondary-text);
+}
+
+.rotation-info .date {
+  display: block;
+  font-weight: bold;
+  color: var(--primary-text);
+}
+
+.sudoku-loading,
+.sudoku-error {
+  text-align: center;
+  padding: 40px;
+  color: var(--secondary-text);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--light-border);
+  border-top: 4px solid var(--primary-text);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.retry-btn {
+  background-color: var(--primary-text);
+  color: var(--pure-white);
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.sudoku-game {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.sudoku-grid {
+  border: 3px solid var(--primary-text);
+  background-color: var(--pure-white);
+  display: inline-block;
+}
+
+.sudoku-row {
+  display: flex;
+}
+
+.sudoku-cell {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--light-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  background-color: var(--pure-white);
+  transition: background-color 0.2s ease;
+}
+
+.sudoku-cell:hover {
+  background-color: var(--hover-state);
+}
+
+.sudoku-cell.selected {
+  background-color: #E3F2FD;
+  border: 2px solid var(--primary-text);
+}
+
+.sudoku-cell.same-number {
+  background-color: #F0F8F0;
+}
+
+.sudoku-cell.error {
+  background-color: #FFEBEE;
+  color: var(--wrong-answer);
+}
+
+.sudoku-cell.given-number {
+  background-color: #F5F5F5;
+  font-weight: bold;
+}
+
+.sudoku-cell.given-number .cell-number {
+  color: var(--primary-text);
+  font-weight: bold;
+}
+
+/* 3x3 box borders */
+.sudoku-cell.top-border {
+  border-top: 2px solid var(--primary-text);
+}
+
+.sudoku-cell.left-border {
+  border-left: 2px solid var(--primary-text);
+}
+
+.sudoku-cell.bottom-border {
+  border-bottom: 2px solid var(--primary-text);
+}
+
+.sudoku-cell.right-border {
+  border-right: 2px solid var(--primary-text);
+}
+
+.cell-number {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--primary-text);
+  font-family: 'Times New Roman', serif;
+}
+
+.pencil-marks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 100%;
+  height: 100%;
+  font-size: 8px;
+  color: var(--secondary-text);
+}
+
+.pencil-marks span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: normal;
+}
+
+.pencil-marks span.hidden {
+  visibility: hidden;
+}
+
+.pencil-marks span.visible {
+  visibility: visible;
+}
+
+.sudoku-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.number-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.number-btn {
+  width: 50px;
+  height: 50px;
+  border: 2px solid var(--border-color);
+  background-color: var(--pure-white);
+  color: var(--primary-text);
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Times New Roman', serif;
+}
+
+.number-btn:hover:not(:disabled) {
+  background-color: var(--hover-state);
+  transform: translateY(-1px);
+}
+
+.number-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.action-buttons,
+.utility-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mode-btn,
+.clear-btn,
+.check-btn,
+.solution-btn,
+.print-btn,
+.new-puzzle-btn {
+  padding: 10px 15px;
+  border: 2px solid var(--border-color);
+  background-color: var(--pure-white);
+  color: var(--primary-text);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Times New Roman', serif;
+  text-align: left;
+}
+
+.mode-btn:hover:not(:disabled),
+.clear-btn:hover:not(:disabled),
+.check-btn:hover:not(:disabled),
+.solution-btn:hover:not(:disabled),
+.print-btn:hover,
+.new-puzzle-btn:hover {
+  background-color: var(--hover-state);
+}
+
+.mode-btn.active {
+  background-color: var(--correct-answer);
+  color: var(--pure-white);
+  border-color: var(--correct-answer);
+}
+
+.mode-btn:disabled,
+.clear-btn:disabled,
+.check-btn:disabled,
+.solution-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.completion-message,
+.solution-message {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: var(--correct-answer);
+  color: var(--pure-white);
+  text-align: center;
+  border-radius: 5px;
+}
+
+.completion-message h3 {
+  margin: 0 0 10px 0;
+  font-size: 20px;
+}
+
+.completion-message p {
+  margin: 0 0 15px 0;
+  font-size: 16px;
+}
+
+.completion-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.play-again-btn,
+.premium-btn {
+  background-color: var(--pure-white);
+  color: var(--correct-answer);
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+.play-again-btn:hover,
+.premium-btn:hover {
+  background-color: var(--hover-state);
+}
+
+.solution-message {
+  background-color: var(--secondary-text);
+  margin-top: 15px;
+  padding: 15px;
+}
+
+.solution-message p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.sudoku-instructions {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: var(--newspaper-bg);
+  border: 1px solid var(--light-border);
+}
+
+.sudoku-instructions h4 {
+  color: var(--primary-text);
+  margin: 0 0 15px 0;
+  font-size: 16px;
+}
+
+.sudoku-instructions ul {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--secondary-text);
+}
+
+.sudoku-instructions li {
+  margin-bottom: 8px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .daily-sudoku {
+    padding: 15px;
+  }
+  
+  .sudoku-game {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .sudoku-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .rotation-info {
+    text-align: left;
+  }
+  
+  .sudoku-cell {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .cell-number {
+    font-size: 16px;
+  }
+  
+  .number-pad {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  
+  .number-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 16px;
+  }
+  
+  .completion-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .sudoku-cell {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .cell-number {
+    font-size: 14px;
+  }
+  
+  .number-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+  
+  .puzzle-meta {
+    flex-wrap: wrap;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .daily-sudoku {
+    page-break-inside: avoid;
+    border: 2px solid #000;
+    background: white;
+  }
+  
+  .sudoku-controls,
+  .completion-message,
+  .solution-message {
+    display: none;
+  }
+  
+  .sudoku-game {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .sudoku-grid {
+    border: 3px solid #000;
+  }
+  
+  .sudoku-cell {
+    border: 1px solid #000;
+    background: white;
+  }
+  
+  .sudoku-cell.top-border,
+  .sudoku-cell.left-border,
+  .sudoku-cell.bottom-border,
+  .sudoku-cell.right-border {
+    border-color: #000;
+  }
+  
+  .cell-number {
+    color: #000;
+  }
+  
+  .pencil-marks {
+    color: #666;
+  }
+}
+

@@ -1,0 +1,12 @@
+{
+  "current_puzzle": "sudoku_01",
+  "last_updated": "2025-08-15T19:52:00.000Z",
+  "rotation_info": {
+    "launch_date": "2025-08-19",
+    "cycle_length": 30,
+    "current_cycle": 1
+  },
+  "system_status": "active",
+  "lindy_compatible": true
+}
+

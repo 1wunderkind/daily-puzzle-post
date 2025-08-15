@@ -12,6 +12,7 @@ import BlogSection from './BlogSection';
 import GameVariations from './GameVariations';
 import SocialIntegration from './SocialIntegration';
 import DailyCrossword from './DailyCrossword';
+import DailySudoku from './DailySudoku';
 import { hybridHangmanLoader, hangmanLindyHelpers } from './hangmanAPI';
 import { trackEvent } from './analytics';
 import { HeaderAd, SidebarAd, TextAd } from './AdPlacement';
@@ -531,6 +532,12 @@ function App() {
             📝 Daily Crossword
           </button>
           <button 
+            className={`tab-button ${currentView === 'sudoku' ? 'active' : ''}`}
+            onClick={() => handleViewChange('sudoku')}
+          >
+            📊 Daily Sudoku
+          </button>
+          <button 
             className={`tab-button ${currentView === 'variations' ? 'active' : ''}`}
             onClick={() => handleViewChange('variations')}
           >
@@ -810,6 +817,14 @@ function App() {
           />
         )}
 
+        {/* Daily Sudoku View */}
+        {currentView === 'sudoku' && (
+          <DailySudoku 
+            isPremium={isPremium}
+            onPremiumClick={handlePremiumClick}
+          />
+        )}
+
         {/* Game Variations View */}
         {currentView === 'variations' && (
           <GameVariations 
@@ -842,6 +857,7 @@ function App() {
               <ul>
                 <li><a href="#hangman">Hangman</a></li>
                 <li><a href="#crossword">Daily Crossword</a></li>
+                <li><a href="#sudoku">Daily Sudoku</a></li>
                 <li className="coming-soon">Word Scramble (Coming Soon)</li>
                 <li className="coming-soon">Word Search (Coming Soon)</li>
               </ul>
