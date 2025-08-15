@@ -1,0 +1,285 @@
+/* Offline Ad Placeholder Styles - Newspaper Theme */
+
+.offline-ad-placeholder {
+  background-color: #FDFBF7;
+  border: 2px solid #0A0A0A;
+  border-radius: 4px;
+  font-family: 'Times New Roman', Georgia, serif;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.ad-placeholder {
+  background-color: #F8F9FA;
+  border: 1px dashed #CCCCCC;
+  border-radius: 4px;
+  font-family: 'Times New Roman', Georgia, serif;
+  text-align: center;
+  position: relative;
+}
+
+/* Size Variations */
+.ad-small {
+  width: 200px;
+  height: 200px;
+  padding: 12px;
+}
+
+.ad-medium {
+  width: 300px;
+  height: 250px;
+  padding: 16px;
+}
+
+.ad-large {
+  width: 336px;
+  height: 280px;
+  padding: 20px;
+}
+
+.ad-leaderboard {
+  width: 728px;
+  height: 90px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Position Variations */
+.ad-header {
+  margin: 0 auto 20px;
+}
+
+.ad-sidebar {
+  margin: 20px 0;
+}
+
+.ad-content {
+  margin: 20px auto;
+}
+
+/* Offline Ad Header */
+.offline-ad-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #E9ECEF;
+}
+
+.offline-status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #FF6B6B;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.offline-ad-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0A0A0A;
+}
+
+/* Offline Ad Content */
+.offline-ad-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.offline-ad-message {
+  font-size: 14px;
+  color: #333333;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+}
+
+.offline-ad-benefits {
+  margin-bottom: 12px;
+}
+
+.benefit-item {
+  font-size: 12px;
+  color: #1B4332;
+  margin-bottom: 4px;
+  text-align: left;
+}
+
+.offline-ad-cta {
+  background-color: #1B4332;
+  color: #FDFBF7;
+  border: none;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: 'Times New Roman', Georgia, serif;
+  margin-bottom: 8px;
+}
+
+.offline-ad-cta:hover {
+  background-color: #0F2A1F;
+}
+
+.offline-ad-price {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1B4332;
+}
+
+.guarantee {
+  font-size: 10px;
+  color: #666666;
+}
+
+.offline-ad-footer {
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid #E9ECEF;
+}
+
+.offline-ad-footer small {
+  font-size: 10px;
+  color: #666666;
+  font-style: italic;
+}
+
+/* Regular Ad Placeholder */
+.ad-label {
+  font-size: 10px;
+  color: #666666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #E9ECEF;
+  padding-bottom: 4px;
+}
+
+.ad-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.ad-content p {
+  font-size: 14px;
+  color: #666666;
+  margin: 0 0 8px 0;
+}
+
+.ad-content small {
+  font-size: 12px;
+  color: #999999;
+}
+
+/* Size-Specific Styles */
+.ad-small .offline-ad-message {
+  font-size: 12px;
+}
+
+.ad-small .offline-ad-cta {
+  font-size: 11px;
+  padding: 6px 12px;
+}
+
+.ad-small .offline-ad-title {
+  font-size: 12px;
+}
+
+.ad-leaderboard {
+  flex-direction: row;
+  text-align: left;
+}
+
+.ad-leaderboard .offline-ad-header {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+  flex-shrink: 0;
+}
+
+.ad-leaderboard .offline-ad-content {
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  margin-left: 16px;
+}
+
+.ad-leaderboard .offline-ad-message {
+  margin: 0;
+  flex: 1;
+}
+
+.ad-leaderboard .offline-ad-cta {
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.ad-leaderboard .offline-ad-footer {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+  margin-left: 16px;
+  flex-shrink: 0;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .ad-leaderboard {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    min-height: 100px;
+    flex-direction: column;
+    text-align: center;
+    padding: 16px;
+  }
+  
+  .ad-leaderboard .offline-ad-content {
+    flex-direction: column;
+    margin-left: 0;
+    margin-top: 8px;
+  }
+  
+  .ad-leaderboard .offline-ad-footer {
+    margin-left: 0;
+    margin-top: 8px;
+  }
+  
+  .ad-large,
+  .ad-medium {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .ad-small {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+/* Animation */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+

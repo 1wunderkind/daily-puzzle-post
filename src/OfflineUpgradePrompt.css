@@ -1,0 +1,259 @@
+/* Offline Upgrade Prompt Styles - Newspaper Theme */
+
+.offline-upgrade-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+}
+
+.offline-upgrade-modal {
+  background-color: #FDFBF7;
+  border: 3px solid #0A0A0A;
+  border-radius: 8px;
+  max-width: 480px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+.offline-upgrade-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 16px;
+  border-bottom: 2px solid #0A0A0A;
+  background-color: #F5F3EF;
+}
+
+.offline-upgrade-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0A0A0A;
+  margin: 0;
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+.offline-upgrade-close {
+  background: none;
+  border: none;
+  font-size: 32px;
+  color: #333333;
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.offline-upgrade-close:hover {
+  background-color: #E5E5E5;
+}
+
+.offline-upgrade-content {
+  padding: 24px;
+}
+
+.offline-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  background-color: #FFF3CD;
+  border: 1px solid #FFEAA7;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #856404;
+}
+
+.offline-dot {
+  width: 12px;
+  height: 12px;
+  background-color: #FF6B6B;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.offline-upgrade-message {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #0A0A0A;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.offline-upgrade-benefits {
+  margin-bottom: 24px;
+}
+
+.offline-upgrade-benefits h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0A0A0A;
+  margin: 0 0 12px 0;
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+.offline-upgrade-benefits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.offline-upgrade-benefits li {
+  font-size: 16px;
+  color: #333333;
+  margin-bottom: 8px;
+  padding-left: 0;
+}
+
+.offline-upgrade-pricing {
+  text-align: center;
+  margin-bottom: 24px;
+  padding: 20px;
+  background-color: #F8F9FA;
+  border: 2px solid #E9ECEF;
+  border-radius: 6px;
+}
+
+.price-display {
+  margin-bottom: 8px;
+}
+
+.price-amount {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1B4332;
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+.price-period {
+  font-size: 18px;
+  color: #333333;
+  margin-left: 4px;
+}
+
+.price-note {
+  font-size: 14px;
+  color: #666666;
+  margin: 0;
+}
+
+.offline-upgrade-actions {
+  padding: 0 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-upgrade-premium {
+  background-color: #1B4332;
+  color: #FDFBF7;
+  border: 2px solid #1B4332;
+  padding: 16px 24px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Times New Roman', Georgia, serif;
+  text-align: center;
+}
+
+.btn-upgrade-premium:hover {
+  background-color: #0F2A1F;
+  border-color: #0F2A1F;
+  transform: translateY(-1px);
+}
+
+.btn-upgrade-later {
+  background-color: transparent;
+  color: #333333;
+  border: 2px solid #CCCCCC;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+.btn-upgrade-later:hover {
+  background-color: #E5E5E5;
+  border-color: #999999;
+}
+
+.offline-upgrade-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #E9ECEF;
+  background-color: #F8F9FA;
+  text-align: center;
+}
+
+.offline-upgrade-footer p {
+  font-size: 14px;
+  color: #666666;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+  .offline-upgrade-overlay {
+    padding: 10px;
+  }
+  
+  .offline-upgrade-modal {
+    max-height: 95vh;
+  }
+  
+  .offline-upgrade-header {
+    padding: 16px 20px 12px;
+  }
+  
+  .offline-upgrade-title {
+    font-size: 20px;
+  }
+  
+  .offline-upgrade-content {
+    padding: 20px;
+  }
+  
+  .offline-upgrade-message {
+    font-size: 16px;
+  }
+  
+  .price-amount {
+    font-size: 28px;
+  }
+  
+  .btn-upgrade-premium {
+    font-size: 16px;
+    padding: 14px 20px;
+  }
+  
+  .offline-upgrade-actions {
+    padding: 0 20px 16px;
+  }
+}
+

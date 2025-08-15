@@ -20,6 +20,8 @@ import { trackEvent } from './analytics';
 import { HeaderAd, SidebarAd, TextAd } from './AdPlacement';
 import ArchiveAccess, { AdController } from './ArchiveAccess';
 import { checkPremiumStatus } from './StripeIntegration';
+import OfflineUpgradePrompt from './OfflineUpgradePrompt';
+import offlineContentManager from './OfflineContentManager';
 
 function App() {
   // Game state
@@ -151,6 +153,15 @@ function App() {
 
   const startNewGame = async () => {
     try {
+      // Check offline content access before starting game
+      const accessCheck = offlineContentManager.canAccessOfflineContent('hangman');
+      
+      if (!accessCheck.allowed) {
+        // Show upgrade prompt for offline limit reached
+        setShowPremiumModal(true);
+        return;
+      }
+      
       const wordData = await getRandomWord();
       setCurrentWord(wordData.word);
       setCurrentHint(wordData.hint);
@@ -162,6 +173,11 @@ function App() {
       setHintRevealed('');
       setGameStartTime(Date.now());
       setPerfectGame(true);
+      
+      // Record offline play if applicable
+      if (!navigator.onLine && !offlineContentManager.isPremiumUser()) {
+        offlineContentManager.recordOfflinePlay('hangman');
+      }
       
       // Store daily word data if applicable
       if (wordData.isDaily) {
@@ -176,7 +192,9 @@ function App() {
         word_length: wordData.word.length,
         is_daily: wordData.isDaily || false,
         theme: wordData.theme || 'random',
-        difficulty: wordData.difficulty || 3
+        difficulty: wordData.difficulty || 3,
+        offline: !navigator.onLine,
+        access_type: accessCheck.reason
       });
     } catch (error) {
       console.error('Error starting new game:', error);

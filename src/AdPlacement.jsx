@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import OfflineAdPlaceholder from './OfflineAdPlaceholder.jsx';
 import './AdPlacement.css';
 
 // Performance-optimized ad placement component
@@ -6,15 +7,54 @@ const AdPlacement = ({
   type = 'banner', // 'banner', 'sidebar', 'text'
   isPremium = false,
   className = '',
-  style = {}
+  style = {},
+  onUpgrade
 }) => {
   const [shouldLoad, setShouldLoad] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
   const adRef = useRef(null);
 
   // Don't show ads for premium users
   if (isPremium) {
     return null;
+  }
+
+  useEffect(() => {
+    const updateOnlineStatus = () => {
+      setIsOffline(!navigator.onLine);
+    };
+
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+
+    return () => {
+      window.removeEventListener('online', updateOnlineStatus);
+      window.removeEventListener('offline', updateOnlineStatus);
+    };
+  }, []);
+
+  // Show offline ad placeholder when offline
+  if (isOffline) {
+    const sizeMap = {
+      'banner': 'leaderboard',
+      'sidebar': 'medium',
+      'text': 'small'
+    };
+    
+    const positionMap = {
+      'banner': 'header',
+      'sidebar': 'sidebar',
+      'text': 'content'
+    };
+
+    return (
+      <OfflineAdPlaceholder 
+        size={sizeMap[type] || 'medium'}
+        position={positionMap[type] || 'sidebar'}
+        onUpgrade={onUpgrade}
+      />
+    );
   }
 
   useEffect(() => {
