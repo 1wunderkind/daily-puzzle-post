@@ -1,0 +1,38 @@
+{
+  "id": "word_05",
+  "date": "2025-08-23",
+  "dayOfWeek": "Friday",
+  "difficulty": 5,
+  "difficultyLabel": "Hard",
+  "theme": "Science & Technology",
+  "word": "DISCOVERY",
+  "hint": "A science & technology related word",
+  "category": "Science & Technology",
+  "length": 9,
+  "alternativeWords": [
+    "COMPUTER",
+    "INTERNET",
+    "RESEARCH",
+    "DISCOVERY",
+    "INNOVATION"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "8-11 minutes",
+    "averageRating": 4.5,
+    "created": "2025-08-15T15:07:12.935667Z",
+    "lastModified": "2025-08-15T15:07:12.935670Z",
+    "tags": [
+      "hard",
+      "friday",
+      "science_technology"
+    ],
+    "wordNumber": 5,
+    "cyclePosition": 5,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "cryptic"
+  }
+}

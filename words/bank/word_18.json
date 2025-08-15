@@ -1,0 +1,38 @@
+{
+  "id": "word_18",
+  "date": "2025-09-05",
+  "dayOfWeek": "Thursday",
+  "difficulty": 4,
+  "difficultyLabel": "Medium-Hard",
+  "theme": "Fashion & Style",
+  "word": "FASHION",
+  "hint": "A fashion & style related word",
+  "category": "Fashion & Style",
+  "length": 7,
+  "alternativeWords": [
+    "ELEGANT",
+    "DESIGNER",
+    "FASHION",
+    "BEAUTIFUL",
+    "STYLISH"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "7-10 minutes",
+    "averageRating": 4.4,
+    "created": "2025-08-15T15:07:12.936955Z",
+    "lastModified": "2025-08-15T15:07:12.936958Z",
+    "tags": [
+      "medium_hard",
+      "thursday",
+      "fashion_style"
+    ],
+    "wordNumber": 18,
+    "cyclePosition": 18,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "subtle"
+  }
+}

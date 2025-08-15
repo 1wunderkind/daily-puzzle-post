@@ -1,0 +1,38 @@
+{
+  "id": "word_02",
+  "date": "2025-08-20",
+  "dayOfWeek": "Tuesday",
+  "difficulty": 2,
+  "difficultyLabel": "Easy-Medium",
+  "theme": "Around the House",
+  "word": "KITCHEN",
+  "hint": "A around the house related word",
+  "category": "Around the House",
+  "length": 7,
+  "alternativeWords": [
+    "KITCHEN",
+    "BEDROOM",
+    "GARDEN",
+    "WINDOW",
+    "CARPET"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "5-8 minutes",
+    "averageRating": 4.2,
+    "created": "2025-08-15T15:07:12.935279Z",
+    "lastModified": "2025-08-15T15:07:12.935285Z",
+    "tags": [
+      "easy_medium",
+      "tuesday",
+      "around_the_house"
+    ],
+    "wordNumber": 2,
+    "cyclePosition": 2,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "obvious"
+  }
+}

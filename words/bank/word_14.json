@@ -1,0 +1,38 @@
+{
+  "id": "word_14",
+  "date": "2025-09-01",
+  "dayOfWeek": "Sunday",
+  "difficulty": 4,
+  "difficultyLabel": "Special",
+  "theme": "Health & Fitness",
+  "word": "WELLNESS",
+  "hint": "A health & fitness related word",
+  "category": "Health & Fitness",
+  "length": 8,
+  "alternativeWords": [
+    "EXERCISE",
+    "NUTRITION",
+    "WELLNESS",
+    "STRENGTH",
+    "HEALTHY"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "7-10 minutes",
+    "averageRating": 4.4,
+    "created": "2025-08-15T15:07:12.936566Z",
+    "lastModified": "2025-08-15T15:07:12.936569Z",
+    "tags": [
+      "special",
+      "sunday",
+      "health_fitness"
+    ],
+    "wordNumber": 14,
+    "cyclePosition": 14,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "subtle"
+  }
+}

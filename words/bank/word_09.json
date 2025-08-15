@@ -1,0 +1,38 @@
+{
+  "id": "word_09",
+  "date": "2025-08-27",
+  "dayOfWeek": "Tuesday",
+  "difficulty": 2,
+  "difficultyLabel": "Easy-Medium",
+  "theme": "History & Culture",
+  "word": "ANCIENT",
+  "hint": "A history & culture related word",
+  "category": "History & Culture",
+  "length": 7,
+  "alternativeWords": [
+    "ANCIENT",
+    "CIVILIZATION",
+    "HERITAGE",
+    "TRADITION",
+    "MONUMENT"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "5-8 minutes",
+    "averageRating": 4.2,
+    "created": "2025-08-15T15:07:12.936075Z",
+    "lastModified": "2025-08-15T15:07:12.936078Z",
+    "tags": [
+      "easy_medium",
+      "tuesday",
+      "history_culture"
+    ],
+    "wordNumber": 9,
+    "cyclePosition": 9,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "obvious"
+  }
+}

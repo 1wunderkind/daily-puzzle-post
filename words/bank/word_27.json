@@ -1,0 +1,38 @@
+{
+  "id": "word_27",
+  "date": "2025-09-14",
+  "dayOfWeek": "Saturday",
+  "difficulty": 5,
+  "difficultyLabel": "Expert",
+  "theme": "Language & Words",
+  "word": "COMMUNICATION",
+  "hint": "A language & words related word",
+  "category": "Language & Words",
+  "length": 13,
+  "alternativeWords": [
+    "VOCABULARY",
+    "GRAMMAR",
+    "LANGUAGE",
+    "COMMUNICATION",
+    "EXPRESSION"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "8-11 minutes",
+    "averageRating": 4.5,
+    "created": "2025-08-15T15:07:12.937930Z",
+    "lastModified": "2025-08-15T15:07:12.937933Z",
+    "tags": [
+      "expert",
+      "saturday",
+      "language_words"
+    ],
+    "wordNumber": 27,
+    "cyclePosition": 27,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "cryptic"
+  }
+}

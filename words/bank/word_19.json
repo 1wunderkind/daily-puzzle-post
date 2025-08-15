@@ -1,0 +1,38 @@
+{
+  "id": "word_19",
+  "date": "2025-09-06",
+  "dayOfWeek": "Friday",
+  "difficulty": 5,
+  "difficultyLabel": "Hard",
+  "theme": "Holidays & Seasons",
+  "word": "CELEBRATION",
+  "hint": "A holidays & seasons related word",
+  "category": "Holidays & Seasons",
+  "length": 11,
+  "alternativeWords": [
+    "CHRISTMAS",
+    "HALLOWEEN",
+    "THANKSGIVING",
+    "CELEBRATION",
+    "FESTIVAL"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "8-11 minutes",
+    "averageRating": 4.5,
+    "created": "2025-08-15T15:07:12.937044Z",
+    "lastModified": "2025-08-15T15:07:12.937047Z",
+    "tags": [
+      "hard",
+      "friday",
+      "holidays_seasons"
+    ],
+    "wordNumber": 19,
+    "cyclePosition": 19,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "cryptic"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "word_12",
+  "date": "2025-08-30",
+  "dayOfWeek": "Friday",
+  "difficulty": 5,
+  "difficultyLabel": "Hard",
+  "theme": "Work & Career",
+  "word": "ACHIEVEMENT",
+  "hint": "A work & career related word",
+  "category": "Work & Career",
+  "length": 11,
+  "alternativeWords": [
+    "BUSINESS",
+    "PROFESSIONAL",
+    "SUCCESS",
+    "ACHIEVEMENT",
+    "LEADERSHIP"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "8-11 minutes",
+    "averageRating": 4.5,
+    "created": "2025-08-15T15:07:12.936361Z",
+    "lastModified": "2025-08-15T15:07:12.936364Z",
+    "tags": [
+      "hard",
+      "friday",
+      "work_career"
+    ],
+    "wordNumber": 12,
+    "cyclePosition": 12,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "cryptic"
+  }
+}

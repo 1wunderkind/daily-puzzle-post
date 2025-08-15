@@ -1,0 +1,38 @@
+{
+  "id": "word_06",
+  "date": "2025-08-24",
+  "dayOfWeek": "Saturday",
+  "difficulty": 5,
+  "difficultyLabel": "Expert",
+  "theme": "Food & Cooking",
+  "word": "INGREDIENTS",
+  "hint": "A food & cooking related word",
+  "category": "Food & Cooking",
+  "length": 11,
+  "alternativeWords": [
+    "CHOCOLATE",
+    "RESTAURANT",
+    "DELICIOUS",
+    "INGREDIENTS",
+    "RECIPE"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "8-11 minutes",
+    "averageRating": 4.5,
+    "created": "2025-08-15T15:07:12.935767Z",
+    "lastModified": "2025-08-15T15:07:12.935769Z",
+    "tags": [
+      "expert",
+      "saturday",
+      "food_cooking"
+    ],
+    "wordNumber": 6,
+    "cyclePosition": 6,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "cryptic"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "word_22",
+  "date": "2025-09-09",
+  "dayOfWeek": "Monday",
+  "difficulty": 1,
+  "difficultyLabel": "Easy",
+  "theme": "Home & Garden",
+  "word": "GARDENING",
+  "hint": "A home & garden related word",
+  "category": "Home & Garden",
+  "length": 9,
+  "alternativeWords": [
+    "GARDENING",
+    "FLOWERS",
+    "LANDSCAPE",
+    "BEAUTIFUL",
+    "PEACEFUL"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "4-7 minutes",
+    "averageRating": 4.1,
+    "created": "2025-08-15T15:07:12.937409Z",
+    "lastModified": "2025-08-15T15:07:12.937412Z",
+    "tags": [
+      "easy",
+      "monday",
+      "home_garden"
+    ],
+    "wordNumber": 22,
+    "cyclePosition": 22,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "obvious"
+  }
+}

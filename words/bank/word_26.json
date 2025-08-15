@@ -1,0 +1,38 @@
+{
+  "id": "word_26",
+  "date": "2025-09-13",
+  "dayOfWeek": "Friday",
+  "difficulty": 5,
+  "difficultyLabel": "Hard",
+  "theme": "Mathematics",
+  "word": "GEOMETRY",
+  "hint": "A mathematics related word",
+  "category": "Mathematics",
+  "length": 8,
+  "alternativeWords": [
+    "EQUATION",
+    "CALCULATE",
+    "NUMBER",
+    "GEOMETRY",
+    "ALGEBRA"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "8-11 minutes",
+    "averageRating": 4.5,
+    "created": "2025-08-15T15:07:12.937782Z",
+    "lastModified": "2025-08-15T15:07:12.937785Z",
+    "tags": [
+      "hard",
+      "friday",
+      "mathematics"
+    ],
+    "wordNumber": 26,
+    "cyclePosition": 26,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "cryptic"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "word_07",
+  "date": "2025-08-25",
+  "dayOfWeek": "Sunday",
+  "difficulty": 4,
+  "difficultyLabel": "Special",
+  "theme": "Sports & Games",
+  "word": "CHAMPION",
+  "hint": "A sports & games related word",
+  "category": "Sports & Games",
+  "length": 8,
+  "alternativeWords": [
+    "FOOTBALL",
+    "BASKETBALL",
+    "CHAMPION",
+    "VICTORY",
+    "TOURNAMENT"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "7-10 minutes",
+    "averageRating": 4.4,
+    "created": "2025-08-15T15:07:12.935862Z",
+    "lastModified": "2025-08-15T15:07:12.935865Z",
+    "tags": [
+      "special",
+      "sunday",
+      "sports_games"
+    ],
+    "wordNumber": 7,
+    "cyclePosition": 7,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "subtle"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "word_10",
+  "date": "2025-08-28",
+  "dayOfWeek": "Wednesday",
+  "difficulty": 3,
+  "difficultyLabel": "Medium",
+  "theme": "Animals & Pets",
+  "word": "BUTTERFLY",
+  "hint": "A animals & pets related word",
+  "category": "Animals & Pets",
+  "length": 9,
+  "alternativeWords": [
+    "ELEPHANT",
+    "BUTTERFLY",
+    "DOLPHIN",
+    "PENGUIN",
+    "GIRAFFE"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "6-9 minutes",
+    "averageRating": 4.3,
+    "created": "2025-08-15T15:07:12.936169Z",
+    "lastModified": "2025-08-15T15:07:12.936172Z",
+    "tags": [
+      "medium",
+      "wednesday",
+      "animals_pets"
+    ],
+    "wordNumber": 10,
+    "cyclePosition": 10,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "helpful"
+  }
+}

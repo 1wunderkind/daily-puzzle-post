@@ -1,0 +1,38 @@
+{
+  "id": "word_16",
+  "date": "2025-09-03",
+  "dayOfWeek": "Tuesday",
+  "difficulty": 2,
+  "difficultyLabel": "Easy-Medium",
+  "theme": "Movies & TV",
+  "word": "ENTERTAINMENT",
+  "hint": "A movies & tv related word",
+  "category": "Movies & TV",
+  "length": 13,
+  "alternativeWords": [
+    "ENTERTAINMENT",
+    "ADVENTURE",
+    "COMEDY",
+    "MYSTERY",
+    "DOCUMENTARY"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "5-8 minutes",
+    "averageRating": 4.2,
+    "created": "2025-08-15T15:07:12.936760Z",
+    "lastModified": "2025-08-15T15:07:12.936762Z",
+    "tags": [
+      "easy_medium",
+      "tuesday",
+      "movies_tv"
+    ],
+    "wordNumber": 16,
+    "cyclePosition": 16,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "obvious"
+  }
+}

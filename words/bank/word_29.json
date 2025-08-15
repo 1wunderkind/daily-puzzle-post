@@ -1,0 +1,38 @@
+{
+  "id": "word_29",
+  "date": "2025-09-16",
+  "dayOfWeek": "Monday",
+  "difficulty": 1,
+  "difficultyLabel": "Easy",
+  "theme": "Psychology",
+  "word": "BEHAVIOR",
+  "hint": "A psychology related word",
+  "category": "Psychology",
+  "length": 8,
+  "alternativeWords": [
+    "BEHAVIOR",
+    "EMOTION",
+    "THINKING",
+    "PERSONALITY",
+    "PSYCHOLOGY"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "4-7 minutes",
+    "averageRating": 4.1,
+    "created": "2025-08-15T15:07:12.938111Z",
+    "lastModified": "2025-08-15T15:07:12.938114Z",
+    "tags": [
+      "easy",
+      "monday",
+      "psychology"
+    ],
+    "wordNumber": 29,
+    "cyclePosition": 29,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "obvious"
+  }
+}

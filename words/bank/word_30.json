@@ -1,0 +1,38 @@
+{
+  "id": "word_30",
+  "date": "2025-09-17",
+  "dayOfWeek": "Tuesday",
+  "difficulty": 2,
+  "difficultyLabel": "Easy-Medium",
+  "theme": "Astronomy",
+  "word": "UNIVERSE",
+  "hint": "A astronomy related word",
+  "category": "Astronomy",
+  "length": 8,
+  "alternativeWords": [
+    "UNIVERSE",
+    "GALAXY",
+    "PLANET",
+    "TELESCOPE",
+    "CONSTELLATION"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "5-8 minutes",
+    "averageRating": 4.2,
+    "created": "2025-08-15T15:07:12.938198Z",
+    "lastModified": "2025-08-15T15:07:12.938200Z",
+    "tags": [
+      "easy_medium",
+      "tuesday",
+      "astronomy"
+    ],
+    "wordNumber": 30,
+    "cyclePosition": 30,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "obvious"
+  }
+}

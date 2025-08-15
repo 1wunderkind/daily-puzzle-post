@@ -12,6 +12,7 @@ import BlogSection from './BlogSection';
 import GameVariations from './GameVariations';
 import SocialIntegration from './SocialIntegration';
 import DailyCrossword from './DailyCrossword';
+import { hybridHangmanLoader, hangmanLindyHelpers } from './hangmanAPI';
 import { trackEvent } from './analytics';
 
 function App() {
@@ -43,6 +44,9 @@ function App() {
   const [currentView, setCurrentView] = useState('game'); // 'game', 'blog', 'variations'
   const [wordOfTheDay, setWordOfTheDay] = useState(null);
   const [isWordOfDayGame, setIsWordOfDayGame] = useState(false);
+  const [isDailyWordMode, setIsDailyWordMode] = useState(false);
+  const [dailyWordData, setDailyWordData] = useState(null);
+  const [rotationInfo, setRotationInfo] = useState(null);
 
   const { trackConversion } = useABTestingConversion();
 
@@ -72,7 +76,27 @@ function App() {
     localStorage.setItem('dpp_games_played', gamesPlayed.toString());
   }, [score, streak, gamesPlayed]);
 
-  const getRandomWord = () => {
+  const getRandomWord = async () => {
+    // If daily word mode is enabled, get today's word from rotation
+    if (isDailyWordMode) {
+      try {
+        const todaysWord = await hybridHangmanLoader.getTodaysWord();
+        return {
+          word: todaysWord.word,
+          hint: todaysWord.hint,
+          category: todaysWord.category,
+          theme: todaysWord.theme,
+          difficulty: todaysWord.difficulty,
+          isDaily: true,
+          wordData: todaysWord
+        };
+      } catch (error) {
+        console.error('Failed to load daily word, falling back to random:', error);
+        // Fall through to random word selection
+      }
+    }
+    
+    // Original random word logic
     let availableWords = [];
     
     if (selectedCategory === 'all') {
@@ -104,27 +128,56 @@ function App() {
     }
     
     const randomIndex = Math.floor(Math.random() * availableWords.length);
-    return availableWords[randomIndex];
+    return {
+      ...availableWords[randomIndex],
+      isDaily: false
+    };
   };
 
-  const startNewGame = () => {
-    const wordData = getRandomWord();
-    setCurrentWord(wordData.word);
-    setCurrentHint(wordData.hint);
-    setCurrentCategory(wordData.category);
-    setGuessedLetters([]);
-    setWrongGuesses(0);
-    setGameStatus('playing');
-    setHintUsed(false);
-    setHintRevealed('');
-    setGameStartTime(Date.now());
-    setPerfectGame(true);
-    
-    // Track game start
-    trackEvent('game_start', {
-      category: wordData.category,
-      word_length: wordData.word.length
-    });
+  const startNewGame = async () => {
+    try {
+      const wordData = await getRandomWord();
+      setCurrentWord(wordData.word);
+      setCurrentHint(wordData.hint);
+      setCurrentCategory(wordData.category);
+      setGuessedLetters([]);
+      setWrongGuesses(0);
+      setGameStatus('playing');
+      setHintUsed(false);
+      setHintRevealed('');
+      setGameStartTime(Date.now());
+      setPerfectGame(true);
+      
+      // Store daily word data if applicable
+      if (wordData.isDaily) {
+        setDailyWordData(wordData.wordData);
+      } else {
+        setDailyWordData(null);
+      }
+      
+      // Track game start with enhanced data
+      trackEvent('game_start', {
+        category: wordData.category,
+        word_length: wordData.word.length,
+        is_daily: wordData.isDaily || false,
+        theme: wordData.theme || 'random',
+        difficulty: wordData.difficulty || 3
+      });
+    } catch (error) {
+      console.error('Error starting new game:', error);
+      // Fallback to a simple word if everything fails
+      setCurrentWord('PUZZLE');
+      setCurrentHint('A challenging problem to solve');
+      setCurrentCategory('General');
+      setGuessedLetters([]);
+      setWrongGuesses(0);
+      setGameStatus('playing');
+      setHintUsed(false);
+      setHintRevealed('');
+      setGameStartTime(Date.now());
+      setPerfectGame(true);
+      setDailyWordData(null);
+    }
   };
 
   const handleLetterGuess = (letter) => {
@@ -169,8 +222,25 @@ function App() {
           time_taken: gameTime,
           wrong_guesses: wrongGuesses,
           hint_used: hintUsed,
-          perfect_game: perfectGame && wrongGuesses === 0
+          perfect_game: perfectGame && wrongGuesses === 0,
+          is_daily: isDailyWordMode,
+          word_id: dailyWordData?.id
         });
+        
+        // Record analytics for Lindy.ai if daily word
+        if (isDailyWordMode && dailyWordData) {
+          hangmanLindyHelpers.recordGameCompletion(dailyWordData.id, {
+            sessionId: 'anonymous',
+            duration: Math.floor(gameTime / 1000),
+            wrongGuesses: wrongGuesses,
+            guessedLetters: newGuessedLetters,
+            isWon: true,
+            hintUsed: hintUsed,
+            difficulty: dailyWordData.difficulty,
+            wordLength: currentWord.length,
+            theme: dailyWordData.theme
+          }).catch(err => console.warn('Analytics recording failed:', err));
+        }
       }
       
       // Track correct guess
@@ -196,8 +266,25 @@ function App() {
           category: currentCategory,
           word: currentWord,
           wrong_guesses: newWrongGuesses,
-          hint_used: hintUsed
+          hint_used: hintUsed,
+          is_daily: isDailyWordMode,
+          word_id: dailyWordData?.id
         });
+        
+        // Record analytics for Lindy.ai if daily word
+        if (isDailyWordMode && dailyWordData) {
+          hangmanLindyHelpers.recordGameCompletion(dailyWordData.id, {
+            sessionId: 'anonymous',
+            duration: Math.floor((Date.now() - gameStartTime) / 1000),
+            wrongGuesses: newWrongGuesses,
+            guessedLetters: newGuessedLetters,
+            isWon: false,
+            hintUsed: hintUsed,
+            difficulty: dailyWordData.difficulty,
+            wordLength: currentWord.length,
+            theme: dailyWordData.theme
+          }).catch(err => console.warn('Analytics recording failed:', err));
+        }
       }
       
       // Track wrong guess
@@ -603,7 +690,40 @@ function App() {
                 >
                   {hintUsed ? 'Hint Used' : 'Show Hint'}
                 </button>
+                <button 
+                  className={`daily-word-toggle ${isDailyWordMode ? 'active' : ''}`}
+                  onClick={() => {
+                    setIsDailyWordMode(!isDailyWordMode);
+                    trackEvent('daily_word_mode_toggle', {
+                      enabled: !isDailyWordMode
+                    });
+                  }}
+                  title={isDailyWordMode ? 'Switch to Random Words' : 'Switch to Daily Word'}
+                >
+                  {isDailyWordMode ? '📅 Daily Word' : '🎲 Random'}
+                </button>
               </div>
+
+              {/* Daily Word Info */}
+              {isDailyWordMode && dailyWordData && (
+                <div className="daily-word-info">
+                  <div className="daily-word-header">
+                    📅 Today's Daily Word
+                  </div>
+                  <div className="daily-word-details">
+                    <span className="word-theme">Theme: {dailyWordData.theme}</span>
+                    <span className="word-difficulty">
+                      Difficulty: {dailyWordData.difficultyLabel} 
+                      ({Array(dailyWordData.difficulty).fill('⭐').join('')})
+                    </span>
+                    {dailyWordData.todaysInfo && (
+                      <span className="rotation-info">
+                        Day {dailyWordData.todaysInfo.dayInCycle || dailyWordData.todaysInfo.wordIndex} of 30
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
 
               {/* Hint Display */}
               {hintUsed && (

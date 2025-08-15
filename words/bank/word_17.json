@@ -1,0 +1,38 @@
+{
+  "id": "word_17",
+  "date": "2025-09-04",
+  "dayOfWeek": "Wednesday",
+  "difficulty": 3,
+  "difficultyLabel": "Medium",
+  "theme": "Technology",
+  "word": "SOFTWARE",
+  "hint": "A technology related word",
+  "category": "Technology",
+  "length": 8,
+  "alternativeWords": [
+    "SMARTPHONE",
+    "SOFTWARE",
+    "DIGITAL",
+    "INNOVATION",
+    "PROGRAMMING"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "6-9 minutes",
+    "averageRating": 4.3,
+    "created": "2025-08-15T15:07:12.936855Z",
+    "lastModified": "2025-08-15T15:07:12.936857Z",
+    "tags": [
+      "medium",
+      "wednesday",
+      "technology"
+    ],
+    "wordNumber": 17,
+    "cyclePosition": 17,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "helpful"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "word_21",
+  "date": "2025-09-08",
+  "dayOfWeek": "Sunday",
+  "difficulty": 4,
+  "difficultyLabel": "Special",
+  "theme": "Money & Finance",
+  "word": "BUDGET",
+  "hint": "A money & finance related word",
+  "category": "Money & Finance",
+  "length": 6,
+  "alternativeWords": [
+    "INVESTMENT",
+    "SAVINGS",
+    "BUDGET",
+    "FINANCIAL",
+    "ECONOMY"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "7-10 minutes",
+    "averageRating": 4.4,
+    "created": "2025-08-15T15:07:12.937235Z",
+    "lastModified": "2025-08-15T15:07:12.937238Z",
+    "tags": [
+      "special",
+      "sunday",
+      "money_finance"
+    ],
+    "wordNumber": 21,
+    "cyclePosition": 21,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "subtle"
+  }
+}

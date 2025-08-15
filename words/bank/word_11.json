@@ -1,0 +1,38 @@
+{
+  "id": "word_11",
+  "date": "2025-08-29",
+  "dayOfWeek": "Thursday",
+  "difficulty": 4,
+  "difficultyLabel": "Medium-Hard",
+  "theme": "Travel & Places",
+  "word": "VACATION",
+  "hint": "A travel & places related word",
+  "category": "Travel & Places",
+  "length": 8,
+  "alternativeWords": [
+    "ADVENTURE",
+    "DESTINATION",
+    "VACATION",
+    "EXPLORE",
+    "JOURNEY"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "7-10 minutes",
+    "averageRating": 4.4,
+    "created": "2025-08-15T15:07:12.936264Z",
+    "lastModified": "2025-08-15T15:07:12.936267Z",
+    "tags": [
+      "medium_hard",
+      "thursday",
+      "travel_places"
+    ],
+    "wordNumber": 11,
+    "cyclePosition": 11,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "subtle"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "word_01",
+  "date": "2025-08-19",
+  "dayOfWeek": "Monday",
+  "difficulty": 1,
+  "difficultyLabel": "Easy",
+  "theme": "Common Words",
+  "word": "HOUSE",
+  "hint": "A common words related word",
+  "category": "Common Words",
+  "length": 5,
+  "alternativeWords": [
+    "HOUSE",
+    "WATER",
+    "LIGHT",
+    "MUSIC",
+    "HAPPY"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "4-7 minutes",
+    "averageRating": 4.1,
+    "created": "2025-08-15T15:07:12.934978Z",
+    "lastModified": "2025-08-15T15:07:12.935000Z",
+    "tags": [
+      "easy",
+      "monday",
+      "common_words"
+    ],
+    "wordNumber": 1,
+    "cyclePosition": 1,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "obvious"
+  }
+}

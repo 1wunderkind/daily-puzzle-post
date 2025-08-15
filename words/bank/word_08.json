@@ -1,0 +1,38 @@
+{
+  "id": "word_08",
+  "date": "2025-08-26",
+  "dayOfWeek": "Monday",
+  "difficulty": 1,
+  "difficultyLabel": "Easy",
+  "theme": "Music & Arts",
+  "word": "SYMPHONY",
+  "hint": "A music & arts related word",
+  "category": "Music & Arts",
+  "length": 8,
+  "alternativeWords": [
+    "SYMPHONY",
+    "PAINTING",
+    "CREATIVE",
+    "HARMONY",
+    "MASTERPIECE"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "4-7 minutes",
+    "averageRating": 4.1,
+    "created": "2025-08-15T15:07:12.935970Z",
+    "lastModified": "2025-08-15T15:07:12.935973Z",
+    "tags": [
+      "easy",
+      "monday",
+      "music_arts"
+    ],
+    "wordNumber": 8,
+    "cyclePosition": 8,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "obvious"
+  }
+}

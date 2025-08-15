@@ -1,0 +1,38 @@
+{
+  "id": "word_23",
+  "date": "2025-09-10",
+  "dayOfWeek": "Tuesday",
+  "difficulty": 2,
+  "difficultyLabel": "Easy-Medium",
+  "theme": "Hobbies & Crafts",
+  "word": "CREATIVE",
+  "hint": "A hobbies & crafts related word",
+  "category": "Hobbies & Crafts",
+  "length": 8,
+  "alternativeWords": [
+    "CREATIVE",
+    "PAINTING",
+    "CRAFTING",
+    "ARTISTIC",
+    "HANDMADE"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "5-8 minutes",
+    "averageRating": 4.2,
+    "created": "2025-08-15T15:07:12.937506Z",
+    "lastModified": "2025-08-15T15:07:12.937508Z",
+    "tags": [
+      "easy_medium",
+      "tuesday",
+      "hobbies_crafts"
+    ],
+    "wordNumber": 23,
+    "cyclePosition": 23,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "obvious"
+  }
+}

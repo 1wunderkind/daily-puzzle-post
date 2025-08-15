@@ -1,0 +1,38 @@
+{
+  "id": "word_25",
+  "date": "2025-09-12",
+  "dayOfWeek": "Thursday",
+  "difficulty": 4,
+  "difficultyLabel": "Medium-Hard",
+  "theme": "Geography",
+  "word": "OCEAN",
+  "hint": "A geography related word",
+  "category": "Geography",
+  "length": 5,
+  "alternativeWords": [
+    "CONTINENT",
+    "MOUNTAIN",
+    "OCEAN",
+    "COUNTRY",
+    "CAPITAL"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "7-10 minutes",
+    "averageRating": 4.4,
+    "created": "2025-08-15T15:07:12.937695Z",
+    "lastModified": "2025-08-15T15:07:12.937697Z",
+    "tags": [
+      "medium_hard",
+      "thursday",
+      "geography"
+    ],
+    "wordNumber": 25,
+    "cyclePosition": 25,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "subtle"
+  }
+}

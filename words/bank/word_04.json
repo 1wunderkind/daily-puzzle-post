@@ -1,0 +1,38 @@
+{
+  "id": "word_04",
+  "date": "2025-08-22",
+  "dayOfWeek": "Thursday",
+  "difficulty": 4,
+  "difficultyLabel": "Medium-Hard",
+  "theme": "Transportation",
+  "word": "HIGHWAY",
+  "hint": "A transportation related word",
+  "category": "Transportation",
+  "length": 7,
+  "alternativeWords": [
+    "BICYCLE",
+    "AIRPLANE",
+    "HIGHWAY",
+    "JOURNEY",
+    "VEHICLE"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "7-10 minutes",
+    "averageRating": 4.4,
+    "created": "2025-08-15T15:07:12.935562Z",
+    "lastModified": "2025-08-15T15:07:12.935565Z",
+    "tags": [
+      "medium_hard",
+      "thursday",
+      "transportation"
+    ],
+    "wordNumber": 4,
+    "cyclePosition": 4,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "subtle"
+  }
+}

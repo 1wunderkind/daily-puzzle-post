@@ -1,0 +1,38 @@
+{
+  "id": "word_03",
+  "date": "2025-08-21",
+  "dayOfWeek": "Wednesday",
+  "difficulty": 3,
+  "difficultyLabel": "Medium",
+  "theme": "Nature & Weather",
+  "word": "RAINBOW",
+  "hint": "A nature & weather related word",
+  "category": "Nature & Weather",
+  "length": 7,
+  "alternativeWords": [
+    "FOREST",
+    "RAINBOW",
+    "THUNDER",
+    "MOUNTAIN",
+    "SUNSHINE"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "6-9 minutes",
+    "averageRating": 4.3,
+    "created": "2025-08-15T15:07:12.935453Z",
+    "lastModified": "2025-08-15T15:07:12.935456Z",
+    "tags": [
+      "medium",
+      "wednesday",
+      "nature_weather"
+    ],
+    "wordNumber": 3,
+    "cyclePosition": 3,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "helpful"
+  }
+}

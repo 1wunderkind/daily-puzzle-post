@@ -1,0 +1,38 @@
+{
+  "id": "word_28",
+  "date": "2025-09-15",
+  "dayOfWeek": "Sunday",
+  "difficulty": 4,
+  "difficultyLabel": "Special",
+  "theme": "Philosophy",
+  "word": "KNOWLEDGE",
+  "hint": "A philosophy related word",
+  "category": "Philosophy",
+  "length": 9,
+  "alternativeWords": [
+    "WISDOM",
+    "THINKING",
+    "KNOWLEDGE",
+    "UNDERSTANDING",
+    "REFLECTION"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "7-10 minutes",
+    "averageRating": 4.4,
+    "created": "2025-08-15T15:07:12.938025Z",
+    "lastModified": "2025-08-15T15:07:12.938027Z",
+    "tags": [
+      "special",
+      "sunday",
+      "philosophy"
+    ],
+    "wordNumber": 28,
+    "cyclePosition": 28,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "subtle"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "word_24",
+  "date": "2025-09-11",
+  "dayOfWeek": "Wednesday",
+  "difficulty": 3,
+  "difficultyLabel": "Medium",
+  "theme": "News & Current Events",
+  "word": "HEADLINE",
+  "hint": "A news & current events related word",
+  "category": "News & Current Events",
+  "length": 8,
+  "alternativeWords": [
+    "NEWSPAPER",
+    "HEADLINE",
+    "IMPORTANT",
+    "INFORMATION",
+    "UPDATE"
+  ],
+  "metadata": {
+    "constructor": "Daily Puzzle Post",
+    "editor": "AI Assistant",
+    "copyright": "2025 Daily Puzzle Post",
+    "estimatedTime": "6-9 minutes",
+    "averageRating": 4.3,
+    "created": "2025-08-15T15:07:12.937608Z",
+    "lastModified": "2025-08-15T15:07:12.937610Z",
+    "tags": [
+      "medium",
+      "wednesday",
+      "news_current_events"
+    ],
+    "wordNumber": 24,
+    "cyclePosition": 24,
+    "automationReady": true,
+    "lindyCompatible": true,
+    "hintLevel": "helpful"
+  }
+}
