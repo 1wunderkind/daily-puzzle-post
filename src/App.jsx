@@ -11,6 +11,7 @@ import WordOfTheDay from './WordOfTheDay';
 import BlogSection from './BlogSection';
 import GameVariations from './GameVariations';
 import SocialIntegration from './SocialIntegration';
+import DailyCrossword from './DailyCrossword';
 import { trackEvent } from './analytics';
 
 function App() {
@@ -425,6 +426,12 @@ function App() {
             🎯 Hangman
           </button>
           <button 
+            className={`tab-button ${currentView === 'crossword' ? 'active' : ''}`}
+            onClick={() => handleViewChange('crossword')}
+          >
+            📝 Daily Crossword
+          </button>
+          <button 
             className={`tab-button ${currentView === 'variations' ? 'active' : ''}`}
             onClick={() => handleViewChange('variations')}
           >
@@ -663,6 +670,14 @@ function App() {
           <BlogSection />
         )}
 
+        {/* Daily Crossword View */}
+        {currentView === 'crossword' && (
+          <DailyCrossword 
+            isPremium={isPremium}
+            onPremiumClick={handlePremiumClick}
+          />
+        )}
+
         {/* Game Variations View */}
         {currentView === 'variations' && (
           <GameVariations 
@@ -694,9 +709,9 @@ function App() {
               <h4>Games</h4>
               <ul>
                 <li><a href="#hangman">Hangman</a></li>
+                <li><a href="#crossword">Daily Crossword</a></li>
                 <li className="coming-soon">Word Scramble (Coming Soon)</li>
                 <li className="coming-soon">Word Search (Coming Soon)</li>
-                <li className="coming-soon">Crossword (Coming Soon)</li>
               </ul>
             </div>
             <div className="footer-section">
