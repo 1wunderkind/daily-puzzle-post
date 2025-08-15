@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Daily Puzzle Post - Classic newspaper-style word games for casual players. Play Hangman and other engaging puzzles online.">
+    <meta name="keywords" content="word games, hangman, puzzles, daily puzzle, casual games, newspaper games">
+    <meta name="author" content="Daily Puzzle Post">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dailypuzzlepost.com/">
+    <meta property="og:title" content="Daily Puzzle Post - Classic Word Games">
+    <meta property="og:description" content="Classic newspaper-style word games for casual players. Play Hangman and other engaging puzzles online.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://dailypuzzlepost.com/">
+    <meta property="twitter:title" content="Daily Puzzle Post - Classic Word Games">
+    <meta property="twitter:description" content="Classic newspaper-style word games for casual players. Play Hangman and other engaging puzzles online.">
+    
+    <title>Daily Puzzle Post - Classic Word Games</title>
+    
+    <!-- Google Analytics 4 (GA4) Integration -->
+    <!-- 
+      ANALYTICS SETUP INSTRUCTIONS:
+      1. Replace GA_MEASUREMENT_ID with your actual Google Analytics 4 Measurement ID
+      2. Uncomment the script tags below
+      3. The analytics.js file will automatically send events to GA4
+    -->
+    <!-- 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GA_MEASUREMENT_ID', {
+        page_title: 'Daily Puzzle Post - Classic Word Games',
+        page_location: window.location.href,
+        send_page_view: true
+      });
+    </script>
+    -->
+    
+    <!-- Google AdSense Integration -->
+    <!-- 
+      ADSENSE SETUP INSTRUCTIONS:
+      1. Replace ca-pub-XXXXXXXXXX with your actual AdSense Publisher ID
+      2. Uncomment the script tag below
+      3. The ad placeholders in the app will be ready for AdSense code
+    -->
+    <!-- 
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX"
+            crossorigin="anonymous"></script>
+    -->
+    
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="site-header">
+        <div class="header-container">
+            <h1 class="site-logo">DAILY PUZZLE POST</h1>
+            <p class="site-subtitle">YOUR TRUSTED SOURCE FOR DAILY BRAIN TRAINING | SINCE 2024</p>
+            <div class="premium-section">
+                <button id="premium-btn" class="premium-button">Remove Ads - $4.99</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Game Navigation Tabs -->
+    <nav class="game-tabs">
+        <div class="tabs-container">
+            <button class="tab-button active" data-game="hangman">Hangman</button>
+            <button class="tab-button coming-soon">Word Search <span class="coming-soon-badge">Coming Soon</span></button>
+            <button class="tab-button coming-soon">Crossword <span class="coming-soon-badge">Coming Soon</span></button>
+            <button class="tab-button coming-soon">Anagram <span class="coming-soon-badge">Coming Soon</span></button>
+        </div>
+    </nav>
+
+    <!-- Header Ad Zone -->
+    <div class="adsense-container adsense-header-banner">
+        <div class="ad-label-container">
+            <span class="ad-label">Advertisement</span>
+        </div>
+        <div class="adsense-placeholder">
+            <div>GOOGLE ADSENSE</div>
+            <div>728x90 Desktop / 320x50 Mobile</div>
+            <div style="font-size: 10px; margin-top: 5px;">Header Leaderboard</div>
+        </div>
+        <!-- 
+          ADSENSE INTEGRATION: Replace above placeholder with:
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-XXXXXXXXXX"
+               data-ad-slot="XXXXXXXXXX"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>
+               (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        -->
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <div class="content-container">
+            <!-- Left Sidebar Ad -->
+            <aside class="sidebar-left">
+                <div class="adsense-container adsense-sidebar-rectangle">
+                    <div class="ad-label-container">
+                        <span class="ad-label">Advertisement</span>
+                    </div>
+                    <div class="adsense-placeholder">
+                        <div>GOOGLE ADSENSE</div>
+                        <div>300x250 Rectangle</div>
+                        <div style="font-size: 10px; margin-top: 5px;">Sidebar Left</div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Game Area -->
+            <section class="game-area">
+                <div class="game-container">
+                    <!-- Date Header -->
+                    <div class="date-header">
+                        <span id="current-date">Friday, August 15, 2025</span>
+                    </div>
+
+                    <!-- Game Title -->
+                    <h2 class="game-title">HANGMAN PUZZLE</h2>
+                    <p class="game-description">Guess the word by selecting letters. You have 6 wrong guesses before the puzzle is failed.</p>
+
+                    <!-- Score Display -->
+                    <div class="score-container">
+                        <div class="score-display">
+                            <span class="score-number" id="puzzles-solved">0</span>
+                            <span class="score-label">Puzzles Solved</span>
+                        </div>
+                        <div class="streak-display">
+                            <span class="streak-number" id="win-streak">0</span>
+                            <span class="streak-label">Win Streak</span>
+                        </div>
+                    </div>
+
+                    <!-- Category Display -->
+                    <div class="category-display" id="category-display">
+                        Category: Loading...
+                    </div>
+
+                    <!-- Category Selector -->
+                    <div class="category-selector-container">
+                        <select id="category-selector" class="category-selector">
+                            <option value="ALL">All Categories</option>
+                            <option value="ANIMALS">Animals</option>
+                            <option value="FOOD">Food</option>
+                            <option value="PLACES">Places</option>
+                            <option value="OBJECTS">Objects</option>
+                        </select>
+                    </div>
+
+                    <!-- Hangman Display -->
+                    <div class="hangman-display" id="hangman-display">
+                        Ready to start...
+                    </div>
+
+                    <!-- Word Display -->
+                    <div class="word-display" id="word-display">
+                        _ _ _ _ _
+                    </div>
+
+                    <!-- Game Status -->
+                    <div class="status-message" id="status-message">
+                        Wrong guesses: 0/6
+                    </div>
+
+                    <!-- Alphabet Grid -->
+                    <div class="alphabet-grid" id="alphabet-grid">
+                        <!-- Letters will be generated by JavaScript -->
+                    </div>
+
+                    <!-- Game Controls -->
+                    <div class="game-controls">
+                        <button id="new-game-btn" class="game-button">New Puzzle</button>
+                        <button id="hint-btn" class="hint-button">Use Hint (1 per puzzle)</button>
+                    </div>
+
+                    <!-- Hint Display -->
+                    <div class="hint-display" id="hint-display" style="display: none;">
+                        <strong>Hint revealed letter:</strong> <span id="revealed-letter"></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Sidebar Ad -->
+            <aside class="sidebar-right">
+                <div class="adsense-container adsense-sidebar-rectangle">
+                    <div class="ad-label-container">
+                        <span class="ad-label">Advertisement</span>
+                    </div>
+                    <div class="adsense-placeholder">
+                        <div>GOOGLE ADSENSE</div>
+                        <div>300x250 Rectangle</div>
+                        <div style="font-size: 10px; margin-top: 5px;">Sidebar Right</div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Daily Puzzle Post</h3>
+                    <p>Classic word puzzles for discerning solvers. Challenge your mind with our collection of traditional newspaper-style games.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Puzzles</h4>
+                    <ul>
+                        <li><a href="#hangman">Hangman</a></li>
+                        <li class="coming-soon">Word Search (Coming Soon)</li>
+                        <li class="coming-soon">Crossword (Coming Soon)</li>
+                        <li class="coming-soon">Anagram (Coming Soon)</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Information</h4>
+                    <ul>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms of Service</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><button id="footer-premium-btn" class="footer-premium-link">Remove Ads</button></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Daily Puzzle Post. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Premium Modal -->
+    <div id="premium-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>GO PREMIUM - REMOVE ADS FOREVER</h2>
+                <button id="modal-close" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="price-display">
+                    <span class="price">$4.99</span>
+                    <span class="price-subtitle">ONE-TIME PAYMENT</span>
+                </div>
+                <h3>PREMIUM BENEFITS INCLUDE:</h3>
+                <div class="benefits-list">
+                    <div class="benefit-item">
+                        <span class="benefit-icon">🚫</span>
+                        <div class="benefit-text">
+                            <strong>No advertisements ever</strong>
+                            <span>Clean, distraction-free gameplay</span>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">🎯</span>
+                        <div class="benefit-text">
+                            <strong>Bonus daily challenges</strong>
+                            <span>Exclusive puzzles updated daily</span>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">⭐</span>
+                        <div class="benefit-text">
+                            <strong>Priority support</strong>
+                            <span>Direct access to our support team</span>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">🏆</span>
+                        <div class="benefit-text">
+                            <strong>Premium badge</strong>
+                            <span>Show your support for quality games</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <p>"Best $5 I've spent on mobile games. Clean interface, no ads, perfect for daily brain training!"</p>
+                    <cite>- SARAH M., PREMIUM PLAYER</cite>
+                </div>
+                <div class="payment-buttons">
+                    <button id="stripe-btn" class="payment-button stripe-button">Pay with Card 💳</button>
+                    <button id="paypal-btn" class="payment-button paypal-button">PayPal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
