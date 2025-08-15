@@ -1,0 +1,404 @@
+/* Terms of Service - Newspaper Style */
+.terms-container {
+  min-height: 100vh;
+  background-color: #FDFBF7;
+  color: #0A0A0A;
+  font-family: 'Times New Roman', Georgia, serif;
+  line-height: 1.6;
+}
+
+/* Header */
+.terms-header {
+  background-color: #FDFBF7;
+  border-bottom: 3px solid #0A0A0A;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.terms-nav {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.back-button {
+  background: none;
+  border: 2px solid #0A0A0A;
+  color: #0A0A0A;
+  padding: 0.5rem 1rem;
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.back-button:hover {
+  background-color: #0A0A0A;
+  color: #FDFBF7;
+}
+
+.terms-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+  text-align: center;
+  flex-grow: 1;
+  margin-left: -120px; /* Center accounting for back button */
+}
+
+/* Main Content */
+.terms-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.terms-document {
+  background-color: #FDFBF7;
+  padding: 2rem;
+  border: 1px solid #DDD;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Document Header */
+.document-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #0A0A0A;
+}
+
+.document-header h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #0A0A0A;
+}
+
+.document-meta {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  font-size: 1rem;
+  color: #666;
+}
+
+.document-meta p {
+  margin: 0;
+}
+
+/* Table of Contents */
+.table-of-contents {
+  background-color: #F8F8F8;
+  border: 2px solid #0A0A0A;
+  padding: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.table-of-contents h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #0A0A0A;
+  border-bottom: 1px solid #0A0A0A;
+  padding-bottom: 0.5rem;
+}
+
+.table-of-contents ol {
+  margin: 0;
+  padding-left: 2rem;
+  columns: 2;
+  column-gap: 2rem;
+}
+
+.table-of-contents li {
+  margin-bottom: 0.5rem;
+  break-inside: avoid;
+}
+
+.table-of-contents a {
+  color: #0A0A0A;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.table-of-contents a:hover {
+  text-decoration: underline;
+}
+
+/* Sections */
+.terms-section {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #DDD;
+}
+
+.terms-section:last-child {
+  border-bottom: none;
+}
+
+.terms-section h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #0A0A0A;
+  border-bottom: 2px solid #0A0A0A;
+  padding-bottom: 0.5rem;
+}
+
+.terms-section h3 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 2rem 0 1rem 0;
+  color: #0A0A0A;
+}
+
+.terms-section p {
+  margin-bottom: 1rem;
+  text-align: justify;
+  font-size: 1.1rem;
+}
+
+.terms-section ul {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+.terms-section li {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.terms-section a {
+  color: #0A0A0A;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.terms-section a:hover {
+  color: #333;
+}
+
+/* Contact Info */
+.contact-info {
+  background-color: #F8F8F8;
+  border: 2px solid #0A0A0A;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.contact-info ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.contact-info li {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Document Footer */
+.document-footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 3px solid #0A0A0A;
+  background-color: #F8F8F8;
+  padding: 2rem;
+}
+
+.footer-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.print-info {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* Special styling for legal disclaimers */
+.terms-section p:contains("AS IS"),
+.terms-section p:contains("TO THE MAXIMUM EXTENT") {
+  font-weight: bold;
+  background-color: #F8F8F8;
+  padding: 1rem;
+  border-left: 4px solid #0A0A0A;
+  margin: 1.5rem 0;
+}
+
+/* Highlight important sections */
+.terms-section:nth-child(5), /* Premium Service */
+.terms-section:nth-child(8), /* Disclaimers */
+.terms-section:nth-child(9) { /* Liability */
+  background-color: #FAFAFA;
+  padding: 1.5rem;
+  border-left: 4px solid #0A0A0A;
+  margin: 2rem 0;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .terms-nav {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .terms-title {
+    margin-left: 0;
+    font-size: 1.5rem;
+  }
+  
+  .terms-content {
+    padding: 1rem;
+  }
+  
+  .terms-document {
+    padding: 1rem;
+  }
+  
+  .document-header h1 {
+    font-size: 2rem;
+  }
+  
+  .document-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .table-of-contents ol {
+    columns: 1;
+  }
+  
+  .footer-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+  
+  .terms-section h2 {
+    font-size: 1.5rem;
+  }
+  
+  .terms-section h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .terms-header {
+    position: static;
+    box-shadow: none;
+  }
+  
+  .back-button {
+    display: none;
+  }
+  
+  .terms-container {
+    background-color: white;
+  }
+  
+  .terms-document {
+    box-shadow: none;
+    border: none;
+  }
+  
+  .table-of-contents {
+    background-color: white;
+    border: 1px solid #000;
+  }
+  
+  .contact-info,
+  .document-footer {
+    background-color: white;
+  }
+  
+  .terms-section:nth-child(5),
+  .terms-section:nth-child(8),
+  .terms-section:nth-child(9) {
+    background-color: white;
+  }
+  
+  a {
+    color: #000 !important;
+  }
+  
+  .terms-section {
+    page-break-inside: avoid;
+  }
+  
+  .document-header {
+    page-break-after: avoid;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .back-button {
+    transition: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .terms-container {
+    background-color: white;
+    color: black;
+  }
+  
+  .terms-header {
+    background-color: white;
+    border-bottom-color: black;
+  }
+  
+  .back-button {
+    border-color: black;
+    color: black;
+  }
+  
+  .back-button:hover {
+    background-color: black;
+    color: white;
+  }
+}
+
+/* Focus styles for accessibility */
+.back-button:focus,
+.table-of-contents a:focus,
+.terms-section a:focus {
+  outline: 2px solid #0A0A0A;
+  outline-offset: 2px;
+}
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Style for anchor targets */
+.terms-section:target {
+  background-color: #F0F8FF;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+  animation: highlight 2s ease-out;
+}
+
+@keyframes highlight {
+  0% { background-color: #E6F3FF; }
+  100% { background-color: #F0F8FF; }
+}
+

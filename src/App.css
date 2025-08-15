@@ -3115,3 +3115,43 @@ body::before {
   justify-content: center;
 }
 
+
+/* Footer Link Buttons */
+.footer-link-button {
+  background: none;
+  border: none;
+  color: #FDFBF7;
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  transition: color 0.2s ease;
+}
+
+.footer-link-button:hover {
+  color: #DDD;
+}
+
+.footer-link-button:focus {
+  outline: 2px solid #FDFBF7;
+  outline-offset: 2px;
+}
+
+/* Privacy and Terms specific styles */
+.privacy-policy-container,
+.terms-container {
+  /* Override any main app styles that might interfere */
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure privacy/terms pages are full width */
+.privacy-policy-container .main-content,
+.terms-container .main-content {
+  max-width: none;
+  padding: 0;
+}
+

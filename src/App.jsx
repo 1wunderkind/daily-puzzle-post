@@ -22,6 +22,8 @@ import ArchiveAccess, { AdController } from './ArchiveAccess';
 import { checkPremiumStatus } from './StripeIntegration';
 import OfflineUpgradePrompt from './OfflineUpgradePrompt';
 import offlineContentManager from './OfflineContentManager';
+import PrivacyPolicy from './PrivacyPolicy';
+import TermsOfService from './TermsOfService';
 
 function App() {
   // Game state
@@ -49,7 +51,7 @@ function App() {
   const [perfectGame, setPerfectGame] = useState(true);
 
   // New features state
-  const [currentView, setCurrentView] = useState('game'); // 'game', 'blog', 'variations'
+  const [currentView, setCurrentView] = useState('game'); // 'game', 'blog', 'variations', 'privacy', 'terms'
   const [wordOfTheDay, setWordOfTheDay] = useState(null);
   const [isWordOfDayGame, setIsWordOfDayGame] = useState(false);
   const [isDailyWordMode, setIsDailyWordMode] = useState(false);
@@ -877,60 +879,92 @@ function App() {
           />
         )}
 
-        {/* Social Integration - Always visible */}
-        <SocialIntegration 
-          currentScore={score}
-          currentStreak={streak}
-          gamesPlayed={gamesPlayed}
-          currentWord={currentWord}
-          gameStatus={gameStatus}
-          wordOfTheDay={wordOfTheDay}
-        />
+        {/* Privacy Policy View */}
+        {currentView === 'privacy' && (
+          <PrivacyPolicy 
+            onBack={() => handleViewChange('game')}
+          />
+        )}
+
+        {/* Terms of Service View */}
+        {currentView === 'terms' && (
+          <TermsOfService 
+            onBack={() => handleViewChange('game')}
+          />
+        )}
+
+        {/* Social Integration - Always visible except for privacy/terms */}
+        {currentView !== 'privacy' && currentView !== 'terms' && (
+          <SocialIntegration 
+            currentScore={score}
+            currentStreak={streak}
+            gamesPlayed={gamesPlayed}
+            currentWord={currentWord}
+            gameStatus={gameStatus}
+            wordOfTheDay={wordOfTheDay}
+          />
+        )}
       </main>
 
-      {/* Footer */}
-      <footer className="site-footer">
-        <div className="footer-container">
-          <div className="footer-content">
-            <div className="footer-section">
-              <h3>Daily Puzzle Post</h3>
-              <p>Your trusted source for daily brain training and word puzzles. Challenge yourself with our growing collection of games designed for puzzle enthusiasts of all ages.</p>
+      {/* Footer - Hidden for privacy/terms views */}
+      {currentView !== 'privacy' && currentView !== 'terms' && (
+        <footer className="site-footer">
+          <div className="footer-container">
+            <div className="footer-content">
+              <div className="footer-section">
+                <h3>Daily Puzzle Post</h3>
+                <p>Your trusted source for daily brain training and word puzzles. Challenge yourself with our growing collection of games designed for puzzle enthusiasts of all ages.</p>
+              </div>
+              <div className="footer-section">
+                <h4>Games</h4>
+                <ul>
+                  <li><a href="#hangman">Hangman</a></li>
+                  <li><a href="#crossword">Daily Crossword</a></li>
+                  <li><a href="#sudoku">Daily Sudoku</a></li>
+                  <li><a href="#wordsearch">Daily Word Search</a></li>
+                  <li className="coming-soon">Word Scramble (Coming Soon)</li>
+                </ul>
+              </div>
+              <div className="footer-section">
+                <h4>Account</h4>
+                <ul>
+                  <li>
+                    <button 
+                      className="footer-premium-link"
+                      onClick={() => handlePremiumClick('footer')}
+                    >
+                      {isPremium ? 'Premium Account' : 'Upgrade to Premium'}
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      className="footer-link-button"
+                      onClick={() => handleViewChange('privacy')}
+                    >
+                      Privacy Policy
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      className="footer-link-button"
+                      onClick={() => handleViewChange('terms')}
+                    >
+                      Terms of Service
+                    </button>
+                  </li>
+                  <li><a href="#contact">Contact Us</a></li>
+                </ul>
+              </div>
             </div>
-            <div className="footer-section">
-              <h4>Games</h4>
-              <ul>
-                <li><a href="#hangman">Hangman</a></li>
-                <li><a href="#crossword">Daily Crossword</a></li>
-                <li><a href="#sudoku">Daily Sudoku</a></li>
-                <li><a href="#wordsearch">Daily Word Search</a></li>
-                <li className="coming-soon">Word Scramble (Coming Soon)</li>
-              </ul>
-            </div>
-            <div className="footer-section">
-              <h4>Account</h4>
-              <ul>
-                <li>
-                  <button 
-                    className="footer-premium-link"
-                    onClick={() => handlePremiumClick('footer')}
-                  >
-                    {isPremium ? 'Premium Account' : 'Upgrade to Premium'}
-                  </button>
-                </li>
-                <li><a href="#privacy">Privacy Policy</a></li>
-                <li><a href="#terms">Terms of Service</a></li>
-                <li><a href="#contact">Contact Us</a></li>
-              </ul>
+            <div className="footer-bottom">
+              <p>&copy; 2024 Daily Puzzle Post. All rights reserved. | Designed for puzzle enthusiasts worldwide.</p>
             </div>
           </div>
-          <div className="footer-bottom">
-            <p>&copy; 2024 Daily Puzzle Post. All rights reserved. | Designed for puzzle enthusiasts worldwide.</p>
-          </div>
-        </div>
-      </footer>
+        </footer>
+      )}
 
-      {/* Footer Leaderboard Ad */}
-      {!isPremium && (
+      {/* Footer Leaderboard Ad - Hidden for privacy/terms views */}
+      {!isPremium && currentView !== 'privacy' && currentView !== 'terms' && (
         <div className="adsense-container adsense-footer-leaderboard">
           <div className="ad-label-container">
             <span className="ad-label">Classified Advertisements</span>
