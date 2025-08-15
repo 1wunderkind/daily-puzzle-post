@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import './AnalyticsViewer.css';
 
 const AnalyticsViewer = () => {
@@ -260,7 +261,19 @@ const AnalyticsViewer = () => {
   };
 
   return (
-    <div className="analytics-viewer">
+    <>
+      <Helmet>
+        <title>Analytics Viewer - Daily Puzzle Post</title>
+        <meta name="description" content="Real-time analytics and performance metrics for Daily Puzzle Post word games platform." />
+        <meta name="keywords" content="analytics, real-time, metrics, Daily Puzzle Post, performance, data" />
+        <meta name="robots" content="noindex, nofollow" />
+        <meta property="og:title" content="Analytics Viewer - Daily Puzzle Post" />
+        <meta property="og:description" content="Real-time analytics dashboard for Daily Puzzle Post" />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="/analytics" />
+      </Helmet>
+      
+      <div className="analytics-viewer">
       <header className="viewer-header">
         <h1>📊 Real-Time Analytics Viewer</h1>
         <div className="header-controls">
@@ -441,6 +454,7 @@ const AnalyticsViewer = () => {
         </details>
       </section>
     </div>
+    </>
   );
 };
 

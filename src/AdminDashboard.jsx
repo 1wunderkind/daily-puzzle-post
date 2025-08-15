@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -87,17 +88,38 @@ const AdminDashboard = () => {
 
   if (isLoading) {
     return (
-      <div className="admin-dashboard">
-        <div className="loading-container">
-          <div className="loading-spinner"></div>
-          <p>Loading analytics data...</p>
+      <>
+        <Helmet>
+          <title>Loading Dashboard - Daily Puzzle Post Admin</title>
+          <meta name="description" content="Loading administrative dashboard for Daily Puzzle Post analytics and management." />
+          <meta name="robots" content="noindex, nofollow" />
+        </Helmet>
+        
+        <div className="admin-dashboard">
+          <div className="loading-container" aria-live="polite">
+            <div className="loading-spinner" aria-hidden="true"></div>
+            <p>Loading analytics data...</p>
+            <div className="sr-only">Dashboard is loading, please wait...</div>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   return (
-    <div className="admin-dashboard">
+    <>
+      <Helmet>
+        <title>Admin Dashboard - Daily Puzzle Post</title>
+        <meta name="description" content="Administrative dashboard for Daily Puzzle Post showing user analytics, game statistics, revenue metrics, and performance data." />
+        <meta name="keywords" content="admin, dashboard, analytics, Daily Puzzle Post, word games, statistics" />
+        <meta name="robots" content="noindex, nofollow" />
+        <meta property="og:title" content="Admin Dashboard - Daily Puzzle Post" />
+        <meta property="og:description" content="Administrative dashboard for Daily Puzzle Post analytics and management" />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="/admin" />
+      </Helmet>
+      
+      <div className="admin-dashboard">
       <header className="dashboard-header">
         <h1>Daily Puzzle Post - Admin Dashboard</h1>
         <div className="time-range-selector">
@@ -248,6 +270,7 @@ const AdminDashboard = () => {
         <p>Last updated: {new Date().toLocaleString()}</p>
       </footer>
     </div>
+    </>
   );
 };
 
