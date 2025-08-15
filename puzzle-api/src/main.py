@@ -14,6 +14,7 @@ from src.routes.hangman_api import hangman_bp
 from src.routes.premium_api import premium_api
 from src.routes.sudoku_api import sudoku_api
 from src.routes.wordsearch_api import wordsearch_api
+from src.routes.anagram_api import anagram_api
 from src.routes.community_api import community_bp
 from src.routes.paypal_api import paypal_api
 from src.routes.analytics_api import analytics_api
@@ -33,6 +34,7 @@ app.register_blueprint(hangman_bp)
 app.register_blueprint(premium_api)
 app.register_blueprint(sudoku_api)
 app.register_blueprint(wordsearch_api)
+app.register_blueprint(anagram_api)
 app.register_blueprint(community_bp)
 app.register_blueprint(paypal_api, url_prefix='/api/premium/paypal')
 app.register_blueprint(analytics_api)

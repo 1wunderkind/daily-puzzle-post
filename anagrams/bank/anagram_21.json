@@ -1,0 +1,14 @@
+{
+  "id": "anagram_21",
+  "date": "2025-08-15",
+  "originalWord": "THUNDER",
+  "scrambledWord": "REDNUHT",
+  "definition": "A loud rumbling sound that follows lightning",
+  "difficulty": "medium",
+  "category": "Weather",
+  "hint": "Sound after lightning",
+  "wordLength": 7,
+  "estimated_time": "2-5 minutes",
+  "created_by": "Daily Puzzle Post",
+  "version": "1.0"
+}

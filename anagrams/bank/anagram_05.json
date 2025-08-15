@@ -1,0 +1,14 @@
+{
+  "id": "anagram_05",
+  "date": "2025-08-15",
+  "originalWord": "COMPUTER",
+  "scrambledWord": "RETUPMOC",
+  "definition": "An electronic device for storing and processing data",
+  "difficulty": "medium",
+  "category": "Technology",
+  "hint": "Digital machine",
+  "wordLength": 8,
+  "estimated_time": "2-5 minutes",
+  "created_by": "Daily Puzzle Post",
+  "version": "1.0"
+}

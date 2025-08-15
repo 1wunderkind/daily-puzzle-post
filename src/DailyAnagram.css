@@ -1,0 +1,485 @@
+/* Daily Anagram - Newspaper Style CSS */
+
+.anagram-container {
+  min-height: 100vh;
+  background-color: #FDFBF7;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  line-height: 1.6;
+  color: #0A0A0A;
+}
+
+.newspaper-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #FDFBF7;
+}
+
+/* Header Styles */
+.newspaper-header {
+  text-align: center;
+  border-bottom: 3px double #0A0A0A;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+}
+
+.masthead {
+  font-size: 48px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.date-line {
+  font-size: 16px;
+  font-style: italic;
+  color: #333333;
+  margin-top: 10px;
+  border-top: 1px solid #5A5A5A;
+  padding-top: 10px;
+}
+
+/* Section Header */
+.section-header {
+  border: 2px solid #0A0A0A;
+  padding: 15px;
+  margin-bottom: 25px;
+  background-color: #F8F8F8;
+}
+
+.section-header h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  text-align: center;
+}
+
+.puzzle-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #333333;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.puzzle-info span {
+  font-weight: 600;
+}
+
+/* Game Content */
+.anagram-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 25px;
+}
+
+.anagram-game {
+  border: 2px solid #0A0A0A;
+  padding: 25px;
+  background-color: #FFFFFF;
+  border-radius: 4px;
+}
+
+.game-instructions {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Letter Styles */
+.scrambled-letters, .guess-area {
+  margin-bottom: 25px;
+}
+
+.scrambled-letters h3, .guess-area h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #0A0A0A;
+}
+
+.letter-bank, .guess-letters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 60px;
+  align-items: center;
+}
+
+.letter-button {
+  width: 50px;
+  height: 50px;
+  border: 2px solid #0A0A0A;
+  background-color: #FFFFFF;
+  font-size: 24px;
+  font-weight: 700;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.letter-button.available {
+  background-color: #F0F0F0;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.letter-button.available:hover {
+  background-color: #E5E5E5;
+  transform: translateY(-2px);
+  box-shadow: 2px 4px 6px rgba(0,0,0,0.15);
+}
+
+.letter-button.selected {
+  background-color: #1B4332;
+  color: #FFFFFF;
+  box-shadow: inset 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.letter-button.selected:hover {
+  background-color: #2D5A47;
+  transform: translateY(-1px);
+}
+
+.letter-button.empty {
+  background-color: transparent;
+  border: 2px dashed #CCCCCC;
+  cursor: default;
+}
+
+.letter-button.placeholder {
+  background-color: #F8F8F8;
+  border: 2px dashed #CCCCCC;
+  color: #999999;
+  cursor: default;
+  font-size: 28px;
+}
+
+.letter-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Game Controls */
+.game-controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 25px 0;
+  flex-wrap: wrap;
+}
+
+.submit-button, .reset-button, .hint-button, .new-game-button, .retry-button {
+  padding: 12px 24px;
+  border: 2px solid #0A0A0A;
+  background-color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  min-width: 120px;
+}
+
+.submit-button {
+  background-color: #1B4332;
+  color: #FFFFFF;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #2D5A47;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.submit-button:disabled {
+  background-color: #CCCCCC;
+  color: #666666;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.reset-button:hover:not(:disabled) {
+  background-color: #E5E5E5;
+  transform: translateY(-2px);
+}
+
+.hint-button {
+  background-color: #FFF3CD;
+  border-color: #856404;
+  color: #856404;
+}
+
+.hint-button:hover:not(:disabled) {
+  background-color: #FFEAA7;
+  transform: translateY(-2px);
+}
+
+.new-game-button {
+  background-color: #1B4332;
+  color: #FFFFFF;
+  font-size: 18px;
+  padding: 15px 30px;
+}
+
+.new-game-button:hover {
+  background-color: #2D5A47;
+  transform: translateY(-2px);
+}
+
+/* Hint Section */
+.hint-section {
+  background-color: #FFF3CD;
+  border: 2px solid #856404;
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 4px;
+}
+
+.hint-section h4 {
+  margin: 0 0 10px 0;
+  color: #856404;
+  font-size: 18px;
+}
+
+.hint-text {
+  font-size: 16px;
+  font-style: italic;
+  color: #856404;
+  margin: 0;
+}
+
+/* Game Results */
+.game-result {
+  text-align: center;
+  padding: 25px;
+  margin: 25px 0;
+  border-radius: 4px;
+  border: 2px solid;
+}
+
+.game-result.success {
+  background-color: #D4EDDA;
+  border-color: #1B4332;
+  color: #1B4332;
+}
+
+.game-result.failure {
+  background-color: #F8D7DA;
+  border-color: #800020;
+  color: #800020;
+}
+
+.game-result h3 {
+  font-size: 28px;
+  margin: 0 0 15px 0;
+}
+
+.game-result p {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.definition {
+  font-style: italic;
+  background-color: rgba(255,255,255,0.3);
+  padding: 10px;
+  border-radius: 4px;
+  margin: 15px 0 !important;
+}
+
+.stats {
+  margin: 20px 0;
+  font-size: 16px;
+}
+
+.stats p {
+  margin: 5px 0;
+  font-weight: 600;
+}
+
+/* Game Information */
+.game-info {
+  border: 2px solid #5A5A5A;
+  padding: 20px;
+  background-color: #F8F8F8;
+  border-radius: 4px;
+}
+
+.game-info h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 15px 0;
+  color: #0A0A0A;
+}
+
+.game-info ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.game-info li {
+  padding: 8px 0;
+  border-bottom: 1px dotted #CCCCCC;
+  font-size: 16px;
+}
+
+.game-info li:last-child {
+  border-bottom: none;
+}
+
+.game-info li:before {
+  content: "• ";
+  color: #1B4332;
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+/* Loading and Error States */
+.loading-message, .error-message {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 18px;
+}
+
+.error-message {
+  color: #800020;
+}
+
+.retry-button {
+  margin-top: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .masthead {
+    font-size: 36px;
+    letter-spacing: 2px;
+  }
+  
+  .section-header h2 {
+    font-size: 28px;
+  }
+  
+  .puzzle-info {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .letter-button {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+  
+  .game-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .submit-button, .reset-button, .hint-button {
+    min-width: 200px;
+  }
+  
+  .anagram-game {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .newspaper-container {
+    padding: 10px;
+  }
+  
+  .masthead {
+    font-size: 28px;
+    letter-spacing: 1px;
+  }
+  
+  .section-header h2 {
+    font-size: 24px;
+  }
+  
+  .letter-button {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  
+  .game-instructions {
+    font-size: 16px;
+  }
+  
+  .scrambled-letters h3, .guess-area h3 {
+    font-size: 18px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .anagram-container {
+    background-color: white;
+  }
+  
+  .game-controls, .new-game-button, .retry-button {
+    display: none;
+  }
+  
+  .letter-button {
+    border: 1px solid #000;
+    background-color: white;
+    box-shadow: none;
+  }
+  
+  .game-result {
+    border: 1px solid #000;
+    background-color: white;
+  }
+}
+
+/* Focus States for Accessibility */
+.letter-button:focus,
+.submit-button:focus,
+.reset-button:focus,
+.hint-button:focus,
+.new-game-button:focus,
+.retry-button:focus {
+  outline: 3px solid #1B4332;
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .letter-button.available {
+    background-color: white;
+    border-width: 3px;
+  }
+  
+  .letter-button.selected {
+    background-color: black;
+    color: white;
+    border-width: 3px;
+  }
+  
+  .game-result.success {
+    background-color: white;
+    border-width: 3px;
+  }
+  
+  .game-result.failure {
+    background-color: white;
+    border-width: 3px;
+  }
+}
+

@@ -14,6 +14,7 @@ import SocialIntegration from './SocialIntegration';
 import DailyCrossword from './DailyCrossword';
 import DailySudoku from './DailySudoku';
 import DailyWordSearch from './DailyWordSearch';
+import DailyAnagram from './DailyAnagram';
 import CrosswordMaker from './CrosswordMaker';
 import { hybridHangmanLoader, hangmanLindyHelpers } from './hangmanAPI';
 import { trackEvent } from './analytics';
@@ -566,6 +567,12 @@ function App() {
             🔍 Word Search
           </button>
           <button 
+            className={`tab-button ${currentView === 'anagram' ? 'active' : ''}`}
+            onClick={() => handleViewChange('anagram')}
+          >
+            🔤 Daily Anagram
+          </button>
+          <button 
             className={`tab-button ${currentView === 'maker' ? 'active' : ''}`}
             onClick={() => handleViewChange('maker')}
           >
@@ -582,10 +589,6 @@ function App() {
             onClick={() => handleViewChange('blog')}
           >
             📰 Strategy Tips
-          </button>
-          <button className="tab-button coming-soon">
-            🔤 Word Scramble
-            <span className="coming-soon-badge">Coming Soon</span>
           </button>
         </div>
       </nav>
@@ -863,6 +866,14 @@ function App() {
           />
         )}
 
+        {/* Daily Anagram View */}
+        {currentView === 'anagram' && (
+          <DailyAnagram 
+            isPremium={isPremium}
+            onPremiumClick={handlePremiumClick}
+          />
+        )}
+
         {/* Crossword Maker View */}
         {currentView === 'maker' && (
           <CrosswordMaker 
@@ -922,7 +933,7 @@ function App() {
                   <li><a href="#crossword">Daily Crossword</a></li>
                   <li><a href="#sudoku">Daily Sudoku</a></li>
                   <li><a href="#wordsearch">Daily Word Search</a></li>
-                  <li className="coming-soon">Word Scramble (Coming Soon)</li>
+                  <li><a href="#anagram">Daily Anagram</a></li>
                 </ul>
               </div>
               <div className="footer-section">

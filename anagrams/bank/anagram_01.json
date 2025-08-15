@@ -1,0 +1,14 @@
+{
+  "id": "anagram_01",
+  "date": "2025-08-15",
+  "originalWord": "PUZZLE",
+  "scrambledWord": "LEZZUP",
+  "definition": "A game, toy, or problem designed to test ingenuity or knowledge",
+  "difficulty": "medium",
+  "category": "Games",
+  "hint": "Something you solve for fun",
+  "wordLength": 6,
+  "estimated_time": "2-5 minutes",
+  "created_by": "Daily Puzzle Post",
+  "version": "1.0"
+}
