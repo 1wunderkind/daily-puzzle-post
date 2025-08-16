@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { gameData } from './gameData';
+import './fallbackData'; // Initialize fallback mode for production
 import PremiumModal from './PremiumModal';
 import SmartPrompts from './SmartPrompts';
 import RetentionFeatures, { trackDailyVisit } from './RetentionFeatures';
