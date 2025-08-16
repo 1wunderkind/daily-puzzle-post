@@ -396,18 +396,26 @@
     
     <!-- Remove loading screen when React loads -->
     <script>
-      // Hide loading screen when React app mounts
+      // Function to hide loading screen - called by React when ready
+      window.removeLoadingScreen = function() {
+        const loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+          loadingScreen.style.opacity = '0';
+          loadingScreen.style.transition = 'opacity 0.3s ease';
+          setTimeout(function() {
+            loadingScreen.remove();
+          }, 300);
+        }
+      };
+      
+      // Fallback: remove loading screen after 5 seconds if React fails to load
       window.addEventListener('DOMContentLoaded', function() {
         setTimeout(function() {
-          const loadingScreen = document.getElementById('loading-screen');
-          if (loadingScreen) {
-            loadingScreen.style.opacity = '0';
-            loadingScreen.style.transition = 'opacity 0.3s ease';
-            setTimeout(function() {
-              loadingScreen.remove();
-            }, 300);
+          if (document.getElementById('loading-screen')) {
+            console.warn('React failed to load - removing loading screen as fallback');
+            window.removeLoadingScreen();
           }
-        }, 100);
+        }, 5000);
       });
     </script>
     

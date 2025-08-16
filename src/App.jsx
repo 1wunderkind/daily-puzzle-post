@@ -79,6 +79,11 @@ function App() {
     const handleShowPremiumModal = () => setShowPremiumModal(true);
     window.addEventListener('showPremiumModal', handleShowPremiumModal);
     
+    // Remove loading screen now that React has mounted
+    if (window.removeLoadingScreen) {
+      window.removeLoadingScreen();
+    }
+    
     // Track daily visit for retention
     trackDailyVisit();
     
