@@ -263,43 +263,6 @@ const SocialIntegration = ({
           </div>
         </div>
 
-        {/* Community Section */}
-        <div className="community-section">
-          <h3>Join Our Community</h3>
-          <p className="community-description">
-            Connect with fellow word game enthusiasts, share strategies, and participate in daily challenges!
-          </p>
-          
-          <div className="community-features">
-            <div className="feature-item">
-              <span className="feature-icon">🏆</span>
-              <div className="feature-content">
-                <h4>Daily Leaderboards</h4>
-                <p>Compete with players worldwide on daily challenges</p>
-              </div>
-            </div>
-            
-            <div className="feature-item">
-              <span className="feature-icon">💡</span>
-              <div className="feature-content">
-                <h4>Strategy Tips</h4>
-                <p>Learn from expert players and improve your game</p>
-              </div>
-            </div>
-            
-            <div className="feature-item">
-              <span className="feature-icon">🎯</span>
-              <div className="feature-content">
-                <h4>Weekly Challenges</h4>
-                <p>Special themed puzzles and bonus point opportunities</p>
-              </div>
-            </div>
-          </div>
-          
-          <button className="community-btn">
-            Join Community Discord
-          </button>
-        </div>
       </div>
     </>
   );

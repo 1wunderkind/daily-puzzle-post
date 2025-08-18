@@ -532,12 +532,35 @@ function App() {
           <div className="site-logo">
             Daily Puzzle Post
           </div>
-          <div className="premium-section">
-            {isPremium ? (
-              <div className="premium-badge">⭐ PREMIUM</div>
-            ) : (
-              <ABTesting onPremiumClick={handlePremiumClick} isPremium={isPremium} />
-            )}
+          <div className="header-right">
+            <button 
+              className="header-premium-button"
+              onClick={() => {
+                // Show coming soon modal
+                const modal = document.createElement('div');
+                modal.className = 'coming-soon-modal-overlay';
+                modal.innerHTML = `
+                  <div class="coming-soon-modal">
+                    <div class="coming-soon-content">
+                      <h3>Ad-Free Mode</h3>
+                      <p>Ad-Free Mode launches soon! We're finalizing the details for this premium experience. Check back in a few days.</p>
+                      <button class="coming-soon-close" onclick="this.closest('.coming-soon-modal-overlay').remove()">
+                        Got it!
+                      </button>
+                    </div>
+                  </div>
+                `;
+                document.body.appendChild(modal);
+                
+                trackEvent('coming_soon_clicked', {
+                  location: 'header',
+                  feature: 'ad_free_mode'
+                });
+              }}
+            >
+              <span className="button-text">Ad-Free Mode</span>
+              <span className="coming-soon-badge">Coming Soon</span>
+            </button>
           </div>
         </div>
       </header>
@@ -993,31 +1016,7 @@ function App() {
               </div>
               <div className="footer-section">
                 <h4>Account</h4>
-                <ul>
-                  <li>
-                    <button 
-                      className="footer-premium-link"
-                      onClick={() => {
-                        // Show coming soon modal (same as header button)
-                        const modal = document.createElement('div');
-                        modal.className = 'coming-soon-modal-overlay';
-                        modal.innerHTML = `
-                          <div class="coming-soon-modal">
-                            <div class="coming-soon-content">
-                              <h3>Ad-Free Mode</h3>
-                              <p>Ad-Free Mode launches soon! We're finalizing the details for this premium experience. Check back in a few days.</p>
-                              <button class="coming-soon-close" onclick="this.closest('.coming-soon-modal-overlay').remove()">
-                                Got it!
-                              </button>
-                            </div>
-                          </div>
-                        `;
-                        document.body.appendChild(modal);
-                      }}
-                    >
-                      Ad-Free Mode - Coming Soon
-                    </button>
-                  </li>
+                    <ul>
                   <li>
                     <button 
                       className="footer-link-button"
