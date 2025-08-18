@@ -817,7 +817,8 @@ const DailyCrossword = ({ isPremium = false, onPremiumClick }) => {
               className="premium-button"
               onClick={() => onPremiumClick('crossword')}
             >
-              Coming Soon
+              <span className="premium-button-text">🚀 Upgrade to Ad-Free Mode</span>
+              <span className="premium-coming-soon-badge">Coming Soon</span>
             </button>
           </div>
         )}

@@ -663,3 +663,23 @@
   box-shadow: 0 0 0 3px #1B4332, 0 0 0 6px rgba(27, 67, 50, 0.3);
 }
 
+
+/* Premium Button Text and Badge Styles */
+.premium-button-text {
+  font-size: 1.1em;
+  letter-spacing: 0.5px;
+}
+
+.premium-coming-soon-badge {
+  background: #ffd700;
+  color: #000;
+  padding: 3px 8px;
+  font-size: 0.75em;
+  font-weight: bold;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid #e6c200;
+  margin-left: 8px;
+}
+
