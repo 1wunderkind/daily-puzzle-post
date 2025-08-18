@@ -9,7 +9,6 @@ import ABTesting, { useABTestingConversion } from './ABTesting';
 import SocialProof from './SocialProof';
 import ProgressBadges, { triggerPerfectGame, triggerFastGame } from './ProgressBadges';
 import WordOfTheDay from './WordOfTheDay';
-import BlogSection from './BlogSection';
 import GameVariations from './GameVariations';
 import SocialIntegration from './SocialIntegration';
 import DailyCrossword from './DailyCrossword';
@@ -591,13 +590,7 @@ function App() {
             className={`tab-button ${currentView === 'variations' ? 'active' : ''}`}
             onClick={() => handleViewChange('variations')}
           >
-            🎮 All Games
-          </button>
-          <button 
-            className={`tab-button ${currentView === 'blog' ? 'active' : ''}`}
-            onClick={() => handleViewChange('blog')}
-          >
-            📰 Strategy Tips
+            🔮 Coming Soon
           </button>
         </div>
       </nav>
@@ -846,11 +839,6 @@ function App() {
         </div>
         )}
 
-        {/* Blog View */}
-        {currentView === 'blog' && (
-          <BlogSection />
-        )}
-
         {/* Daily Crossword View */}
         {currentView === 'crossword' && (
           <DailyCrossword 
@@ -961,11 +949,46 @@ function App() {
               <div className="footer-section">
                 <h4>Games</h4>
                 <ul>
-                  <li><a href="#hangman">Hangman</a></li>
-                  <li><a href="#crossword">Daily Crossword</a></li>
-                  <li><a href="#sudoku">Daily Sudoku</a></li>
-                  <li><a href="#wordsearch">Daily Word Search</a></li>
-                  <li><a href="#anagram">Daily Anagram</a></li>
+                  <li>
+                    <button 
+                      className="footer-link-button"
+                      onClick={() => handleViewChange('game')}
+                    >
+                      Hangman
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      className="footer-link-button"
+                      onClick={() => handleViewChange('crossword')}
+                    >
+                      Daily Crossword
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      className="footer-link-button"
+                      onClick={() => handleViewChange('sudoku')}
+                    >
+                      Daily Sudoku
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      className="footer-link-button"
+                      onClick={() => handleViewChange('wordsearch')}
+                    >
+                      Daily Word Search
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      className="footer-link-button"
+                      onClick={() => handleViewChange('anagram')}
+                    >
+                      Daily Anagram
+                    </button>
+                  </li>
                 </ul>
               </div>
               <div className="footer-section">

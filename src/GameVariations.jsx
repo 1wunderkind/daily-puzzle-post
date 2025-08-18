@@ -26,44 +26,40 @@ const GameVariations = ({ currentGame, onGameSelect }) => {
       estimatedTime: '2-4 minutes',
       features: ['Timed challenges', 'Multiple difficulty levels', 'Daily puzzles', 'Bonus rounds'],
       icon: '🔤',
-      comingSoon: true,
-      launchDate: 'September 2025'
+      comingSoon: true
     },
     {
-      id: 'word-search',
-      name: 'Word Search',
-      description: 'Find hidden words in a grid of letters',
+      id: 'word-search-plus',
+      name: 'Word Search Plus',
+      description: 'Enhanced word search with special features',
       status: 'coming-soon',
       difficulty: 'Easy',
       estimatedTime: '5-10 minutes',
       features: ['Multiple grid sizes', 'Themed puzzles', 'Highlight system', 'Progress tracking'],
       icon: '🔍',
-      comingSoon: true,
-      launchDate: 'October 2025'
+      comingSoon: true
     },
     {
-      id: 'daily-crossword',
-      name: 'Daily Crossword',
-      description: 'Traditional crossword puzzles with varying difficulty',
+      id: 'crossword-plus',
+      name: 'Crossword Plus',
+      description: 'Advanced crossword puzzles with enhanced features',
       status: 'coming-soon',
       difficulty: 'Hard',
       estimatedTime: '10-20 minutes',
-      features: ['Daily puzzles', 'Multiple difficulty levels', 'Clue hints', 'Progress saving'],
+      features: ['Advanced puzzles', 'Multiple difficulty levels', 'Enhanced clues', 'Progress saving'],
       icon: '📝',
-      comingSoon: true,
-      launchDate: 'November 2025'
+      comingSoon: true
     },
     {
-      id: 'anagram-solver',
+      id: 'anagram-challenge',
       name: 'Anagram Challenge',
-      description: 'Create new words from given letters',
+      description: 'Create multiple words from given letters',
       status: 'coming-soon',
       difficulty: 'Medium',
       estimatedTime: '3-7 minutes',
       features: ['Multiple solutions', 'Scoring system', 'Time challenges', 'Word definitions'],
       icon: '🔀',
-      comingSoon: true,
-      launchDate: 'December 2025'
+      comingSoon: true
     },
     {
       id: 'rhyme-time',
@@ -74,8 +70,7 @@ const GameVariations = ({ currentGame, onGameSelect }) => {
       estimatedTime: '2-5 minutes',
       features: ['Poetry mode', 'Educational content', 'Sound pronunciation', 'Creative challenges'],
       icon: '🎵',
-      comingSoon: true,
-      launchDate: 'January 2026'
+      comingSoon: true
     }
   ];
 
@@ -105,11 +100,10 @@ const GameVariations = ({ currentGame, onGameSelect }) => {
     
     trackEvent('notify_me_clicked', {
       game_name: game.name,
-      game_id: game.id,
-      launch_date: game.launchDate
+      game_id: game.id
     });
     
-    alert(`Thanks for your interest! We'll notify you when ${game.name} launches in ${game.launchDate}.`);
+    alert(`Thanks for your interest! We'll notify you when ${game.name} becomes available.`);
   };
 
   const getDifficultyColor = (difficulty) => {
@@ -124,8 +118,8 @@ const GameVariations = ({ currentGame, onGameSelect }) => {
   return (
     <div className="game-variations-section">
       <div className="variations-header">
-        <h2>WORD GAME COLLECTION</h2>
-        <p className="variations-subtitle">Challenge your mind with our growing collection of word puzzles</p>
+        <h2>COMING SOON</h2>
+        <p className="variations-subtitle">Exciting new word games in development for Daily Puzzle Post</p>
       </div>
       
       <div className="games-grid">
@@ -166,12 +160,6 @@ const GameVariations = ({ currentGame, onGameSelect }) => {
                   <span className="detail-label">Time:</span>
                   <span className="detail-value">{game.estimatedTime}</span>
                 </div>
-                {game.launchDate && (
-                  <div className="detail-item">
-                    <span className="detail-label">Launch:</span>
-                    <span className="detail-value launch-date">{game.launchDate}</span>
-                  </div>
-                )}
               </div>
               
               <div className="game-features">
@@ -196,7 +184,7 @@ const GameVariations = ({ currentGame, onGameSelect }) => {
                   >
                     Notify Me
                   </button>
-                  <span className="launch-info">Launching {game.launchDate}</span>
+                  <span className="launch-info">In Development</span>
                 </div>
               ) : (
                 <div className="available-actions">
@@ -227,36 +215,22 @@ const GameVariations = ({ currentGame, onGameSelect }) => {
       
       <div className="variations-footer">
         <div className="development-roadmap">
-          <h3>Development Roadmap</h3>
+          <h3>Development in Progress</h3>
           <p>We're continuously expanding our word game collection. Each new game is carefully designed to provide unique challenges while maintaining our classic newspaper aesthetic and accessibility standards.</p>
           
-          <div className="roadmap-timeline">
-            <div className="timeline-item completed">
-              <div className="timeline-marker"></div>
-              <div className="timeline-content">
-                <h4>August 2025</h4>
+          <div className="current-status">
+            <div className="status-item">
+              <div className="status-marker available"></div>
+              <div className="status-content">
+                <h4>Currently Available</h4>
                 <p>Hangman with 150+ words and premium features</p>
               </div>
             </div>
-            <div className="timeline-item upcoming">
-              <div className="timeline-marker"></div>
-              <div className="timeline-content">
-                <h4>September 2025</h4>
-                <p>Word Scramble with timed challenges</p>
-              </div>
-            </div>
-            <div className="timeline-item upcoming">
-              <div className="timeline-marker"></div>
-              <div className="timeline-content">
-                <h4>October 2025</h4>
-                <p>Word Search with themed puzzles</p>
-              </div>
-            </div>
-            <div className="timeline-item upcoming">
-              <div className="timeline-marker"></div>
-              <div className="timeline-content">
-                <h4>November 2025</h4>
-                <p>Daily Crossword puzzles</p>
+            <div className="status-item">
+              <div className="status-marker development"></div>
+              <div className="status-content">
+                <h4>In Development</h4>
+                <p>5 exciting new word games with enhanced features</p>
               </div>
             </div>
           </div>
