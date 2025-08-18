@@ -103,7 +103,6 @@
   grid-template-rows: repeat(15, 1fr);
   gap: 1px;
   background: #0A0A0A;
-  border: 2px solid #0A0A0A;
   padding: 1px;
   max-width: 580px;
   aspect-ratio: 1;
