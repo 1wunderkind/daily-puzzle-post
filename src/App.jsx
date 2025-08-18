@@ -532,35 +532,8 @@ function App() {
           <div className="site-logo">
             Daily Puzzle Post
           </div>
-          <div className="header-right">
-            <button 
-              className="header-premium-button"
-              onClick={() => {
-                // Show coming soon modal
-                const modal = document.createElement('div');
-                modal.className = 'coming-soon-modal-overlay';
-                modal.innerHTML = `
-                  <div class="coming-soon-modal">
-                    <div class="coming-soon-content">
-                      <h3>Ad-Free Mode</h3>
-                      <p>Ad-Free Mode launches soon! We're finalizing the details for this premium experience. Check back in a few days.</p>
-                      <button class="coming-soon-close" onclick="this.closest('.coming-soon-modal-overlay').remove()">
-                        Got it!
-                      </button>
-                    </div>
-                  </div>
-                `;
-                document.body.appendChild(modal);
-                
-                trackEvent('coming_soon_clicked', {
-                  location: 'header',
-                  feature: 'ad_free_mode'
-                });
-              }}
-            >
-              <span className="button-text">Ad-Free Mode</span>
-              <span className="coming-soon-badge">Coming Soon</span>
-            </button>
+          <div className="header-tagline">
+            Your trusted source for daily brain training since 2024
           </div>
         </div>
       </header>
@@ -568,6 +541,38 @@ function App() {
       {/* Date Header */}
       <div className="date-header">
         {getCurrentDate()}
+      </div>
+
+      {/* Prominent Ad-Free Mode Button */}
+      <div className="prominent-premium-section">
+        <button 
+          className="prominent-premium-button"
+          onClick={() => {
+            // Show coming soon modal
+            const modal = document.createElement('div');
+            modal.className = 'coming-soon-modal-overlay';
+            modal.innerHTML = `
+              <div class="coming-soon-modal">
+                <div class="coming-soon-content">
+                  <h3>Ad-Free Mode</h3>
+                  <p>Ad-Free Mode launches soon! We're finalizing the details for this premium experience. Check back in a few days.</p>
+                  <button class="coming-soon-close" onclick="this.closest('.coming-soon-modal-overlay').remove()">
+                    Got it!
+                  </button>
+                </div>
+              </div>
+            `;
+            document.body.appendChild(modal);
+            
+            trackEvent('coming_soon_clicked', {
+              location: 'prominent',
+              feature: 'ad_free_mode'
+            });
+          }}
+        >
+          <span className="premium-button-text">🚀 Upgrade to Ad-Free Mode</span>
+          <span className="premium-coming-soon-badge">Coming Soon</span>
+        </button>
       </div>
 
       {/* Newspaper Section Navigation */}
