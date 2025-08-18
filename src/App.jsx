@@ -17,6 +17,7 @@ import DailySudoku from './DailySudoku';
 import DailyWordSearch from './DailyWordSearch';
 import DailyAnagram from './DailyAnagram';
 import CrosswordMaker from './CrosswordMaker';
+import AboutUs from './AboutUs';
 import { hybridHangmanLoader, hangmanLindyHelpers } from './hangmanAPI';
 import { trackEvent } from './analytics';
 import { HeaderAd, SidebarAd, TextAd } from './AdPlacement';
@@ -910,8 +911,15 @@ function App() {
           />
         )}
 
-        {/* Social Integration - Always visible except for privacy/terms */}
-        {currentView !== 'privacy' && currentView !== 'terms' && (
+        {/* About Us View */}
+        {currentView === 'about' && (
+          <AboutUs 
+            onBack={() => handleViewChange('game')}
+          />
+        )}
+
+        {/* Social Integration - Always visible except for privacy/terms/about */}
+        {currentView !== 'privacy' && currentView !== 'terms' && currentView !== 'about' && (
           <SocialIntegration 
             currentScore={score}
             currentStreak={streak}
@@ -923,8 +931,8 @@ function App() {
         )}
       </main>
 
-      {/* Footer - Hidden for privacy/terms views */}
-      {currentView !== 'privacy' && currentView !== 'terms' && (
+      {/* Footer - Hidden for privacy/terms/about views */}
+      {currentView !== 'privacy' && currentView !== 'terms' && currentView !== 'about' && (
         <footer className="site-footer">
           <div className="footer-container">
             <div className="footer-content">
@@ -972,6 +980,14 @@ function App() {
                   <li>
                     <button 
                       className="footer-link-button"
+                      onClick={() => handleViewChange('about')}
+                    >
+                      About Us
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      className="footer-link-button"
                       onClick={() => handleViewChange('privacy')}
                     >
                       Privacy Policy
@@ -996,8 +1012,8 @@ function App() {
         </footer>
       )}
 
-      {/* Footer Leaderboard Ad - Hidden for privacy/terms views */}
-      {!isPremium && currentView !== 'privacy' && currentView !== 'terms' && (
+      {/* Footer Leaderboard Ad - Hidden for privacy/terms/about views */}
+      {!isPremium && currentView !== 'privacy' && currentView !== 'terms' && currentView !== 'about' && (
         <div className="adsense-container adsense-footer-leaderboard">
           <div className="ad-label-container">
             <span className="ad-label">Classified Advertisements</span>
