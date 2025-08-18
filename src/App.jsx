@@ -18,6 +18,8 @@ import DailyWordSearch from './DailyWordSearch';
 import DailyAnagram from './DailyAnagram';
 import CrosswordMaker from './CrosswordMaker';
 import AboutUs from './AboutUs';
+import ContactUs from './ContactUs';
+import FAQ from './FAQ';
 import { hybridHangmanLoader, hangmanLindyHelpers } from './hangmanAPI';
 import { trackEvent } from './analytics';
 import { HeaderAd, SidebarAd, TextAd } from './AdPlacement';
@@ -918,8 +920,24 @@ function App() {
           />
         )}
 
-        {/* Social Integration - Always visible except for privacy/terms/about */}
-        {currentView !== 'privacy' && currentView !== 'terms' && currentView !== 'about' && (
+        {/* Contact Us View */}
+        {currentView === 'contact' && (
+          <ContactUs 
+            onBack={() => handleViewChange('game')}
+            onFAQClick={() => handleViewChange('faq')}
+          />
+        )}
+
+        {/* FAQ View */}
+        {currentView === 'faq' && (
+          <FAQ 
+            onBack={() => handleViewChange('game')}
+            onContactClick={() => handleViewChange('contact')}
+          />
+        )}
+
+        {/* Social Integration - Always visible except for privacy/terms/about/contact/faq */}
+        {currentView !== 'privacy' && currentView !== 'terms' && currentView !== 'about' && currentView !== 'contact' && currentView !== 'faq' && (
           <SocialIntegration 
             currentScore={score}
             currentStreak={streak}
@@ -931,8 +949,8 @@ function App() {
         )}
       </main>
 
-      {/* Footer - Hidden for privacy/terms/about views */}
-      {currentView !== 'privacy' && currentView !== 'terms' && currentView !== 'about' && (
+      {/* Footer - Hidden for privacy/terms/about/contact/faq views */}
+      {currentView !== 'privacy' && currentView !== 'terms' && currentView !== 'about' && currentView !== 'contact' && currentView !== 'faq' && (
         <footer className="site-footer">
           <div className="footer-container">
             <div className="footer-content">
@@ -1001,7 +1019,14 @@ function App() {
                       Terms of Service
                     </button>
                   </li>
-                  <li><a href="#contact">Contact Us</a></li>
+                  <li>
+                    <button 
+                      className="footer-link-button"
+                      onClick={() => handleViewChange('contact')}
+                    >
+                      Contact Us
+                    </button>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -1012,8 +1037,8 @@ function App() {
         </footer>
       )}
 
-      {/* Footer Leaderboard Ad - Hidden for privacy/terms/about views */}
-      {!isPremium && currentView !== 'privacy' && currentView !== 'terms' && currentView !== 'about' && (
+      {/* Footer Leaderboard Ad - Hidden for privacy/terms/about/contact/faq views */}
+      {!isPremium && currentView !== 'privacy' && currentView !== 'terms' && currentView !== 'about' && currentView !== 'contact' && currentView !== 'faq' && (
         <div className="adsense-container adsense-footer-leaderboard">
           <div className="ad-label-container">
             <span className="ad-label">Classified Advertisements</span>
