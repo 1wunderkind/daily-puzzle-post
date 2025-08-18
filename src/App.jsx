@@ -570,51 +570,64 @@ function App() {
         {getCurrentDate()}
       </div>
 
-      {/* Game Tabs */}
-      <nav className="game-tabs">
-        <div className="tabs-container">
-          <button 
-            className={`tab-button ${currentView === 'game' ? 'active' : ''}`}
-            onClick={() => handleViewChange('game')}
-          >
-            🎯 Hangman
-          </button>
-          <button 
-            className={`tab-button ${currentView === 'crossword' ? 'active' : ''}`}
-            onClick={() => handleViewChange('crossword')}
-          >
-            📝 Daily Crossword
-          </button>
-          <button 
-            className={`tab-button ${currentView === 'sudoku' ? 'active' : ''}`}
-            onClick={() => handleViewChange('sudoku')}
-          >
-            📊 Daily Sudoku
-          </button>
-          <button 
-            className={`tab-button ${currentView === 'wordsearch' ? 'active' : ''}`}
-            onClick={() => handleViewChange('wordsearch')}
-          >
-            🔍 Word Search
-          </button>
-          <button 
-            className={`tab-button ${currentView === 'anagram' ? 'active' : ''}`}
-            onClick={() => handleViewChange('anagram')}
-          >
-            🔤 Daily Anagram
-          </button>
-          <button 
-            className={`tab-button ${currentView === 'maker' ? 'active' : ''}`}
-            onClick={() => handleViewChange('maker')}
-          >
-            🛠️ Puzzle Maker
-          </button>
-          <button 
-            className={`tab-button ${currentView === 'variations' ? 'active' : ''}`}
-            onClick={() => handleViewChange('variations')}
-          >
-            🔮 Coming Soon
-          </button>
+      {/* Newspaper Section Navigation */}
+      <nav className="newspaper-sections">
+        {/* Daily Games Section */}
+        <div className="section-group">
+          <h2 className="section-header">DAILY GAMES</h2>
+          <div className="section-divider"></div>
+          <div className="games-row">
+            <button 
+              className={`game-button ${currentView === 'game' ? 'active' : ''}`}
+              onClick={() => handleViewChange('game')}
+            >
+              Hangman
+            </button>
+            <button 
+              className={`game-button ${currentView === 'crossword' ? 'active' : ''}`}
+              onClick={() => handleViewChange('crossword')}
+            >
+              Crossword
+            </button>
+            <button 
+              className={`game-button ${currentView === 'sudoku' ? 'active' : ''}`}
+              onClick={() => handleViewChange('sudoku')}
+            >
+              Sudoku
+            </button>
+            <button 
+              className={`game-button ${currentView === 'wordsearch' ? 'active' : ''}`}
+              onClick={() => handleViewChange('wordsearch')}
+            >
+              Word Search
+            </button>
+            <button 
+              className={`game-button ${currentView === 'anagram' ? 'active' : ''}`}
+              onClick={() => handleViewChange('anagram')}
+            >
+              Anagram
+            </button>
+          </div>
+        </div>
+
+        {/* Special Features Section */}
+        <div className="section-group">
+          <h2 className="section-header">SPECIAL FEATURES</h2>
+          <div className="section-divider"></div>
+          <div className="features-row">
+            <button 
+              className={`feature-button ${currentView === 'maker' ? 'active' : ''}`}
+              onClick={() => handleViewChange('maker')}
+            >
+              Puzzle Maker
+            </button>
+            <button 
+              className={`feature-button ${currentView === 'variations' ? 'active' : ''}`}
+              onClick={() => handleViewChange('variations')}
+            >
+              Coming Soon
+            </button>
+          </div>
         </div>
       </nav>
 
