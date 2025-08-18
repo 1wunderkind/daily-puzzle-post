@@ -190,14 +190,17 @@ export const gameData = {
   }
 };
 
+// Export WORD_CATEGORIES for compatibility with Hangman component
+export const WORD_CATEGORIES = gameData;
+
 // Get all categories as an array
 export const getAllCategories = () => {
-  return Object.keys(WORD_CATEGORIES);
+  return Object.keys(gameData);
 };
 
 // Get a random word from a specific category
 export const getRandomWordFromCategory = (category) => {
-  const categoryData = WORD_CATEGORIES[category];
+  const categoryData = gameData[category];
   if (!categoryData || !categoryData.words.length) {
     return null;
   }
@@ -220,7 +223,7 @@ export const getRandomWord = () => {
 
 // Get category information
 export const getCategoryInfo = (category) => {
-  return WORD_CATEGORIES[category] || null;
+  return gameData[category] || null;
 };
 
 // Hangman ASCII art stages (6 wrong guesses maximum)
@@ -236,6 +239,7 @@ export const HANGMAN_STAGES = [
 ];
 
 export default {
+  gameData,
   WORD_CATEGORIES,
   getAllCategories,
   getRandomWordFromCategory,
