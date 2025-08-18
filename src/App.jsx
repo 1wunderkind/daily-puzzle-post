@@ -8,7 +8,6 @@ import RetentionFeatures, { trackDailyVisit } from './RetentionFeatures';
 import ABTesting, { useABTestingConversion } from './ABTesting';
 import SocialProof from './SocialProof';
 import ProgressBadges, { triggerPerfectGame, triggerFastGame } from './ProgressBadges';
-import WordOfTheDay from './WordOfTheDay';
 import GameVariations from './GameVariations';
 import SocialIntegration from './SocialIntegration';
 import DailyCrossword from './DailyCrossword';
@@ -58,8 +57,6 @@ function App() {
   const [currentView, setCurrentView] = useState('game'); // 'game', 'blog', 'variations', 'privacy', 'terms'
   const [wordOfTheDay, setWordOfTheDay] = useState(null);
   const [isWordOfDayGame, setIsWordOfDayGame] = useState(false);
-  const [isDailyWordMode, setIsDailyWordMode] = useState(false);
-  const [dailyWordData, setDailyWordData] = useState(null);
   const [rotationInfo, setRotationInfo] = useState(null);
 
   const { trackConversion } = useABTestingConversion();
@@ -105,26 +102,7 @@ function App() {
   }, [score, streak, gamesPlayed]);
 
   const getRandomWord = async () => {
-    // If daily word mode is enabled, get today's word from rotation
-    if (isDailyWordMode) {
-      try {
-        const todaysWord = await hybridHangmanLoader.getTodaysWord();
-        return {
-          word: todaysWord.word,
-          hint: todaysWord.hint,
-          category: todaysWord.category,
-          theme: todaysWord.theme,
-          difficulty: todaysWord.difficulty,
-          isDaily: true,
-          wordData: todaysWord
-        };
-      } catch (error) {
-        console.error('Failed to load daily word, falling back to random:', error);
-        // Fall through to random word selection
-      }
-    }
-    
-    // Original random word logic
+    // Random word logic
     let availableWords = [];
     
     if (selectedCategory === 'all') {
@@ -190,13 +168,6 @@ function App() {
         offlineContentManager.recordOfflinePlay('hangman');
       }
       
-      // Store daily word data if applicable
-      if (wordData.isDaily) {
-        setDailyWordData(wordData.wordData);
-      } else {
-        setDailyWordData(null);
-      }
-      
       // Track game start with enhanced data
       trackEvent('game_start', {
         category: wordData.category,
@@ -220,7 +191,6 @@ function App() {
       setHintRevealed('');
       setGameStartTime(Date.now());
       setPerfectGame(true);
-      setDailyWordData(null);
     }
   };
 
@@ -260,31 +230,14 @@ function App() {
         }
         
         // Track win
-        trackEvent('game_win', {
+        trackEvent('game_won', {
           category: currentCategory,
           word: currentWord,
           time_taken: gameTime,
           wrong_guesses: wrongGuesses,
           hint_used: hintUsed,
-          perfect_game: perfectGame && wrongGuesses === 0,
-          is_daily: isDailyWordMode,
-          word_id: dailyWordData?.id
+          perfect_game: perfectGame && wrongGuesses === 0
         });
-        
-        // Record analytics for Lindy.ai if daily word
-        if (isDailyWordMode && dailyWordData) {
-          hangmanLindyHelpers.recordGameCompletion(dailyWordData.id, {
-            sessionId: 'anonymous',
-            duration: Math.floor(gameTime / 1000),
-            wrongGuesses: wrongGuesses,
-            guessedLetters: newGuessedLetters,
-            isWon: true,
-            hintUsed: hintUsed,
-            difficulty: dailyWordData.difficulty,
-            wordLength: currentWord.length,
-            theme: dailyWordData.theme
-          }).catch(err => console.warn('Analytics recording failed:', err));
-        }
       }
       
       // Track correct guess
@@ -306,29 +259,12 @@ function App() {
         setGamesPlayed(gamesPlayed + 1);
         
         // Track loss
-        trackEvent('game_loss', {
+        trackEvent('game_lost', {
           category: currentCategory,
           word: currentWord,
           wrong_guesses: newWrongGuesses,
-          hint_used: hintUsed,
-          is_daily: isDailyWordMode,
-          word_id: dailyWordData?.id
+          hint_used: hintUsed
         });
-        
-        // Record analytics for Lindy.ai if daily word
-        if (isDailyWordMode && dailyWordData) {
-          hangmanLindyHelpers.recordGameCompletion(dailyWordData.id, {
-            sessionId: 'anonymous',
-            duration: Math.floor((Date.now() - gameStartTime) / 1000),
-            wrongGuesses: newWrongGuesses,
-            guessedLetters: newGuessedLetters,
-            isWon: false,
-            hintUsed: hintUsed,
-            difficulty: dailyWordData.difficulty,
-            wordLength: currentWord.length,
-            theme: dailyWordData.theme
-          }).catch(err => console.warn('Analytics recording failed:', err));
-        }
       }
       
       // Track wrong guess
@@ -642,15 +578,6 @@ function App() {
         onEmailCapture={handleEmailCapture}
       />
 
-      {/* Word of the Day */}
-      {currentView === 'game' && (
-        <WordOfTheDay 
-          onWordSelect={handleWordOfDaySelect}
-          currentWord={currentWord}
-          gameStatus={gameStatus}
-        />
-      )}
-
       {/* Main Content */}
       <main className="main-content">
         {currentView === 'game' && (
@@ -779,46 +706,13 @@ function App() {
                   New Game
                 </button>
                 <button 
-                  className="hint-button" 
+                  className="hint-button"
                   onClick={handleHint}
                   disabled={hintUsed || gameStatus !== 'playing'}
                 >
                   {hintUsed ? 'Hint Used' : 'Show Hint'}
                 </button>
-                <button 
-                  className={`daily-word-toggle ${isDailyWordMode ? 'active' : ''}`}
-                  onClick={() => {
-                    setIsDailyWordMode(!isDailyWordMode);
-                    trackEvent('daily_word_mode_toggle', {
-                      enabled: !isDailyWordMode
-                    });
-                  }}
-                  title={isDailyWordMode ? 'Switch to Random Words' : 'Switch to Daily Word'}
-                >
-                  {isDailyWordMode ? '📅 Daily Word' : '🎲 Random'}
-                </button>
               </div>
-
-              {/* Daily Word Info */}
-              {isDailyWordMode && dailyWordData && (
-                <div className="daily-word-info">
-                  <div className="daily-word-header">
-                    📅 Today's Daily Word
-                  </div>
-                  <div className="daily-word-details">
-                    <span className="word-theme">Theme: {dailyWordData.theme}</span>
-                    <span className="word-difficulty">
-                      Difficulty: {dailyWordData.difficultyLabel} 
-                      ({Array(dailyWordData.difficulty).fill('⭐').join('')})
-                    </span>
-                    {dailyWordData.todaysInfo && (
-                      <span className="rotation-info">
-                        Day {dailyWordData.todaysInfo.dayInCycle || dailyWordData.todaysInfo.wordIndex} of 30
-                      </span>
-                    )}
-                  </div>
-                </div>
-              )}
 
               {/* Hint Display */}
               {hintUsed && (
