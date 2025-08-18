@@ -4479,3 +4479,20 @@ body::before {
   display: block !important;
 }
 
+
+/* Copy Link Description Styling */
+.copy-link-description {
+  font-size: 0.85em;
+  color: #666;
+  font-style: italic;
+  margin: 8px 0 0 0;
+  padding: 0;
+  line-height: 1.4;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.copy-link-description:hover {
+  color: #444;
+}
+

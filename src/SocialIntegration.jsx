@@ -207,6 +207,9 @@ const SocialIntegration = ({
               <span className="btn-icon">📋</span>
               <span className="btn-text">Copy Link</span>
             </button>
+            <p className="copy-link-description">
+              Copies the website link to your clipboard. Paste it in text messages, emails, or social media to share with friends and family.
+            </p>
           </div>
           
           <div className="share-preview">
