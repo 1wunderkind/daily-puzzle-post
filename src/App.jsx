@@ -962,19 +962,23 @@ function App() {
 
       {/* Footer - Hidden for privacy/terms/about/contact/faq views */}
       {currentView !== 'privacy' && currentView !== 'terms' && currentView !== 'about' && currentView !== 'contact' && currentView !== 'faq' && (
-        <footer className="site-footer">
+        <footer className="newspaper-footer">
           <div className="footer-container">
-            <div className="footer-content">
-              <div className="footer-section">
-                <h3>Daily Puzzle Post</h3>
-                <p>Your trusted source for daily brain training and word puzzles. Challenge yourself with our growing collection of games designed for puzzle enthusiasts of all ages.</p>
-              </div>
-              <div className="footer-section">
-                <h4>Games</h4>
-                <ul>
+            {/* Newspaper-style masthead */}
+            <div className="footer-masthead">
+              <h2 className="footer-title">Daily Puzzle Post</h2>
+              <p className="footer-tagline">Your trusted source for daily brain training since 2024</p>
+            </div>
+
+            {/* Two-column newspaper layout */}
+            <div className="footer-columns">
+              <div className="footer-column">
+                <h3 className="column-header">Games</h3>
+                <div className="column-divider"></div>
+                <ul className="footer-links">
                   <li>
                     <button 
-                      className="footer-link-button"
+                      className="newspaper-link"
                       onClick={() => handleViewChange('game')}
                     >
                       Hangman
@@ -982,7 +986,7 @@ function App() {
                   </li>
                   <li>
                     <button 
-                      className="footer-link-button"
+                      className="newspaper-link"
                       onClick={() => handleViewChange('crossword')}
                     >
                       Daily Crossword
@@ -990,7 +994,7 @@ function App() {
                   </li>
                   <li>
                     <button 
-                      className="footer-link-button"
+                      className="newspaper-link"
                       onClick={() => handleViewChange('sudoku')}
                     >
                       Daily Sudoku
@@ -998,7 +1002,7 @@ function App() {
                   </li>
                   <li>
                     <button 
-                      className="footer-link-button"
+                      className="newspaper-link"
                       onClick={() => handleViewChange('wordsearch')}
                     >
                       Daily Word Search
@@ -1006,20 +1010,36 @@ function App() {
                   </li>
                   <li>
                     <button 
-                      className="footer-link-button"
+                      className="newspaper-link"
                       onClick={() => handleViewChange('anagram')}
                     >
                       Daily Anagram
                     </button>
                   </li>
-                </ul>
-              </div>
-              <div className="footer-section">
-                <h4>Account</h4>
-                    <ul>
                   <li>
                     <button 
-                      className="footer-link-button"
+                      className="newspaper-link"
+                      onClick={() => handleViewChange('maker')}
+                    >
+                      Puzzle Maker
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="footer-column">
+                <h3 className="column-header">Account</h3>
+                <div className="column-divider"></div>
+                <ul className="footer-links">
+                  <li>
+                    <span className="newspaper-link coming-soon-item">
+                      Ad-Free Mode
+                      <span className="newspaper-classified-badge">Coming Soon</span>
+                    </span>
+                  </li>
+                  <li>
+                    <button 
+                      className="newspaper-link"
                       onClick={() => handleViewChange('about')}
                     >
                       About Us
@@ -1027,7 +1047,7 @@ function App() {
                   </li>
                   <li>
                     <button 
-                      className="footer-link-button"
+                      className="newspaper-link"
                       onClick={() => handleViewChange('privacy')}
                     >
                       Privacy Policy
@@ -1035,7 +1055,7 @@ function App() {
                   </li>
                   <li>
                     <button 
-                      className="footer-link-button"
+                      className="newspaper-link"
                       onClick={() => handleViewChange('terms')}
                     >
                       Terms of Service
@@ -1043,17 +1063,31 @@ function App() {
                   </li>
                   <li>
                     <button 
-                      className="footer-link-button"
+                      className="newspaper-link"
                       onClick={() => handleViewChange('contact')}
                     >
                       Contact Us
                     </button>
                   </li>
+                  <li>
+                    <button 
+                      className="newspaper-link"
+                      onClick={() => handleViewChange('faq')}
+                    >
+                      FAQ
+                    </button>
+                  </li>
                 </ul>
               </div>
             </div>
+
+            {/* Newspaper-style bottom section */}
             <div className="footer-bottom">
-              <p>&copy; 2024 Daily Puzzle Post. All rights reserved. | Designed for puzzle enthusiasts worldwide.</p>
+              <div className="footer-divider"></div>
+              <div className="copyright-section">
+                <p className="copyright-main">&copy; 2024 Daily Puzzle Post. All rights reserved.</p>
+                <p className="copyright-tagline">Designed for puzzle enthusiasts worldwide</p>
+              </div>
             </div>
           </div>
         </footer>
