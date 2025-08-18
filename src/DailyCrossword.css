@@ -85,6 +85,12 @@
   grid-template-columns: 1fr 400px;
   gap: 30px;
   margin-bottom: 15px;
+  padding: 20px;
+  background: #FFFFFF;
+  border: 2px solid #0A0A0A;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 /* Grid Container */
@@ -92,11 +98,11 @@
   display: flex;
   justify-content: center;
   padding: 20px;
-  background: #FFFFFF;
-  border: 2px solid #0A0A0A;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
 }
 
 .crossword-grid {
@@ -192,11 +198,11 @@
 
 /* Clues Section */
 .crossword-clues {
-  background: #FFFFFF;
-  border: 2px solid #0A0A0A;
-  border-radius: 8px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
   padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: none;
   max-height: 600px;
   overflow-y: auto;
 }
