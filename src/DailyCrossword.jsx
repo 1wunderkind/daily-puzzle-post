@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './DailyCrossword.css';
-import { getTodaysPuzzle, getPuzzleForDate, automationAPI } from './puzzleRotation';
 import { trackEvent } from './analytics';
 
 const DailyCrossword = ({ isPremium = false, onPremiumClick }) => {
@@ -50,7 +49,17 @@ const DailyCrossword = ({ isPremium = false, onPremiumClick }) => {
 
   const loadTodaysPuzzle = async () => {
     try {
-      const puzzle = await getTodaysPuzzle();
+      // Simplified loading - directly fetch puzzle_01.json for MVP
+      console.log('Loading crossword puzzle...');
+      const response = await fetch('/puzzles/bank/puzzle_01.json');
+      
+      if (!response.ok) {
+        throw new Error(`Failed to load puzzle: ${response.status}`);
+      }
+      
+      const puzzle = await response.json();
+      console.log('Puzzle loaded successfully:', puzzle.title);
+      
       if (puzzle) {
         setCurrentPuzzle(puzzle);
         initializeGrid(puzzle);
@@ -61,11 +70,11 @@ const DailyCrossword = ({ isPremium = false, onPremiumClick }) => {
           puzzle_id: puzzle.id,
           difficulty: puzzle.difficulty,
           theme: puzzle.theme,
-          rotation_info: puzzle.rotation
+          loading_method: 'direct_fetch'
         });
       }
     } catch (error) {
-      console.error('Failed to load today\'s puzzle:', error);
+      console.error('Failed to load puzzle:', error);
       // Fallback to a default puzzle if needed
       loadFallbackPuzzle();
     }
