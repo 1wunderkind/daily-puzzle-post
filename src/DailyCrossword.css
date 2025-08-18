@@ -107,6 +107,7 @@
   padding: 1px;
   max-width: 580px;
   aspect-ratio: 1;
+  box-sizing: border-box;
 }
 
 .crossword-row {
