@@ -42,7 +42,6 @@ const RetentionFeatures = ({ isPremium, onEmailCapture }) => {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [showPWAPrompt, setShowPWAPrompt] = useState(false);
   const [visitCount, setVisitCount] = useState(0);
-  const [todaysChallenge, setTodaysChallenge] = useState(null);
 
   // Track visits for PWA prompt
   useEffect(() => {
@@ -64,34 +63,6 @@ const RetentionFeatures = ({ isPremium, onEmailCapture }) => {
     const emailDismissed = localStorage.getItem('dpp_email_dismissed');
     if (!emailCaptured && !emailDismissed && newVisitCount >= 2) {
       setTimeout(() => setShowEmailCapture(true), 5000);
-    }
-
-    // Set today's challenge
-    const today = new Date().toDateString();
-    const lastChallengeDate = localStorage.getItem('dpp_last_challenge_date');
-    
-    if (lastChallengeDate !== today) {
-      // Generate today's challenge word
-      const challengeWords = [
-        { word: 'MYSTERY', hint: 'Something unexplained or secret', category: 'Daily Challenge' },
-        { word: 'JOURNEY', hint: 'A long trip or adventure', category: 'Daily Challenge' },
-        { word: 'WISDOM', hint: 'Knowledge gained through experience', category: 'Daily Challenge' },
-        { word: 'COURAGE', hint: 'Bravery in the face of danger', category: 'Daily Challenge' },
-        { word: 'HARMONY', hint: 'Perfect agreement or balance', category: 'Daily Challenge' },
-        { word: 'FREEDOM', hint: 'The state of being free', category: 'Daily Challenge' },
-        { word: 'VICTORY', hint: 'Success in a struggle or contest', category: 'Daily Challenge' }
-      ];
-      
-      const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-      const todayWord = challengeWords[dayOfYear % challengeWords.length];
-      setTodaysChallenge(todayWord);
-      localStorage.setItem('dpp_last_challenge_date', today);
-      localStorage.setItem('dpp_todays_challenge', JSON.stringify(todayWord));
-    } else {
-      const savedChallenge = localStorage.getItem('dpp_todays_challenge');
-      if (savedChallenge) {
-        setTodaysChallenge(JSON.parse(savedChallenge));
-      }
     }
   }, []);
 
@@ -133,24 +104,6 @@ const RetentionFeatures = ({ isPremium, onEmailCapture }) => {
 
   return (
     <>
-      {/* Daily Challenge Banner */}
-      {todaysChallenge && (
-        <div className="daily-challenge-banner">
-          <div className="challenge-content">
-            <span className="challenge-icon">🌟</span>
-            <div className="challenge-text">
-              <strong>Today's Special Challenge</strong>
-              <p>Can you solve today's featured word?</p>
-            </div>
-            <div className="challenge-word-preview">
-              {todaysChallenge.word.split('').map((_, index) => (
-                <span key={index} className="challenge-letter">_</span>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Email Capture Modal */}
       {showEmailCapture && !emailSubmitted && (
         <div className="email-capture-overlay">
