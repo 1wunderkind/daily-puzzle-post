@@ -105,7 +105,7 @@
   background: #0A0A0A;
   border: 2px solid #0A0A0A;
   padding: 1px;
-  max-width: 450px;
+  max-width: 580px;
   aspect-ratio: 1;
 }
 
@@ -123,8 +123,8 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 28px;
-  min-height: 28px;
+  min-width: 38px;
+  min-height: 38px;
 }
 
 .black-cell {
@@ -179,7 +179,7 @@
   border: none;
   background: transparent;
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: #0A0A0A;
   font-family: Georgia, 'Times New Roman', serif;
