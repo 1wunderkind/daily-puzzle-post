@@ -6,7 +6,6 @@ import PremiumModal from './PremiumModal';
 import SmartPrompts from './SmartPrompts';
 import RetentionFeatures, { trackDailyVisit } from './RetentionFeatures';
 import ABTesting, { useABTestingConversion } from './ABTesting';
-import SocialProof from './SocialProof';
 import ProgressBadges, { triggerPerfectGame, triggerFastGame } from './ProgressBadges';
 import GameVariations from './GameVariations';
 import SocialIntegration from './SocialIntegration';
@@ -599,12 +598,6 @@ function App() {
                       </div>
                     </div>
                   </div>
-                  
-                  <SocialProof 
-                    currentWord={gameStatus === 'won' ? currentWord : null}
-                    gameStatus={gameStatus}
-                    onShare={handleShare}
-                  />
                 </>
               )}
             </aside>
