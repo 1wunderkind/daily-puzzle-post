@@ -948,9 +948,25 @@ function App() {
                   <li>
                     <button 
                       className="footer-premium-link"
-                      onClick={() => handlePremiumClick('footer')}
+                      onClick={() => {
+                        // Show coming soon modal (same as header button)
+                        const modal = document.createElement('div');
+                        modal.className = 'coming-soon-modal-overlay';
+                        modal.innerHTML = `
+                          <div class="coming-soon-modal">
+                            <div class="coming-soon-content">
+                              <h3>Ad-Free Mode</h3>
+                              <p>Ad-Free Mode launches soon! We're finalizing the details for this premium experience. Check back in a few days.</p>
+                              <button class="coming-soon-close" onclick="this.closest('.coming-soon-modal-overlay').remove()">
+                                Got it!
+                              </button>
+                            </div>
+                          </div>
+                        `;
+                        document.body.appendChild(modal);
+                      }}
                     >
-                      {isPremium ? 'Premium Account' : 'Upgrade to Premium'}
+                      Ad-Free Mode - Coming Soon
                     </button>
                   </li>
                   <li>

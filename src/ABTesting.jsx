@@ -74,28 +74,107 @@ const ABTesting = ({ onPremiumClick, isPremium }) => {
 
   if (isPremium) return null;
 
+  // Coming Soon modal handler
+  const handleComingSoonClick = () => {
+    // Show coming soon modal
+    const modal = document.createElement('div');
+    modal.className = 'coming-soon-modal-overlay';
+    modal.innerHTML = `
+      <div class="coming-soon-modal">
+        <div class="coming-soon-content">
+          <h3>Ad-Free Mode</h3>
+          <p>Ad-Free Mode launches soon! We're finalizing the details for this premium experience. Check back in a few days.</p>
+          <button class="coming-soon-close" onclick="this.closest('.coming-soon-modal-overlay').remove()">
+            Got it!
+          </button>
+        </div>
+      </div>
+    `;
+    
+    // Add styles
+    const style = document.createElement('style');
+    style.textContent = `
+      .coming-soon-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+      .coming-soon-modal {
+        background: #FDFBF7;
+        border: 2px solid #0A0A0A;
+        border-radius: 4px;
+        padding: 30px;
+        max-width: 400px;
+        margin: 20px;
+        font-family: Georgia, 'Times New Roman', serif;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .coming-soon-content h3 {
+        margin: 0 0 15px 0;
+        font-size: 24px;
+        color: #0A0A0A;
+        text-align: center;
+        border-bottom: 1px solid #5A5A5A;
+        padding-bottom: 10px;
+      }
+      .coming-soon-content p {
+        margin: 0 0 20px 0;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #333333;
+        text-align: center;
+      }
+      .coming-soon-close {
+        background: #0A0A0A;
+        color: #FDFBF7;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-family: Georgia, 'Times New Roman', serif;
+        border-radius: 3px;
+        cursor: pointer;
+        display: block;
+        margin: 0 auto;
+        transition: background-color 0.2s;
+      }
+      .coming-soon-close:hover {
+        background: #333333;
+      }
+    `;
+    
+    document.head.appendChild(style);
+    document.body.appendChild(modal);
+    
+    // Track coming soon click
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'coming_soon_click', {
+        event_category: 'premium',
+        event_label: 'ad_free_mode_interest'
+      });
+    }
+  };
+
   return (
     <div className="ab-testing-container">
-      {testVariant === 'A' ? (
-        <button 
-          className="premium-button variant-a"
-          onClick={() => handlePremiumClick('header')}
-        >
-          Remove Ads - $4.99
-        </button>
-      ) : (
-        <button 
-          className="premium-button variant-b"
-          onClick={() => handlePremiumClick('header')}
-        >
-          Go Premium - $4.99
-        </button>
-      )}
+      <button 
+        className="premium-button coming-soon-button"
+        onClick={handleComingSoonClick}
+      >
+        <span className="premium-button-text">Ad-Free Mode</span>
+        <span className="coming-soon-badge">Coming Soon</span>
+      </button>
       
       {/* Debug info (remove in production) */}
       {process.env.NODE_ENV === 'development' && (
         <div className="ab-debug">
-          <small>A/B Test: Variant {testVariant}</small>
+          <small>Coming Soon Mode Active</small>
         </div>
       )}
     </div>
