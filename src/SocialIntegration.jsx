@@ -218,51 +218,6 @@ const SocialIntegration = ({
           </div>
         </div>
 
-        {/* Follow Section */}
-        <div className="follow-section">
-          <h3>Follow Daily Puzzle Post</h3>
-          <p className="follow-description">
-            Stay updated with new games, daily challenges, and word puzzle tips!
-          </p>
-          
-          <div className="follow-buttons">
-            <button className="follow-btn twitter-follow" onClick={() => followSocial('twitter')}>
-              <span className="btn-icon">🐦</span>
-              <span className="btn-text">Follow {socialAccounts.twitter}</span>
-            </button>
-            
-            <button className="follow-btn facebook-follow" onClick={() => followSocial('facebook')}>
-              <span className="btn-icon">📘</span>
-              <span className="btn-text">Like on Facebook</span>
-            </button>
-            
-            <button className="follow-btn instagram-follow" onClick={() => followSocial('instagram')}>
-              <span className="btn-icon">📷</span>
-              <span className="btn-text">Follow {socialAccounts.instagram}</span>
-            </button>
-            
-            <button className="follow-btn youtube-follow" onClick={() => followSocial('youtube')}>
-              <span className="btn-icon">📺</span>
-              <span className="btn-text">Subscribe {socialAccounts.youtube}</span>
-            </button>
-          </div>
-          
-          <div className="social-stats">
-            <div className="stat-item">
-              <span className="stat-number">12.5K</span>
-              <span className="stat-label">Followers</span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-number">2.8K</span>
-              <span className="stat-label">Daily Players</span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-number">45K</span>
-              <span className="stat-label">Games Played</span>
-            </div>
-          </div>
-        </div>
-
       </div>
     </>
   );
